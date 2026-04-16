@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "tailwindcss -i ./resources/css/input.css -o ./public/assets/css/output.css --watch",
+    "build": "tailwindcss -i ./resources/css/input.css -o ./public/assets/css/output.css --minify",
+    "serve": "php -S localhost:3000 -t public public/router.php"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

@@ -79,7 +79,15 @@ $config['ENVIRONMENT']             = 'development';
 | WARNING: You MUST set this value!
 |
 */
-$config['base_url'] 				= '';
+if (!empty($_SERVER['HTTP_HOST'])) {
+	$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+	$script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+	$script_dir = ($script_dir === '/' || $script_dir === '.') ? '' : $script_dir;
+
+	$config['base_url'] = $scheme . '://' . $_SERVER['HTTP_HOST'] . rtrim($script_dir, '/') . '/';
+} else {
+	$config['base_url'] = 'http://localhost/barangay_system_webapp/LavaLust/public/';
+}
 
 /*
 |--------------------------------------------------------------------------
@@ -229,7 +237,7 @@ $config['creation_window']         = 60;
 $config['lock_duration_creation']  = 120;
 $config['security_file']           = ROOT_DIR . 'runtime/session/session_security.json';
 $config['sess_inactivity_timeout'] = 1800;
-$config['session_hmac_secret']     = 'your-long-random-secret-here';
+$config['session_hmac_secret']     = 'barangay-service-request-local-session-key-2026';
 
 /*
 |--------------------------------------------------------------------------
@@ -316,10 +324,19 @@ $config['updated_at_column']        = 'updated_at';
 | 'csrf_cookie_name' = The cookie name
 | 'csrf_expire' = The number in seconds the token should expire.
 */
-$config['csrf_protection']         = FALSE;
-$config['csrf_exclude_uris']       = array();
-$config['csrf_token_name']         = 'csrf_test_name';
-$config['csrf_cookie_name']        = 'csrf_cookie_name';
+$config['csrf_protection']         = TRUE;
+$config['csrf_exclude_uris']       = array('__no_csrf_exclusions_for_this_app__');
+$config['csrf_token_name']         = 'barangay_csrf_token';
+$config['csrf_cookie_name']        = 'barangay_csrf_cookie';
 $config['csrf_expire']             = 7200;
 $config['csrf_regenerate']         = FALSE;
+
+/*
+| -------------------------------------------------------------------
+| App Middleware Map
+| -------------------------------------------------------------------
+| LavaLust's middleware runner reads from the main config array, so we
+| load the app middleware registration here.
+*/
+require_once APP_DIR . 'config/middleware.php';
 ?>

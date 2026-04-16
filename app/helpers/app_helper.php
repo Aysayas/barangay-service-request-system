@@ -1,0 +1,271 @@
+<?php
+defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
+
+if (!function_exists('e')) {
+    function e($value)
+    {
+        return html_escape($value);
+    }
+}
+
+if (!function_exists('app_asset')) {
+    function app_asset($path)
+    {
+        return base_url('assets/' . ltrim($path, '/'));
+    }
+}
+
+if (!function_exists('auth_user')) {
+    function auth_user()
+    {
+        $session = load_class('session', 'libraries');
+        return $session->userdata('user');
+    }
+}
+
+if (!function_exists('auth_check')) {
+    function auth_check()
+    {
+        return !empty(auth_user());
+    }
+}
+
+if (!function_exists('auth_role')) {
+    function auth_role()
+    {
+        $user = auth_user();
+        return $user['role'] ?? null;
+    }
+}
+
+if (!function_exists('dashboard_path_for_role')) {
+    function dashboard_path_for_role($role)
+    {
+        switch ($role) {
+            case 'admin':
+                return 'admin/dashboard';
+            case 'staff':
+                return 'staff/dashboard';
+            case 'resident':
+            default:
+                return 'resident/dashboard';
+        }
+    }
+}
+
+if (!function_exists('safe_db_rows')) {
+    function safe_db_rows($sql, array $params = [])
+    {
+        try {
+            $database_config = database_config()['main'] ?? [];
+
+            if (($database_config['driver'] ?? '') !== 'mysql') {
+                return [];
+            }
+
+            $host = $database_config['hostname'] ?? '127.0.0.1';
+            $port = $database_config['port'] ?? '3306';
+            $database = $database_config['database'] ?? '';
+            $charset = $database_config['charset'] ?? 'utf8mb4';
+            $username = $database_config['username'] ?? 'root';
+            $password = $database_config['password'] ?? '';
+            $dsn = "mysql:host={$host};dbname={$database};charset={$charset};port={$port}";
+
+            $pdo = new PDO($dsn, $username, $password, [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+            ]);
+
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute($params);
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Throwable $e) {
+            return [];
+        }
+    }
+}
+
+if (!function_exists('old_value')) {
+    function old_value($old, $key, $default = '')
+    {
+        return e($old[$key] ?? $default);
+    }
+}
+
+if (!function_exists('status_label')) {
+    function status_label($status)
+    {
+        $labels = [
+            'submitted' => 'Submitted',
+            'under_review' => 'Under Review',
+            'needs_info' => 'Needs Info',
+            'approved' => 'Approved',
+            'rejected' => 'Rejected',
+            'ready_for_pickup' => 'Ready for Pickup',
+            'released' => 'Released',
+        ];
+
+        return $labels[$status] ?? ucfirst(str_replace('_', ' ', (string) $status));
+    }
+}
+
+if (!function_exists('status_badge_class')) {
+    function status_badge_class($status)
+    {
+        $classes = [
+            'submitted' => 'bg-zinc-100 text-zinc-800',
+            'under_review' => 'bg-amber-100 text-amber-900',
+            'needs_info' => 'bg-rose-50 text-rose-900',
+            'approved' => 'bg-teal-50 text-teal-900',
+            'rejected' => 'bg-rose-50 text-rose-900',
+            'ready_for_pickup' => 'bg-amber-100 text-amber-900',
+            'released' => 'bg-teal-50 text-teal-900',
+        ];
+
+        return $classes[$status] ?? 'bg-zinc-100 text-zinc-800';
+    }
+}
+
+if (!function_exists('final_document_download_allowed')) {
+    function final_document_download_allowed($status)
+    {
+        return in_array($status, ['approved', 'ready_for_pickup', 'released'], true);
+    }
+}
+
+if (!function_exists('final_document_upload_allowed')) {
+    function final_document_upload_allowed(array $request, $payment = null)
+    {
+        if (!final_document_download_allowed($request['status'] ?? '')) {
+            return false;
+        }
+
+        if ((int) ($request['requires_payment'] ?? 0) !== 1) {
+            return true;
+        }
+
+        return !empty($payment) && ($payment['payment_status'] ?? '') === 'payment_verified';
+    }
+}
+
+if (!function_exists('final_document_block_reason')) {
+    function final_document_block_reason(array $request, $payment = null)
+    {
+        if ((int) ($request['requires_payment'] ?? 0) === 1 && (empty($payment) || ($payment['payment_status'] ?? '') !== 'payment_verified')) {
+            return 'Verify the simulated payment before uploading the final document.';
+        }
+
+        if (!final_document_download_allowed($request['status'] ?? '')) {
+            return 'Move the request to Approved, Ready for Pickup, or Released before uploading the final document.';
+        }
+
+        return '';
+    }
+}
+
+if (!function_exists('payment_status_label')) {
+    function payment_status_label($status)
+    {
+        $labels = [
+            'pending_payment' => 'Pending Payment',
+            'payment_submitted' => 'Payment Submitted',
+            'payment_verified' => 'Payment Verified',
+            'payment_rejected' => 'Payment Rejected',
+        ];
+
+        return $labels[$status] ?? 'Not Required';
+    }
+}
+
+if (!function_exists('payment_status_badge_class')) {
+    function payment_status_badge_class($status)
+    {
+        $classes = [
+            'pending_payment' => 'bg-amber-100 text-amber-900',
+            'payment_submitted' => 'bg-zinc-100 text-zinc-800',
+            'payment_verified' => 'bg-teal-50 text-teal-900',
+            'payment_rejected' => 'bg-rose-50 text-rose-900',
+        ];
+
+        return $classes[$status] ?? 'bg-zinc-100 text-zinc-800';
+    }
+}
+
+if (!function_exists('payment_method_label')) {
+    function payment_method_label($method)
+    {
+        $labels = [
+            'gcash' => 'GCash',
+            'maya' => 'Maya',
+            'cash' => 'Cash',
+        ];
+
+        return $labels[$method] ?? 'Not selected';
+    }
+}
+
+if (!function_exists('audit_action_label')) {
+    function audit_action_label($action)
+    {
+        $labels = [
+            'changed_status' => 'Changed Status',
+            'updated_staff_notes' => 'Updated Staff Notes',
+            'created_service' => 'Created Service',
+            'updated_service' => 'Updated Service',
+            'toggled_service' => 'Toggled Service',
+            'created_user' => 'Created User',
+            'updated_user' => 'Updated User',
+            'toggled_user' => 'Toggled User',
+            'created_announcement' => 'Created Announcement',
+            'updated_announcement' => 'Updated Announcement',
+            'toggled_announcement' => 'Toggled Announcement',
+            'uploaded_final_document' => 'Uploaded Final Document',
+            'replaced_final_document' => 'Replaced Final Document',
+            'downloaded_final_document' => 'Resident Downloaded Document',
+            'downloaded_final_document_internal' => 'Internal Document Download',
+            'submitted_payment' => 'Submitted Payment',
+            'verified_payment' => 'Verified Payment',
+            'rejected_payment' => 'Rejected Payment',
+            'reviewed_payment_proof' => 'Reviewed Payment Proof',
+        ];
+
+        return $labels[$action] ?? ucwords(str_replace('_', ' ', (string) $action));
+    }
+}
+
+if (!function_exists('format_money')) {
+    function format_money($amount)
+    {
+        return 'PHP ' . number_format((float) $amount, 2);
+    }
+}
+
+if (!function_exists('format_file_size')) {
+    function format_file_size($bytes)
+    {
+        $bytes = (int) $bytes;
+
+        if ($bytes >= 1048576) {
+            return number_format($bytes / 1048576, 2) . ' MB';
+        }
+
+        if ($bytes >= 1024) {
+            return number_format($bytes / 1024, 2) . ' KB';
+        }
+
+        return $bytes . ' bytes';
+    }
+}
+
+if (!function_exists('slugify')) {
+    function slugify($value)
+    {
+        $value = strtolower(trim((string) $value));
+        $value = preg_replace('/[^a-z0-9]+/', '-', $value);
+        $value = trim($value, '-');
+
+        return $value !== '' ? $value : 'item';
+    }
+}

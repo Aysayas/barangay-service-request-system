@@ -1,10 +1,16 @@
 .DS_Store
+Thumbs.db
 
 app/vendor/*
+node_modules/
+npm-debug.log*
 
 runtime/*
 !runtime/.htaccess
 !runtime/index.html
+
+.env
+*.log
 
 # IDE Files
 #-------------------------

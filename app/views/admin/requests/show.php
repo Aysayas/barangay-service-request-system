@@ -1,0 +1,198 @@
+<?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
+<?php require APP_DIR . 'views/layouts/header.php'; ?>
+<?php
+$payment_status = !empty($payment['payment_status']) ? $payment['payment_status'] : 'pending_payment';
+$can_upload_final_document = final_document_upload_allowed($request, $payment);
+$final_document_block_reason = final_document_block_reason($request, $payment);
+?>
+
+<section>
+    <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Admin Review</p>
+            <h1 class="mt-2 text-3xl font-bold text-zinc-950"><?= e($request['reference_no']); ?></h1>
+            <p class="mt-3 text-zinc-700"><?= e($request['resident_name']); ?> - <?= e($request['service_name']); ?></p>
+        </div>
+        <a class="btn-secondary" href="<?= site_url('admin/requests'); ?>">Back to Requests</a>
+    </div>
+
+    <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+        <div class="space-y-6">
+            <section class="rounded-md border border-zinc-200 bg-white p-5">
+                <div class="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                        <h2 class="text-lg font-semibold text-zinc-950">Request Information</h2>
+                        <p class="mt-1 text-sm text-zinc-600">Submitted <?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></p>
+                    </div>
+                    <span class="rounded-md px-2 py-1 text-sm font-medium <?= status_badge_class($request['status']); ?>">
+                        <?= e(status_label($request['status'])); ?>
+                    </span>
+                </div>
+
+                <dl class="mt-5 grid gap-4 text-sm sm:grid-cols-2">
+                    <div>
+                        <dt class="font-medium text-zinc-800">Resident</dt>
+                        <dd class="mt-1 text-zinc-600"><?= e($request['resident_name']); ?></dd>
+                    </div>
+                    <div>
+                        <dt class="font-medium text-zinc-800">Email</dt>
+                        <dd class="mt-1 text-zinc-600"><?= e($request['resident_email']); ?></dd>
+                    </div>
+                    <div>
+                        <dt class="font-medium text-zinc-800">Service</dt>
+                        <dd class="mt-1 text-zinc-600"><?= e($request['service_name']); ?></dd>
+                    </div>
+                    <div>
+                        <dt class="font-medium text-zinc-800">Fee</dt>
+                        <dd class="mt-1 text-zinc-600"><?= e(format_money($request['fee'])); ?></dd>
+                    </div>
+                </dl>
+
+                <div class="mt-5">
+                    <h3 class="text-sm font-medium text-zinc-800">Purpose</h3>
+                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-700"><?= e($request['purpose']); ?></p>
+                </div>
+
+                <div class="mt-5">
+                    <h3 class="text-sm font-medium text-zinc-800">Staff Notes</h3>
+                    <?php if (!empty($request['staff_notes'])): ?>
+                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-700"><?= e($request['staff_notes']); ?></p>
+                    <?php else: ?>
+                        <p class="mt-2 text-sm text-zinc-600">No staff notes yet.</p>
+                    <?php endif; ?>
+                </div>
+            </section>
+
+            <section class="rounded-md border border-zinc-200 bg-white p-5">
+                <h2 class="text-lg font-semibold text-zinc-950">Submitted Attachments</h2>
+
+                <?php if (empty($attachments)): ?>
+                    <p class="mt-3 text-sm text-zinc-600">No attachments were submitted.</p>
+                <?php else: ?>
+                    <ul class="mt-4 divide-y divide-zinc-200">
+                        <?php foreach ($attachments as $attachment): ?>
+                            <li class="py-3">
+                                <p class="font-medium text-zinc-950"><?= e($attachment['original_name']); ?></p>
+                                <p class="mt-1 text-sm text-zinc-600">
+                                    <?= e(format_file_size($attachment['file_size'])); ?> -
+                                    <?= e($attachment['file_type']); ?>
+                                </p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </section>
+        </div>
+
+        <div class="space-y-6">
+            <section class="rounded-md border border-zinc-200 bg-white p-5">
+                <div class="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                        <h2 class="text-lg font-semibold text-zinc-950">Simulated Payment</h2>
+                        <p class="mt-1 text-sm text-zinc-600">Admin visibility only. Staff handles verification.</p>
+                    </div>
+                    <?php if ((int) $request['requires_payment'] === 1): ?>
+                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= payment_status_badge_class($payment_status); ?>">
+                            <?= e(payment_status_label($payment_status)); ?>
+                        </span>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ((int) $request['requires_payment'] !== 1): ?>
+                    <p class="mt-4 text-sm text-zinc-600">This service does not require payment.</p>
+                <?php else: ?>
+                    <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+                        <div>
+                            <dt class="font-medium text-zinc-800">Amount</dt>
+                            <dd class="mt-1 text-zinc-600"><?= e(format_money($request['fee'])); ?></dd>
+                        </div>
+                        <div>
+                            <dt class="font-medium text-zinc-800">Method</dt>
+                            <dd class="mt-1 text-zinc-600"><?= e(payment_method_label($payment['payment_method'] ?? null)); ?></dd>
+                        </div>
+                        <div>
+                            <dt class="font-medium text-zinc-800">Reference Number</dt>
+                            <dd class="mt-1 text-zinc-600"><?= e($payment['reference_number'] ?? 'Not submitted yet'); ?></dd>
+                        </div>
+                        <div>
+                            <dt class="font-medium text-zinc-800">Reviewed By</dt>
+                            <dd class="mt-1 text-zinc-600"><?= e($payment['verified_by_name'] ?? 'Not reviewed yet'); ?></dd>
+                        </div>
+                    </dl>
+
+                    <?php if (!empty($payment['proof_file_path'])): ?>
+                        <a class="mt-4 inline-flex rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('admin/requests/payment-proof/' . $payment['id']); ?>">
+                            Open Payment Proof
+                        </a>
+                    <?php else: ?>
+                        <p class="mt-4 text-sm text-zinc-600">No payment proof has been submitted yet.</p>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </section>
+
+            <section class="rounded-md border border-zinc-200 bg-white p-5">
+                <h2 class="text-lg font-semibold text-zinc-950">Final Document</h2>
+
+                <?php if (!empty($final_document)): ?>
+                    <div class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
+                        <p class="font-medium"><?= e($final_document['original_name']); ?></p>
+                        <p class="mt-1">
+                            <?= e(format_file_size($final_document['file_size'])); ?> -
+                            uploaded <?= e(date('M d, Y h:i A', strtotime($final_document['uploaded_at']))); ?>
+                            by <?= e($final_document['uploaded_by_name']); ?>
+                        </p>
+                        <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('admin/requests/final-document/' . $request['id']); ?>">
+                            Download Final Document
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <p class="mt-3 text-sm text-zinc-600">No final document has been uploaded yet.</p>
+                <?php endif; ?>
+
+                <?php if ($can_upload_final_document): ?>
+                    <form class="mt-5 space-y-4" method="POST" enctype="multipart/form-data" action="<?= site_url('admin/requests/upload-final-document/' . $request['id']); ?>">
+                        <?php csrf_field(); ?>
+
+                        <div>
+                            <label class="form-label" for="final_document">Upload Final Document</label>
+                            <input class="form-input" id="final_document" type="file" name="final_document" accept=".pdf,.doc,.docx" required>
+                            <p class="mt-2 text-xs text-zinc-600">
+                                Allowed types: PDF, DOC, DOCX. Maximum size: <?= e($max_upload_mb); ?>MB.
+                                Uploading a new file replaces the current final document.
+                            </p>
+                        </div>
+
+                        <button class="btn-primary w-full" type="submit">
+                            <?= !empty($final_document) ? 'Replace Final Document' : 'Upload Final Document'; ?>
+                        </button>
+                    </form>
+                <?php else: ?>
+                    <p class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+                        <?= e($final_document_block_reason); ?>
+                    </p>
+                <?php endif; ?>
+            </section>
+
+            <section class="rounded-md border border-zinc-200 bg-white p-5">
+                <h2 class="text-lg font-semibold text-zinc-950">Activity Log</h2>
+                <?php if (empty($audit_logs)): ?>
+                    <p class="mt-3 text-sm text-zinc-600">No activity recorded yet.</p>
+                <?php else: ?>
+                    <ul class="mt-4 divide-y divide-zinc-200 text-sm">
+                        <?php foreach ($audit_logs as $log): ?>
+                            <li class="py-3">
+                                <p class="font-medium text-zinc-950"><?= e($log['description']); ?></p>
+                                <p class="mt-1 text-zinc-600">
+                                    <?= e($log['user_name'] ?: 'System'); ?> -
+                                    <?= e(date('M d, Y h:i A', strtotime($log['created_at']))); ?>
+                                </p>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </section>
+        </div>
+    </div>
+</section>
+
+<?php require APP_DIR . 'views/layouts/footer.php'; ?>

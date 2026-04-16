@@ -38,7 +38,17 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 | Adding of middlewares
 |--------------------------------------------------------------------------
 |
-| Used for adding middlewares
+| These aliases are used in app/config/routes.php.
 |
 */
-$config['middlewares'] = [];
+require_once APP_DIR . 'middlewares/Auth_middleware.php';
+require_once APP_DIR . 'middlewares/Guest_middleware.php';
+require_once APP_DIR . 'middlewares/Role_middleware.php';
+
+$config['middlewares'] = [
+    'auth'     => new Auth_middleware(),
+    'guest'    => new Guest_middleware(),
+    'resident' => new Role_middleware(['resident']),
+    'staff'    => new Role_middleware(['staff']),
+    'admin'    => new Role_middleware(['admin']),
+];

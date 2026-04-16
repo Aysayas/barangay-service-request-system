@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+        @apply bg-zinc-50 text-zinc-900;
+    }
+}
+
+@layer components {
+    .form-label {
+        @apply mb-2 block text-sm font-medium text-zinc-800;
+    }
+
+    .form-input {
+        @apply w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-950 outline-none transition focus:border-teal-600 focus:ring-2 focus:ring-teal-100;
+    }
+
+    .btn-primary {
+        @apply rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-200;
+    }
+
+    .btn-secondary {
+        @apply rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 transition hover:border-teal-600 hover:text-teal-700;
+    }
+}
