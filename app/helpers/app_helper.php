@@ -206,6 +206,144 @@ if (!function_exists('payment_method_label')) {
     }
 }
 
+if (!function_exists('complaint_status_label')) {
+    function complaint_status_label($status)
+    {
+        $labels = [
+            'submitted' => 'Submitted',
+            'under_review' => 'Under Review',
+            'needs_info' => 'Needs Info',
+            'investigating' => 'Investigating',
+            'resolved' => 'Resolved',
+            'closed' => 'Closed',
+            'dismissed' => 'Dismissed',
+        ];
+
+        return $labels[$status] ?? ucfirst(str_replace('_', ' ', (string) $status));
+    }
+}
+
+if (!function_exists('complaint_status_badge_class')) {
+    function complaint_status_badge_class($status)
+    {
+        $classes = [
+            'submitted' => 'bg-zinc-100 text-zinc-800',
+            'under_review' => 'bg-amber-100 text-amber-900',
+            'needs_info' => 'bg-rose-50 text-rose-900',
+            'investigating' => 'bg-amber-100 text-amber-900',
+            'resolved' => 'bg-teal-50 text-teal-900',
+            'closed' => 'bg-teal-50 text-teal-900',
+            'dismissed' => 'bg-rose-50 text-rose-900',
+        ];
+
+        return $classes[$status] ?? 'bg-zinc-100 text-zinc-800';
+    }
+}
+
+if (!function_exists('complaint_priority_label')) {
+    function complaint_priority_label($priority)
+    {
+        $labels = [
+            'low' => 'Low',
+            'medium' => 'Medium',
+            'high' => 'High',
+        ];
+
+        return $labels[$priority] ?? ucfirst((string) $priority);
+    }
+}
+
+if (!function_exists('complaint_priority_badge_class')) {
+    function complaint_priority_badge_class($priority)
+    {
+        $classes = [
+            'low' => 'bg-zinc-100 text-zinc-800',
+            'medium' => 'bg-amber-100 text-amber-900',
+            'high' => 'bg-rose-50 text-rose-900',
+        ];
+
+        return $classes[$priority] ?? 'bg-zinc-100 text-zinc-800';
+    }
+}
+
+if (!function_exists('complaint_category_label')) {
+    function complaint_category_label($category)
+    {
+        $labels = [
+            'noise_complaint' => 'Noise complaint',
+            'sanitation' => 'Sanitation',
+            'neighborhood_dispute' => 'Neighborhood dispute',
+            'public_disturbance' => 'Public disturbance',
+            'property_concern' => 'Property concern',
+            'business_related_concern' => 'Business-related concern',
+            'other' => 'Other',
+        ];
+
+        return $labels[$category] ?? ucwords(str_replace('_', ' ', (string) $category));
+    }
+}
+
+if (!function_exists('community_category_label')) {
+    function community_category_label($category)
+    {
+        $labels = [
+            'announcement' => 'Announcement',
+            'event' => 'Event',
+            'program' => 'Program',
+            'advisory' => 'Advisory',
+            'resource' => 'Resource',
+        ];
+
+        return $labels[$category] ?? ucwords(str_replace('_', ' ', (string) $category));
+    }
+}
+
+if (!function_exists('community_category_badge_class')) {
+    function community_category_badge_class($category)
+    {
+        $classes = [
+            'announcement' => 'bg-teal-50 text-teal-900',
+            'event' => 'bg-amber-100 text-amber-900',
+            'program' => 'bg-zinc-100 text-zinc-800',
+            'advisory' => 'bg-rose-50 text-rose-900',
+            'resource' => 'bg-zinc-100 text-zinc-800',
+        ];
+
+        return $classes[$category] ?? 'bg-zinc-100 text-zinc-800';
+    }
+}
+
+if (!function_exists('community_post_summary')) {
+    function community_post_summary(array $post, $length = 140)
+    {
+        $summary = trim((string) ($post['excerpt'] ?? ''));
+
+        if ($summary === '') {
+            $summary = trim(strip_tags((string) ($post['content'] ?? '')));
+        }
+
+        if (strlen($summary) <= $length) {
+            return $summary;
+        }
+
+        return rtrim(substr($summary, 0, $length - 3)) . '...';
+    }
+}
+
+if (!function_exists('community_event_schedule')) {
+    function community_event_schedule(array $post)
+    {
+        if (empty($post['event_date'])) {
+            return '';
+        }
+
+        $date = date('M d, Y', strtotime($post['event_date']));
+        $time = !empty($post['event_time']) ? date('h:i A', strtotime($post['event_time'])) : '';
+
+        return trim($date . ' ' . $time);
+    }
+}
+
 if (!function_exists('audit_action_label')) {
     function audit_action_label($action)
     {
@@ -229,6 +367,17 @@ if (!function_exists('audit_action_label')) {
             'verified_payment' => 'Verified Payment',
             'rejected_payment' => 'Rejected Payment',
             'reviewed_payment_proof' => 'Reviewed Payment Proof',
+            'submitted_complaint' => 'Submitted Complaint',
+            'updated_complaint_status' => 'Updated Complaint Status',
+            'updated_complaint_priority' => 'Updated Complaint Priority',
+            'updated_complaint_notes' => 'Updated Complaint Notes',
+            'updated_complaint_resolution' => 'Updated Complaint Resolution',
+            'updated_complaint_assignment' => 'Updated Complaint Assignment',
+            'reviewed_complaint_attachment' => 'Reviewed Complaint Evidence',
+            'created_community_post' => 'Created Community Post',
+            'updated_community_post' => 'Updated Community Post',
+            'toggled_community_post' => 'Toggled Community Post',
+            'toggled_community_feature' => 'Toggled Community Feature',
         ];
 
         return $labels[$action] ?? ucwords(str_replace('_', ' ', (string) $action));

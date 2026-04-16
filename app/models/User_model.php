@@ -145,4 +145,14 @@ class User_model extends Model
         $sql = "SELECT id FROM users WHERE email = ? AND id != ? LIMIT 1";
         return !empty($this->db->raw($sql, [$email, (int) $ignore_id])->fetch(PDO::FETCH_ASSOC));
     }
+
+    public function active_staff_options()
+    {
+        $sql = "SELECT id, CONCAT(first_name, ' ', last_name) AS name
+                FROM users
+                WHERE role = 'staff' AND status = 'active'
+                ORDER BY first_name ASC, last_name ASC";
+
+        return $this->db->raw($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

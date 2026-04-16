@@ -16,12 +16,15 @@ class Dashboard extends Controller
 
         $this->call->database();
         $this->call->model('Service_request_model');
+        $this->call->model('Complaint_model');
 
         $this->call->view('dashboard/resident', [
             'title' => 'Resident Dashboard',
             'user' => $user,
             'counts' => $this->Service_request_model->dashboard_counts((int) $user['id']),
             'recent_requests' => $this->Service_request_model->recent_for_user((int) $user['id'], 5),
+            'complaint_counts' => $this->Complaint_model->resident_counts((int) $user['id']),
+            'recent_complaints' => $this->Complaint_model->recent_for_user((int) $user['id'], 5),
         ]);
     }
 
@@ -29,6 +32,7 @@ class Dashboard extends Controller
     {
         $this->call->database();
         $this->call->model('Service_request_model');
+        $this->call->model('Complaint_model');
 
         $this->call->view('dashboard/staff', [
             'title' => 'Staff Dashboard',
@@ -36,6 +40,8 @@ class Dashboard extends Controller
             'counts' => $this->Service_request_model->staff_counts(),
             'recent_requests' => $this->Service_request_model->recent_for_staff(6),
             'statuses' => $this->Service_request_model->allowed_statuses(),
+            'complaint_counts' => $this->Complaint_model->staff_counts(),
+            'recent_complaints' => $this->Complaint_model->recent_for_staff(6),
         ]);
     }
 
@@ -45,6 +51,7 @@ class Dashboard extends Controller
         $this->call->model('User_model');
         $this->call->model('Service_model');
         $this->call->model('Service_request_model');
+        $this->call->model('Complaint_model');
 
         $this->call->view('dashboard/admin', [
             'title' => 'Admin Dashboard',
@@ -52,8 +59,10 @@ class Dashboard extends Controller
             'user_counts' => $this->User_model->admin_counts(),
             'service_counts' => $this->Service_model->admin_counts(),
             'request_counts' => $this->Service_request_model->admin_counts(),
+            'complaint_counts' => $this->Complaint_model->admin_counts(),
             'recent_users' => $this->User_model->recent_for_admin(5),
             'recent_requests' => $this->Service_request_model->recent_for_staff(5),
+            'recent_complaints' => $this->Complaint_model->recent_for_staff(5),
         ]);
     }
 }

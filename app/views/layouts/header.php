@@ -18,16 +18,23 @@
             <nav class="flex items-center gap-3 text-sm">
                 <?php if (!empty($user)): ?>
                     <a class="text-zinc-700 hover:text-teal-700" href="<?= site_url('dashboard'); ?>">Dashboard</a>
+                    <?php if (($user['role'] ?? '') !== 'admin'): ?>
+                        <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('community'); ?>">Community</a>
+                    <?php endif; ?>
                     <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('assistant'); ?>">Assistant</a>
                     <?php if (($user['role'] ?? '') === 'resident'): ?>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('resident/services'); ?>">Services</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('resident/requests'); ?>">My Requests</a>
+                        <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('resident/complaints'); ?>">Complaints</a>
                     <?php endif; ?>
                     <?php if (($user['role'] ?? '') === 'staff'): ?>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('staff/requests'); ?>">Request Queue</a>
+                        <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('staff/complaints'); ?>">Complaints</a>
                     <?php endif; ?>
                     <?php if (($user['role'] ?? '') === 'admin'): ?>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/requests'); ?>">Requests</a>
+                        <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/complaints'); ?>">Complaints</a>
+                        <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/community'); ?>">Community</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/services'); ?>">Services</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/users'); ?>">Users</a>
                     <?php endif; ?>
@@ -41,6 +48,7 @@
                         </button>
                     </form>
                 <?php else: ?>
+                    <a class="text-zinc-700 hover:text-teal-700" href="<?= site_url('community'); ?>">Community</a>
                     <a class="text-zinc-700 hover:text-teal-700" href="<?= site_url('assistant'); ?>">Assistant</a>
                     <a class="text-zinc-700 hover:text-teal-700" href="<?= site_url('login'); ?>">Login</a>
                     <a class="rounded-md bg-teal-700 px-3 py-2 font-medium text-white hover:bg-teal-800" href="<?= site_url('register'); ?>">
