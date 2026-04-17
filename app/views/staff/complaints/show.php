@@ -80,6 +80,7 @@
                 <?php else: ?>
                     <ul class="mt-4 divide-y divide-zinc-200">
                         <?php foreach ($attachments as $attachment): ?>
+                            <?php $attachment_exists = safe_storage_path($attachment['file_path'] ?? '', 'runtime/uploads/complaints') !== null; ?>
                             <li class="flex flex-wrap items-center justify-between gap-3 py-3">
                                 <div>
                                     <p class="font-medium text-zinc-950"><?= e($attachment['original_name']); ?></p>
@@ -88,9 +89,15 @@
                                         <?= e($attachment['file_type']); ?>
                                     </p>
                                 </div>
-                                <a class="btn-secondary" target="_blank" href="<?= site_url('staff/complaints/attachment/' . $attachment['id']); ?>">
-                                    Open
-                                </a>
+                                <?php if ($attachment_exists): ?>
+                                    <a class="btn-secondary" target="_blank" href="<?= site_url('staff/complaints/attachment/' . $attachment['id']); ?>">
+                                        Open
+                                    </a>
+                                <?php else: ?>
+                                    <span class="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-950">
+                                        File missing
+                                    </span>
+                                <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -127,11 +134,17 @@
                         <label class="form-label" for="status">Status</label>
                         <select class="form-input" id="status" name="status" required>
                             <?php foreach ($statuses as $status): ?>
-                                <option value="<?= e($status); ?>" <?= ($complaint['status'] === $status) ? 'selected' : ''; ?>>
+                                <?php
+                                    $disabled = $status !== $complaint['status'] && !complaint_status_transition_allowed($complaint['status'], $status);
+                                ?>
+                                <option value="<?= e($status); ?>" <?= ($complaint['status'] === $status) ? 'selected' : ''; ?> <?= $disabled ? 'disabled' : ''; ?>>
                                     <?= e(complaint_status_label($status)); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <p class="mt-2 text-xs text-zinc-600">
+                            Complaint statuses must move through the handling workflow. Resolution notes are required before resolving, closing, or dismissing a complaint.
+                        </p>
                     </div>
 
                     <div>

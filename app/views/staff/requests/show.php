@@ -90,6 +90,7 @@ $has_final_document = !empty($final_document);
                 <?php else: ?>
                     <ul class="mt-4 divide-y divide-zinc-200">
                         <?php foreach ($attachments as $attachment): ?>
+                            <?php $attachment_exists = safe_storage_path($attachment['file_path'] ?? '', 'runtime/uploads/resident_requests') !== null; ?>
                             <li class="flex flex-wrap items-center justify-between gap-3 py-3">
                                 <div>
                                     <p class="font-medium text-zinc-950"><?= e($attachment['original_name']); ?></p>
@@ -98,9 +99,15 @@ $has_final_document = !empty($final_document);
                                         <?= e($attachment['file_type']); ?>
                                     </p>
                                 </div>
-                                <a class="btn-secondary" target="_blank" href="<?= site_url('staff/requests/attachment/' . $attachment['id']); ?>">
-                                    Open
-                                </a>
+                                <?php if ($attachment_exists): ?>
+                                    <a class="btn-secondary" target="_blank" href="<?= site_url('staff/requests/attachment/' . $attachment['id']); ?>">
+                                        Open
+                                    </a>
+                                <?php else: ?>
+                                    <span class="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-950">
+                                        File missing
+                                    </span>
+                                <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>
@@ -165,6 +172,10 @@ $has_final_document = !empty($final_document);
                         </div>
                     </dl>
 
+                    <?php
+                        $payment_proof_exists = !empty($payment['proof_file_path'])
+                            && safe_storage_path($payment['proof_file_path'], 'runtime/uploads/payment_proofs') !== null;
+                    ?>
                     <?php if (!empty($payment['proof_file_path'])): ?>
                         <div class="mt-4 rounded-md border border-zinc-200 bg-zinc-50 p-4 text-sm">
                             <p class="font-medium text-zinc-950"><?= e($payment['proof_original_name']); ?></p>
@@ -172,12 +183,19 @@ $has_final_document = !empty($final_document);
                                 <?= e(format_file_size($payment['proof_file_size'])); ?> -
                                 <?= e($payment['proof_file_type']); ?>
                             </p>
-                            <a class="mt-3 inline-flex rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('staff/requests/payment-proof/' . $payment['id']); ?>">
-                                Open Payment Proof
-                            </a>
+                            <?php if ($payment_proof_exists): ?>
+                                <a class="mt-3 inline-flex rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('staff/requests/payment-proof/' . $payment['id']); ?>">
+                                    Open Payment Proof
+                                </a>
+                            <?php else: ?>
+                                <p class="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-amber-950">
+                                    Payment proof record exists, but the file is missing.
+                                </p>
+                            <?php endif; ?>
                         </div>
 
-                        <form class="mt-5 space-y-4" method="POST" action="<?= site_url('staff/requests/payment/update/' . $request['id']); ?>">
+                        <?php if ($payment_proof_exists): ?>
+                            <form class="mt-5 space-y-4" method="POST" action="<?= site_url('staff/requests/payment/update/' . $request['id']); ?>">
                             <?php csrf_field(); ?>
 
                             <div>
@@ -197,8 +215,9 @@ $has_final_document = !empty($final_document);
                                 <p class="mt-2 text-xs text-zinc-600">Remarks are useful when rejecting a payment.</p>
                             </div>
 
-                            <button class="btn-primary w-full" type="submit">Save Payment Review</button>
-                        </form>
+                                <button class="btn-primary w-full" type="submit">Save Payment Review</button>
+                            </form>
+                        <?php endif; ?>
                     <?php else: ?>
                         <p class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
                             Waiting for the resident to submit simulated payment details and proof.
@@ -210,6 +229,10 @@ $has_final_document = !empty($final_document);
             <section class="rounded-md border border-zinc-200 bg-white p-5">
                 <h2 class="text-lg font-semibold text-zinc-950">Final Document</h2>
 
+                <?php
+                    $final_document_exists = !empty($final_document['file_path'])
+                        && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
+                ?>
                 <?php if (!empty($final_document)): ?>
                     <div class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
                         <p class="font-medium"><?= e($final_document['original_name']); ?></p>
@@ -218,9 +241,15 @@ $has_final_document = !empty($final_document);
                             uploaded <?= e(date('M d, Y h:i A', strtotime($final_document['uploaded_at']))); ?>
                             by <?= e($final_document['uploaded_by_name']); ?>
                         </p>
-                        <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('staff/requests/final-document/' . $request['id']); ?>">
-                            Download Final Document
-                        </a>
+                        <?php if ($final_document_exists): ?>
+                            <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('staff/requests/final-document/' . $request['id']); ?>">
+                                Download Final Document
+                            </a>
+                        <?php else: ?>
+                            <p class="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-amber-950">
+                                Final document record exists, but the file is missing.
+                            </p>
+                        <?php endif; ?>
                     </div>
                 <?php else: ?>
                     <p class="mt-3 text-sm text-zinc-600">No final document has been uploaded yet.</p>

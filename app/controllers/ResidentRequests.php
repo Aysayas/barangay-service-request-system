@@ -125,7 +125,7 @@ class ResidentRequests extends Controller
             $this->deleteMovedFiles($moved_files);
 
             $this->redirectBackToForm($data['service_id'], [
-                'We could not submit the request. ' . $e->getMessage(),
+                'We could not submit the request. Please check your details and uploaded files, then try again.',
             ], $data);
         }
     }
@@ -300,9 +300,7 @@ class ResidentRequests extends Controller
     private function deleteMovedFiles(array $paths)
     {
         foreach ($paths as $path) {
-            if (is_file($path)) {
-                @unlink($path);
-            }
+            safe_delete_storage_file($path, 'runtime/uploads/resident_requests');
         }
     }
 }

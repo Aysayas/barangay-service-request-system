@@ -84,7 +84,7 @@ class AdminCommunity extends Controller
         } catch (Throwable $e) {
             $this->db->roll_back();
             $this->deleteAbsoluteFile($moved_file);
-            $this->redirectWithErrors('admin/community/create', ['Community post could not be created. ' . $e->getMessage()], $data);
+            $this->redirectWithErrors('admin/community/create', ['Community post could not be created. Please check the form details and image upload, then try again.'], $data);
         }
     }
 
@@ -154,7 +154,7 @@ class AdminCommunity extends Controller
         } catch (Throwable $e) {
             $this->db->roll_back();
             $this->deleteAbsoluteFile($moved_file);
-            $this->redirectWithErrors('admin/community/edit/' . (int) $id, ['Community post could not be updated. ' . $e->getMessage()], $data);
+            $this->redirectWithErrors('admin/community/edit/' . (int) $id, ['Community post could not be updated. Please check the form details and image upload, then try again.'], $data);
         }
     }
 
@@ -205,27 +205,16 @@ class AdminCommunity extends Controller
             return;
         }
 
-        $path = ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $post['image_path']);
-        $upload_root = realpath(ROOT_DIR . 'runtime/uploads/community');
-        $real_path = realpath($path);
+        $real_path = safe_storage_path($post['image_path'], 'runtime/uploads/community');
 
-        if ($upload_root === false || $real_path === false || strpos($real_path, $upload_root) !== 0 || !is_file($real_path)) {
+        if ($real_path === null) {
             show_404();
             return;
         }
 
         $mime = mime_content_type($real_path) ?: 'application/octet-stream';
 
-        while (ob_get_level() > 0) {
-            @ob_end_clean();
-        }
-
-        header('Content-Type: ' . $mime);
-        header('Content-Length: ' . filesize($real_path));
-        header('Content-Disposition: inline; filename="' . basename($real_path) . '"');
-        header('X-Content-Type-Options: nosniff');
-        readfile($real_path);
-        exit;
+        stream_protected_file($real_path, $mime, basename($real_path), 'inline');
     }
 
     private function postInput()
@@ -287,8 +276,12 @@ class AdminCommunity extends Controller
             $errors[] = 'Event time must be valid.';
         }
 
-        if ($data['resource_link'] !== '' && !filter_var($data['resource_link'], FILTER_VALIDATE_URL)) {
-            $errors[] = 'Resource link must be a valid URL.';
+        if ($data['resource_link'] !== '') {
+            $scheme = strtolower((string) parse_url($data['resource_link'], PHP_URL_SCHEME));
+
+            if (!filter_var($data['resource_link'], FILTER_VALIDATE_URL) || !in_array($scheme, ['http', 'https'], true)) {
+                $errors[] = 'Resource link must be a valid http or https URL.';
+            }
         }
 
         if ($this->hasImage($image)) {
@@ -369,19 +362,11 @@ class AdminCommunity extends Controller
 
     private function deleteAbsoluteFile($path)
     {
-        if (!empty($path) && is_file($path)) {
-            @unlink($path);
-        }
+        safe_delete_storage_file($path, 'runtime/uploads/community');
     }
 
     private function deleteRelativeFile($relative_path)
     {
-        $path = ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relative_path);
-        $upload_root = realpath(ROOT_DIR . 'runtime/uploads/community');
-        $real_path = realpath($path);
-
-        if ($upload_root !== false && $real_path !== false && strpos($real_path, $upload_root) === 0 && is_file($real_path)) {
-            @unlink($real_path);
-        }
+        safe_delete_storage_file($relative_path, 'runtime/uploads/community');
     }
 }

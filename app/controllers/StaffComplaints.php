@@ -76,7 +76,7 @@ class StaffComplaints extends Controller
             'assigned_to' => (int) ($_POST['assigned_to'] ?? 0),
         ];
 
-        $errors = $this->validateReviewInput($data, $staff_ids);
+        $errors = $this->validateReviewInput($data, $staff_ids, $complaint['status']);
 
         if (!empty($errors)) {
             $this->session->set_flashdata('errors', $errors);
@@ -172,12 +172,16 @@ class StaffComplaints extends Controller
         $this->streamAttachment($attachment);
     }
 
-    private function validateReviewInput(array $data, array $staff_ids)
+    private function validateReviewInput(array $data, array $staff_ids, $current_status)
     {
         $errors = [];
 
         if (!in_array($data['status'], $this->Complaint_model->allowed_statuses(), true)) {
             $errors[] = 'Choose a valid complaint status.';
+        }
+
+        if (empty($errors) && !complaint_status_transition_allowed($current_status, $data['status'])) {
+            $errors[] = complaint_status_transition_message($current_status, $data['status']);
         }
 
         if (!in_array($data['priority'], $this->Complaint_model->allowed_priorities(), true)) {
@@ -205,26 +209,13 @@ class StaffComplaints extends Controller
 
     private function streamAttachment(array $attachment)
     {
-        $path = ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $attachment['file_path']);
-        $upload_root = realpath(ROOT_DIR . 'runtime/uploads/complaints');
-        $real_path = realpath($path);
+        $real_path = safe_storage_path($attachment['file_path'], 'runtime/uploads/complaints');
 
-        if ($upload_root === false || $real_path === false || strpos($real_path, $upload_root) !== 0 || !is_file($real_path)) {
+        if ($real_path === null) {
             show_404();
             return;
         }
 
-        $filename = str_replace(['"', "\r", "\n"], '', basename($attachment['original_name']));
-
-        while (ob_get_level() > 0) {
-            @ob_end_clean();
-        }
-
-        header('Content-Type: ' . $attachment['file_type']);
-        header('Content-Length: ' . filesize($real_path));
-        header('Content-Disposition: inline; filename="' . $filename . '"');
-        header('X-Content-Type-Options: nosniff');
-        readfile($real_path);
-        exit;
+        stream_protected_file($real_path, $attachment['file_type'], $attachment['original_name'], 'inline');
     }
 }

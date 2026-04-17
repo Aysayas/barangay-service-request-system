@@ -20,7 +20,7 @@
 
     <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_0.35fr]">
         <article class="rounded-md border border-zinc-200 bg-white">
-            <?php if (!empty($post['image_path'])): ?>
+            <?php if (!empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
                 <img class="h-72 w-full rounded-t-md object-cover" src="<?= site_url('community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
             <?php endif; ?>
 

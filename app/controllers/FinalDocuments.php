@@ -181,7 +181,7 @@ class FinalDocuments extends Controller
             $old_path = $this->safeFinalDocumentPath($existing_document['file_path']);
 
             if ($old_path !== null && $old_path !== realpath($new_absolute_path)) {
-                @unlink($old_path);
+                safe_delete_storage_file($old_path, 'runtime/uploads/final_documents');
             }
         }
 
@@ -276,34 +276,11 @@ class FinalDocuments extends Controller
 
     private function deleteFileIfSafe($absolute_path)
     {
-        $storage_root = realpath(ROOT_DIR . 'runtime/uploads/final_documents');
-        $real_path = realpath($absolute_path);
-
-        if ($storage_root === false || $real_path === false) {
-            return;
-        }
-
-        $storage_root = rtrim($storage_root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-
-        if (strpos($real_path, $storage_root) === 0 && is_file($real_path)) {
-            @unlink($real_path);
-        }
+        safe_delete_storage_file($absolute_path, 'runtime/uploads/final_documents');
     }
 
     private function streamFile($path, array $document)
     {
-        $filename = basename($document['original_name'] ?: 'final-document');
-        $filename = str_replace(['"', "\r", "\n"], '', $filename);
-
-        while (ob_get_level() > 0) {
-            @ob_end_clean();
-        }
-
-        header('Content-Type: ' . $document['file_type']);
-        header('Content-Length: ' . filesize($path));
-        header('Content-Disposition: attachment; filename="' . $filename . '"');
-        header('X-Content-Type-Options: nosniff');
-        readfile($path);
-        exit;
+        stream_protected_file($path, $document['file_type'], $document['original_name'] ?: 'final-document', 'attachment');
     }
 }

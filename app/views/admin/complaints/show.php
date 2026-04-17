@@ -78,6 +78,7 @@
                 <?php else: ?>
                     <ul class="mt-4 divide-y divide-zinc-200">
                         <?php foreach ($attachments as $attachment): ?>
+                            <?php $attachment_exists = safe_storage_path($attachment['file_path'] ?? '', 'runtime/uploads/complaints') !== null; ?>
                             <li class="flex flex-wrap items-center justify-between gap-3 py-3">
                                 <div>
                                     <p class="font-medium text-zinc-950"><?= e($attachment['original_name']); ?></p>
@@ -86,9 +87,15 @@
                                         <?= e($attachment['file_type']); ?>
                                     </p>
                                 </div>
-                                <a class="btn-secondary" target="_blank" href="<?= site_url('admin/complaints/attachment/' . $attachment['id']); ?>">
-                                    Open
-                                </a>
+                                <?php if ($attachment_exists): ?>
+                                    <a class="btn-secondary" target="_blank" href="<?= site_url('admin/complaints/attachment/' . $attachment['id']); ?>">
+                                        Open
+                                    </a>
+                                <?php else: ?>
+                                    <span class="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-950">
+                                        File missing
+                                    </span>
+                                <?php endif; ?>
                             </li>
                         <?php endforeach; ?>
                     </ul>

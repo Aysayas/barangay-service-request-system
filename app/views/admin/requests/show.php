@@ -120,10 +120,18 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                         </div>
                     </dl>
 
-                    <?php if (!empty($payment['proof_file_path'])): ?>
+                    <?php
+                        $payment_proof_exists = !empty($payment['proof_file_path'])
+                            && safe_storage_path($payment['proof_file_path'], 'runtime/uploads/payment_proofs') !== null;
+                    ?>
+                    <?php if (!empty($payment['proof_file_path']) && $payment_proof_exists): ?>
                         <a class="mt-4 inline-flex rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('admin/requests/payment-proof/' . $payment['id']); ?>">
                             Open Payment Proof
                         </a>
+                    <?php elseif (!empty($payment['proof_file_path'])): ?>
+                        <p class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+                            Payment proof record exists, but the file is missing.
+                        </p>
                     <?php else: ?>
                         <p class="mt-4 text-sm text-zinc-600">No payment proof has been submitted yet.</p>
                     <?php endif; ?>
@@ -133,6 +141,10 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
             <section class="rounded-md border border-zinc-200 bg-white p-5">
                 <h2 class="text-lg font-semibold text-zinc-950">Final Document</h2>
 
+                <?php
+                    $final_document_exists = !empty($final_document['file_path'])
+                        && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
+                ?>
                 <?php if (!empty($final_document)): ?>
                     <div class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
                         <p class="font-medium"><?= e($final_document['original_name']); ?></p>
@@ -141,9 +153,15 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                             uploaded <?= e(date('M d, Y h:i A', strtotime($final_document['uploaded_at']))); ?>
                             by <?= e($final_document['uploaded_by_name']); ?>
                         </p>
-                        <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('admin/requests/final-document/' . $request['id']); ?>">
-                            Download Final Document
-                        </a>
+                        <?php if ($final_document_exists): ?>
+                            <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('admin/requests/final-document/' . $request['id']); ?>">
+                                Download Final Document
+                            </a>
+                        <?php else: ?>
+                            <p class="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-amber-950">
+                                Final document record exists, but the file is missing.
+                            </p>
+                        <?php endif; ?>
                     </div>
                 <?php else: ?>
                     <p class="mt-3 text-sm text-zinc-600">No final document has been uploaded yet.</p>

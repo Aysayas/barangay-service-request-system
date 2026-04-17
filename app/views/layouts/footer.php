@@ -30,6 +30,35 @@
                     warning.classList.add('hidden');
                 });
             });
+
+            document.querySelectorAll('[data-password-toggle-button]').forEach(function (button) {
+                var fieldKey = button.getAttribute('data-password-toggle-button');
+                var input = document.querySelector('[data-password-toggle-input="' + fieldKey + '"]');
+                var eyeIcon = button.querySelector('[data-password-eye]');
+                var eyeOffIcon = button.querySelector('[data-password-eye-off]');
+
+                if (!input) {
+                    return;
+                }
+
+                button.addEventListener('click', function () {
+                    var shouldShow = input.type === 'password';
+
+                    input.type = shouldShow ? 'text' : 'password';
+                    button.setAttribute('aria-pressed', shouldShow ? 'true' : 'false');
+                    button.setAttribute('aria-label', shouldShow ? 'Hide password' : 'Show password');
+
+                    if (eyeIcon) {
+                        eyeIcon.classList.toggle('hidden', shouldShow);
+                    }
+
+                    if (eyeOffIcon) {
+                        eyeOffIcon.classList.toggle('hidden', !shouldShow);
+                    }
+
+                    input.focus();
+                });
+            });
         });
     </script>
 </body>

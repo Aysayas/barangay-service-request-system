@@ -86,12 +86,16 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             <label class="form-label" for="image">Community Image</label>
             <input class="form-input" id="image" type="file" name="image" accept=".jpg,.jpeg,.png,.webp">
             <p class="mt-2 text-xs text-zinc-600">Optional. Allowed: JPG, PNG, WEBP. Maximum <?= e($max_upload_mb); ?>MB.</p>
-            <?php if ($is_edit && !empty($post['image_path'])): ?>
+            <?php if ($is_edit && !empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
                 <div class="mt-4 rounded-md border border-zinc-200 bg-white p-3">
                     <p class="text-sm font-medium text-zinc-800">Current image</p>
                     <img class="mt-3 h-40 w-full rounded-md object-cover" src="<?= site_url('admin/community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
                     <p class="mt-2 text-xs text-zinc-600">Uploading a new image replaces this image.</p>
                 </div>
+            <?php elseif ($is_edit && !empty($post['image_path'])): ?>
+                <p class="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950">
+                    A saved image record exists, but the file is missing. Upload a new image to replace it.
+                </p>
             <?php endif; ?>
         </div>
 

@@ -55,26 +55,15 @@ class Community extends Controller
             return;
         }
 
-        $path = ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $post['image_path']);
-        $upload_root = realpath(ROOT_DIR . 'runtime/uploads/community');
-        $real_path = realpath($path);
+        $real_path = safe_storage_path($post['image_path'], 'runtime/uploads/community');
 
-        if ($upload_root === false || $real_path === false || strpos($real_path, $upload_root) !== 0 || !is_file($real_path)) {
+        if ($real_path === null) {
             show_404();
             return;
         }
 
         $mime = mime_content_type($real_path) ?: 'application/octet-stream';
 
-        while (ob_get_level() > 0) {
-            @ob_end_clean();
-        }
-
-        header('Content-Type: ' . $mime);
-        header('Content-Length: ' . filesize($real_path));
-        header('Content-Disposition: inline; filename="' . basename($real_path) . '"');
-        header('X-Content-Type-Options: nosniff');
-        readfile($real_path);
-        exit;
+        stream_protected_file($real_path, $mime, basename($real_path), 'inline');
     }
 }

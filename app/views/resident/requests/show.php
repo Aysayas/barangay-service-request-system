@@ -13,6 +13,8 @@ $statuses = [
 
 $current_status = $request['status'];
 $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'] : 'pending_payment';
+$final_document_exists = !empty($final_document['file_path'])
+    && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
 ?>
 
 <section>
@@ -137,7 +139,7 @@ $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'
 
             <section class="rounded-md border border-zinc-200 bg-white p-5">
                 <h2 class="text-lg font-semibold text-zinc-950">Final Document</h2>
-                <?php if (!empty($final_document) && !empty($can_download_final_document)): ?>
+                <?php if (!empty($final_document) && !empty($can_download_final_document) && $final_document_exists): ?>
                     <div class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
                         <p class="font-medium">Ready for download</p>
                         <p class="mt-1">
@@ -147,6 +149,13 @@ $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'
                         <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('resident/requests/download-final-document/' . $request['id']); ?>">
                             Download Final Document
                         </a>
+                    </div>
+                <?php elseif (!empty($final_document) && !$final_document_exists): ?>
+                    <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
+                        <p class="font-medium">Final document is being checked</p>
+                        <p class="mt-1">
+                            A document record exists, but the file is not available right now. Please contact barangay staff.
+                        </p>
                     </div>
                 <?php elseif (!empty($final_document)): ?>
                     <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">

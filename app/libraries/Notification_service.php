@@ -3,6 +3,8 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 class Notification_service
 {
+    private static $logged_config_skip = false;
+
     private $driver;
     private $host;
     private $port;
@@ -24,6 +26,12 @@ class Notification_service
         $this->from_name = trim((string) config_item('mail_from_name'));
 
         if ($this->from_email === '') {
+            $this->from_email = $this->username;
+        }
+
+        // Gmail SMTP is strict about the sender. Use the authenticated mailbox
+        // unless the account has a verified alias configured in Gmail.
+        if (strpos($this->host, 'gmail.com') !== false && $this->username !== '') {
             $this->from_email = $this->username;
         }
 
@@ -145,15 +153,20 @@ class Notification_service
         $to = trim((string) $to);
 
         if (!$this->isReady()) {
-            $this->log('Skipped email because SMTP config is incomplete.', [
-                'driver' => $this->driver,
-                'host' => $this->host,
-                'port' => $this->port,
-                'encryption' => $this->encryption,
-                'has_username' => $this->username !== '' ? 'true' : 'false',
-                'has_password' => $this->password !== '' ? 'true' : 'false',
-                'from_email' => $this->from_email,
-            ]);
+            if (!self::$logged_config_skip) {
+                $this->log('Skipped email because SMTP config is incomplete.', [
+                    'driver' => $this->driver,
+                    'host' => $this->host,
+                    'port' => $this->port,
+                    'encryption' => $this->encryption,
+                    'has_username' => $this->username !== '' ? 'true' : 'false',
+                    'has_password' => $this->password !== '' ? 'true' : 'false',
+                    'from_email' => $this->from_email,
+                ]);
+
+                self::$logged_config_skip = true;
+            }
+
             return false;
         }
 

@@ -298,6 +298,38 @@ if (!function_exists('complaint_priority_badge_class')) {
     }
 }
 
+if (!function_exists('complaint_status_transition_allowed')) {
+    function complaint_status_transition_allowed($from, $to)
+    {
+        $from = (string) $from;
+        $to = (string) $to;
+
+        if ($from === $to) {
+            return true;
+        }
+
+        $allowed = [
+            'submitted' => ['under_review', 'needs_info', 'dismissed'],
+            'under_review' => ['needs_info', 'investigating', 'resolved', 'dismissed'],
+            'needs_info' => ['under_review', 'investigating', 'dismissed'],
+            'investigating' => ['needs_info', 'resolved', 'dismissed'],
+            'resolved' => ['closed', 'investigating'],
+            'closed' => [],
+            'dismissed' => ['under_review'],
+        ];
+
+        return in_array($to, $allowed[$from] ?? [], true);
+    }
+}
+
+if (!function_exists('complaint_status_transition_message')) {
+    function complaint_status_transition_message($from, $to)
+    {
+        return 'Move complaints through the handling workflow one practical step at a time. Current status is '
+            . complaint_status_label($from) . ', so it cannot be changed directly to ' . complaint_status_label($to) . '.';
+    }
+}
+
 if (!function_exists('complaint_category_label')) {
     function complaint_category_label($category)
     {
@@ -312,6 +344,99 @@ if (!function_exists('complaint_category_label')) {
         ];
 
         return $labels[$category] ?? ucwords(str_replace('_', ' ', (string) $category));
+    }
+}
+
+if (!function_exists('safe_storage_path')) {
+    function safe_storage_path($relative_path, $storage_root_relative)
+    {
+        $relative_path = trim((string) $relative_path);
+        $storage_root_relative = trim((string) $storage_root_relative, "/\\");
+
+        if ($relative_path === '' || $storage_root_relative === '') {
+            return null;
+        }
+
+        $storage_root = realpath(ROOT_DIR . $storage_root_relative);
+
+        if ($storage_root === false) {
+            return null;
+        }
+
+        $absolute_path = ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $relative_path);
+        $real_path = realpath($absolute_path);
+        $storage_root = rtrim($storage_root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+        if ($real_path === false || strpos($real_path, $storage_root) !== 0 || !is_file($real_path)) {
+            return null;
+        }
+
+        return $real_path;
+    }
+}
+
+if (!function_exists('safe_delete_storage_file')) {
+    function safe_delete_storage_file($relative_or_absolute_path, $storage_root_relative)
+    {
+        $path = (string) $relative_or_absolute_path;
+        $storage_root_relative = trim((string) $storage_root_relative, "/\\");
+
+        if ($path === '' || $storage_root_relative === '') {
+            return false;
+        }
+
+        $storage_root = realpath(ROOT_DIR . $storage_root_relative);
+        $real_path = realpath($path);
+
+        if ($real_path === false && strpos($path, ROOT_DIR) !== 0) {
+            $real_path = realpath(ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path));
+        }
+
+        if ($storage_root === false || $real_path === false) {
+            return false;
+        }
+
+        $storage_root = rtrim($storage_root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+
+        if (strpos($real_path, $storage_root) !== 0 || !is_file($real_path)) {
+            return false;
+        }
+
+        return @unlink($real_path);
+    }
+}
+
+if (!function_exists('safe_download_filename')) {
+    function safe_download_filename($filename, $fallback = 'download')
+    {
+        $filename = basename((string) $filename);
+        $filename = str_replace(['"', "\r", "\n"], '', $filename);
+
+        return $filename !== '' ? $filename : $fallback;
+    }
+}
+
+if (!function_exists('stream_protected_file')) {
+    function stream_protected_file($path, $mime, $filename, $disposition = 'inline')
+    {
+        $mime = trim((string) $mime);
+        $filename = safe_download_filename($filename);
+        $disposition = in_array($disposition, ['inline', 'attachment'], true) ? $disposition : 'inline';
+
+        if ($mime === '') {
+            $mime = 'application/octet-stream';
+        }
+
+        while (ob_get_level() > 0) {
+            @ob_end_clean();
+        }
+
+        header('Content-Type: ' . $mime);
+        header('Content-Length: ' . filesize($path));
+        header('Content-Disposition: ' . $disposition . '; filename="' . $filename . '"');
+        header('X-Content-Type-Options: nosniff');
+        readfile($path);
+        exit;
     }
 }
 

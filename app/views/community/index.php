@@ -32,7 +32,7 @@
             <div class="mt-4 grid gap-4 md:grid-cols-3">
                 <?php foreach ($featured_posts as $post): ?>
                     <article class="overflow-hidden rounded-md border border-zinc-200 bg-white">
-                        <?php if (!empty($post['image_path'])): ?>
+                        <?php if (!empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
                             <img class="h-40 w-full object-cover" src="<?= site_url('community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
                         <?php endif; ?>
                         <div class="p-5">

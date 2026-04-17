@@ -116,7 +116,7 @@ class ResidentComplaints extends Controller
             $this->deleteMovedFiles($moved_files);
 
             $this->redirectBackToForm([
-                'We could not submit the complaint. ' . $e->getMessage(),
+                'We could not submit the complaint. Please check your details and evidence files, then try again.',
             ], $data);
         }
     }
@@ -301,27 +301,14 @@ class ResidentComplaints extends Controller
 
     private function streamAttachment(array $attachment)
     {
-        $path = ROOT_DIR . str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $attachment['file_path']);
-        $upload_root = realpath(ROOT_DIR . 'runtime/uploads/complaints');
-        $real_path = realpath($path);
+        $real_path = safe_storage_path($attachment['file_path'], 'runtime/uploads/complaints');
 
-        if ($upload_root === false || $real_path === false || strpos($real_path, $upload_root) !== 0 || !is_file($real_path)) {
+        if ($real_path === null) {
             show_404();
             return;
         }
 
-        $filename = str_replace(['"', "\r", "\n"], '', basename($attachment['original_name']));
-
-        while (ob_get_level() > 0) {
-            @ob_end_clean();
-        }
-
-        header('Content-Type: ' . $attachment['file_type']);
-        header('Content-Length: ' . filesize($real_path));
-        header('Content-Disposition: inline; filename="' . $filename . '"');
-        header('X-Content-Type-Options: nosniff');
-        readfile($real_path);
-        exit;
+        stream_protected_file($real_path, $attachment['file_type'], $attachment['original_name'], 'inline');
     }
 
     private function redirectBackToForm(array $errors, array $old)
@@ -335,9 +322,7 @@ class ResidentComplaints extends Controller
     private function deleteMovedFiles(array $paths)
     {
         foreach ($paths as $path) {
-            if (is_file($path)) {
-                @unlink($path);
-            }
+            safe_delete_storage_file($path, 'runtime/uploads/complaints');
         }
     }
 }

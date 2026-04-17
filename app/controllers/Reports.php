@@ -329,6 +329,8 @@ class Reports extends Controller
 
     private function downloadCsv($filename, array $headers, array $rows)
     {
+        $filename = safe_download_filename($filename, 'report.csv');
+
         while (ob_get_level() > 0) {
             ob_end_clean();
         }
