@@ -94,6 +94,9 @@ class Auth extends Controller
             $this->redirectWithErrors('register', ['Registration failed. Please try again.'], $data);
         }
 
+        $this->call->library('Notification_service');
+        $this->Notification_service->resident_registered($data);
+
         $this->session->set_flashdata('success', 'Your resident account is ready. You can log in now.');
         redirect('login');
         exit;

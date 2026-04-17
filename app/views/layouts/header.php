@@ -5,14 +5,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= e($title ?? 'Barangay Service Request System'); ?></title>
+    <title><?= e($title ?? 'eBarangayHub'); ?></title>
     <link rel="stylesheet" href="<?= app_asset('css/output.css'); ?>">
 </head>
 <body class="min-h-screen bg-zinc-50 text-zinc-900">
     <header class="border-b border-zinc-200 bg-white">
         <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
             <a href="<?= site_url('/'); ?>" class="text-base font-semibold tracking-normal text-zinc-950">
-                Barangay Service Request System
+                eBarangayHub
             </a>
 
             <nav class="flex items-center gap-3 text-sm">
@@ -35,6 +35,7 @@
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/requests'); ?>">Requests</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/complaints'); ?>">Complaints</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/community'); ?>">Community</a>
+                        <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/reports'); ?>">Reports</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/services'); ?>">Services</a>
                         <a class="hidden text-zinc-700 hover:text-teal-700 sm:inline" href="<?= site_url('admin/users'); ?>">Users</a>
                     <?php endif; ?>

@@ -25,6 +25,7 @@ class ResidentComplaints extends Controller
         $this->call->model('Complaint_model');
         $this->call->model('Complaint_attachment_model');
         $this->call->model('Audit_log_model');
+        $this->call->library('Notification_service');
     }
 
     public function index()
@@ -73,9 +74,10 @@ class ResidentComplaints extends Controller
 
         try {
             $this->db->transaction();
+            $reference_no = $this->generateReferenceNo();
 
             $complaint_id = $this->Complaint_model->create_complaint([
-                'reference_no' => $this->generateReferenceNo(),
+                'reference_no' => $reference_no,
                 'user_id' => (int) $user['id'],
                 'complainant_name' => $user['name'] ?? 'Resident',
                 'complainant_email' => $user['email'] ?? '',
@@ -103,6 +105,8 @@ class ResidentComplaints extends Controller
             );
 
             $this->db->commit();
+
+            $this->Notification_service->complaint_submitted($user, $reference_no, $data['subject']);
 
             $this->session->set_flashdata('success', 'Your complaint was submitted.');
             redirect('resident/complaints/' . (int) $complaint_id);

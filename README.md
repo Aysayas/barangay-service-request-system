@@ -1,102 +1,91 @@
-# 🔥 LavaLust Framework  
-**Lightweight • Fast • MVC for PHP Developers**
+# eBarangayHub
 
-LavaLust is a lightweight PHP framework built for developers who want a
-**structured, modular, and scalable** development experience — without
-unnecessary complexity or performance overhead.
+Centralized Barangay Services, Reports, and Community Access
 
----
+eBarangayHub is a LavaLust-based barangay web application for handling resident services, complaints, community information, reports, simulated payments, and final document release.
 
-## ❓ What is LavaLust?
+## Stack
 
-**LavaLust** is a PHP framework that follows the  
-**MVC (Model–View–Controller)** architectural pattern.
+- PHP framework: LavaLust
+- Local server: XAMPP
+- Database: MySQL via XAMPP/phpMyAdmin
+- Frontend styling: Tailwind CSS
+- Rendering style: server-rendered PHP views
 
-It is designed for developers who want:
-- Clean project structure
-- Modular and maintainable code
-- Built-in routing and database tools
-- REST API–ready applications
+## Core Modules
 
----
+- Resident registration, login, logout, and role-based dashboards
+- Resident service request submission with protected attachments
+- Staff request queue, status updates, notes, and payment review
+- Admin service, user, announcement, community, audit log, and report management
+- Protected final document upload and controlled resident download
+- Simulated payment workflow for paid services
+- Complaint submission, tracking, evidence review, and staff processing
+- Public community section for updates, events, advisories, programs, and resources
+- Admin reports with filtered tables, CSV exports, and chart dashboard
+- Simulated virtual help assistant for common system questions
+- Optional Gmail SMTP email notifications for important workflow events
 
-## 🚀 Key Features
+## Local Setup
 
-### 🧠 MVC Architecture  
-Clear separation between **Models**, **Views**, and **Controllers**.
+1. Place the project in your XAMPP `htdocs` folder.
+2. Start Apache and MySQL from XAMPP.
+3. Import the SQL files from `database/` in phase order, or use `database/full_database_rebuild.sql` for a clean rebuild.
+4. Install frontend dependencies:
 
-### ⚙️ Built-in Routing  
-Clean and flexible routing system for mapping URLs to controllers.
-
-### 📦 Libraries & Helpers  
-Reusable helpers and libraries for sessions, forms, validation, database access,
-and more.
-
-### 📁 Modular Design  
-Supports scalable development and clean organization of application logic.
-
-### 🔗 REST API Support  
-Easily build RESTful APIs using LavaLust conventions and tools.
-
-### 📘 ORM-like Models  
-Simplified database interaction with structured, readable model methods.
-
----
-
-## 🧪 Quick Example
-
-### Route Definition  
-**File:** `app/config/routes.php`
-
-```php
-$router->get('/', 'Welcome::index');
-```
-### Controller
-**File:** `app/controllers/Welcome.php`
-
-```php
-class WelcomeController extends Controller
-{
-    public function index()
-    {
-        $this->call->view('welcome');
-    }
-}
+```bash
+npm install
 ```
 
-### View
-**File:** `app/views/welcome.php`
+5. Build Tailwind output:
 
-### Output
-<h1>Welcome to LavaLust Framework</h1>
-<p>Lightweight. Fast. MVC.</p>
+```bash
+npm run build
+```
 
-## 🎯 Philosophy
-Minimal core. Maximum control.
+6. Start the local server:
 
-LavaLust avoids heavy abstractions while giving developers the tools they need
-to build clean, scalable applications.
+```bash
+npm run serve
+```
 
-## 📚 Learn More
-📦 GitHub Repository
-👉 https://github.com/ronmarasigan/lavalust
+7. Open:
 
-📖 Official Documentation
-👉 https://lavalust.netlify.app
+```text
+http://localhost:3000/
+```
 
-## 🤝 Contributing
-Contributions are welcome and appreciated.
+## Demo Accounts
 
-Fork the repository
+After importing the database seed data:
 
-Create a feature branch
+- Admin: `admin@barangay.local` / `password123`
+- Staff: `staff@barangay.local` / `password123`
+- Resident: create a new resident account from the Register page
 
-Commit your changes
+## Email Notifications
 
-Open a pull request
+Email notifications use Gmail SMTP through PHPMailer. Copy `.env.example` to `.env`, then set your Gmail account and Google App Password:
 
-## 📜 License
-LavaLust Framework is open-source software licensed under the MIT License.
+```text
+MAIL_DRIVER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_ENCRYPTION=ssl
+MAIL_USERNAME=your_gmail_address@gmail.com
+MAIL_PASSWORD=your_google_app_password_without_spaces
+MAIL_FROM_EMAIL=your_gmail_address@gmail.com
+MAIL_FROM_NAME=eBarangayHub Notifications
+```
 
-# 🔥 LavaLust — Clean structure. Real control.
+Use a Google App Password, not your normal Gmail password. If PHPMailer is not installed yet, run:
 
+```bash
+composer install
+```
+
+If Composer is not installed globally on Windows, install Composer first or use a local `composer.phar`, then run:
+
+```bash
+php composer.phar install
+```

@@ -23,9 +23,9 @@ INSERT INTO announcements (
     updated_at
 ) VALUES
 (
-    'Welcome to the Barangay Service Request System',
-    'welcome-to-the-barangay-service-request-system',
-    'Residents may now register, submit service requests, and monitor status updates online.',
+    'Welcome to eBarangayHub',
+    'welcome-to-ebarangayhub',
+    'Centralized Barangay Services, Reports, and Community Access is now available for residents and barangay staff.',
     1,
     NOW(),
     NOW(),

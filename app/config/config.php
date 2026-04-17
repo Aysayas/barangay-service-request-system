@@ -68,6 +68,62 @@ $config['ENVIRONMENT']             = 'development';
 
 /*
 |--------------------------------------------------------------------------
+| Local .env Loader
+|--------------------------------------------------------------------------
+|
+| Windows/XAMPP Apache does not always see temporary PowerShell $env values.
+| This tiny loader lets local-only values from LavaLust/.env work for both
+| XAMPP Apache and the PHP built-in server. The .env file is gitignored.
+|
+*/
+$local_env_file = ROOT_DIR . '.env';
+
+if (is_file($local_env_file) && is_readable($local_env_file)) {
+	$local_env_lines = file($local_env_file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+	foreach ($local_env_lines as $local_env_line) {
+		$local_env_line = trim($local_env_line);
+
+		if ($local_env_line === '' || strpos($local_env_line, '#') === 0 || strpos($local_env_line, '=') === false) {
+			continue;
+		}
+
+		list($local_env_key, $local_env_value) = explode('=', $local_env_line, 2);
+		$local_env_key = trim($local_env_key);
+		$local_env_value = trim($local_env_value);
+		$local_env_value = trim($local_env_value, "\"'");
+
+		if ($local_env_key !== '') {
+			putenv($local_env_key . '=' . $local_env_value);
+			$_ENV[$local_env_key] = $local_env_value;
+			$_SERVER[$local_env_key] = $local_env_value;
+		}
+	}
+}
+
+/*
+|--------------------------------------------------------------------------
+| Transactional Email Notifications
+|--------------------------------------------------------------------------
+|
+| Gmail SMTP is used as the active mail transport. Leave MAIL_USERNAME or
+| MAIL_PASSWORD blank to skip email sending safely in local development.
+|
+*/
+$mail_username                     = getenv('MAIL_USERNAME') ?: '';
+
+$config['mail_driver']             = strtolower(getenv('MAIL_DRIVER') ?: 'log');
+$config['mail_host']               = getenv('MAIL_HOST') ?: 'smtp.gmail.com';
+$config['mail_port']               = (int) (getenv('MAIL_PORT') ?: 465);
+$config['mail_encryption']         = strtolower(getenv('MAIL_ENCRYPTION') ?: 'ssl');
+$config['mail_username']           = $mail_username;
+$config['mail_password']           = getenv('MAIL_PASSWORD') ?: '';
+$config['mail_from_email']         = getenv('MAIL_FROM_EMAIL') ?: $mail_username;
+$config['mail_from_name']          = getenv('MAIL_FROM_NAME') ?: 'eBarangayHub Notifications';
+$config['notifications_enabled']   = $config['mail_driver'] === 'smtp';
+
+/*
+|--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
 |

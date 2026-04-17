@@ -39,7 +39,7 @@
                 <div>
                     <label class="form-label" for="question">Your question</label>
                     <textarea class="form-input min-h-28" id="question" name="question" maxlength="<?= e($max_question_length); ?>" placeholder="Example: How do I request Barangay Clearance?"><?= e($question); ?></textarea>
-                    <p class="mt-2 text-xs text-zinc-600">Keep it short. This prototype matches common barangay system questions.</p>
+                    <p class="mt-2 text-xs text-zinc-600">Keep it short. This prototype matches common eBarangayHub questions.</p>
                 </div>
 
                 <button class="btn-primary" type="submit">Ask Assistant</button>

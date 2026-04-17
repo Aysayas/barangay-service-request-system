@@ -399,9 +399,9 @@ INSERT INTO announcements (
     updated_at
 ) VALUES
 (
-    'Welcome to the Barangay Service Request System',
-    'welcome-to-the-barangay-service-request-system',
-    'Residents may now register, submit service requests, and monitor status updates online.',
+    'Welcome to eBarangayHub',
+    'welcome-to-ebarangayhub',
+    'Centralized Barangay Services, Reports, and Community Access is now available for residents and barangay staff.',
     1,
     NOW(),
     NOW(),
@@ -434,11 +434,11 @@ INSERT INTO community_posts (
     updated_at
 ) VALUES
 (
-    'Online Barangay Services Are Now Available',
+    'eBarangayHub Online Services Are Now Available',
     'online-barangay-services-are-now-available',
     'announcement',
     'Residents can now request certificates, track status updates, and submit requirements online.',
-    'The barangay service request system is available for residents who need clearances, certificates, and other standard barangay documents. Create an account, choose a service, upload requirements, and track the progress from your resident dashboard.',
+    'eBarangayHub is available for residents who need clearances, certificates, complaint tracking, community updates, and other standard barangay services. Create an account, choose a service, upload requirements, and track the progress from your resident dashboard.',
     NULL,
     NULL,
     NULL,

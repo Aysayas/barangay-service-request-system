@@ -3,12 +3,15 @@
 
 <section class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
     <div>
-        <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Barangay services</p>
+        <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">eBarangayHub</p>
         <h1 class="mt-3 max-w-3xl text-3xl font-bold tracking-normal text-zinc-950 sm:text-4xl">
-            Request certificates, submit requirements, and track updates in one place.
+            eBarangayHub
         </h1>
         <p class="mt-4 max-w-2xl text-base leading-7 text-zinc-700">
-            Residents can submit requests, staff can review and process them, and admins can manage the system for a complete demo flow.
+            Centralized Barangay Services, Reports, and Community Access
+        </p>
+        <p class="mt-3 max-w-2xl text-sm leading-6 text-zinc-600">
+            A centralized platform for resident requests, complaint tracking, simulated payments, final documents, reports, announcements, and community updates.
         </p>
         <div class="mt-6 flex flex-wrap gap-3">
             <a class="rounded-md bg-teal-700 px-4 py-2 font-medium text-white hover:bg-teal-800" href="<?= site_url('register'); ?>">
@@ -50,7 +53,7 @@
     <div class="flex flex-wrap items-center justify-between gap-4">
         <div>
             <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Community</p>
-            <h2 class="mt-2 text-xl font-bold text-zinc-950">Barangay updates, events, and resources</h2>
+            <h2 class="mt-2 text-xl font-bold text-zinc-950">Community updates, events, and resources</h2>
             <p class="mt-2 text-sm leading-6 text-zinc-700">
                 Visit the community section for announcements, advisories, upcoming events, programs, and public information.
             </p>
@@ -85,7 +88,7 @@
         </div>
         <div class="rounded-md border border-zinc-200 bg-white p-5">
             <p class="font-semibold text-zinc-950">3. Admin</p>
-            <p class="mt-2 text-sm leading-6 text-zinc-700">Manage services, users, announcements, and review audit logs for presentation traceability.</p>
+            <p class="mt-2 text-sm leading-6 text-zinc-700">Manage services, users, community posts, reports, exports, charts, and audit logs for presentation traceability.</p>
         </div>
     </div>
 </section>

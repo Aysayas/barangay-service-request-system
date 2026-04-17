@@ -15,6 +15,7 @@
         <a class="btn-secondary" href="<?= site_url('admin/community'); ?>">Community</a>
         <a class="btn-secondary" href="<?= site_url('admin/requests'); ?>">Requests</a>
         <a class="btn-secondary" href="<?= site_url('admin/complaints'); ?>">Complaints</a>
+        <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Reports</a>
         <a class="btn-secondary" href="<?= site_url('admin/audit-logs'); ?>">Audit Logs</a>
     </div>
 

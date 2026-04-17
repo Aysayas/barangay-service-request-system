@@ -4,7 +4,7 @@
 <section class="mx-auto max-w-md">
     <div class="rounded-md border border-zinc-200 bg-white p-6">
         <h1 class="text-2xl font-bold text-zinc-950">Login</h1>
-        <p class="mt-2 text-sm text-zinc-600">Use your resident, staff, or admin account.</p>
+        <p class="mt-2 text-sm text-zinc-600">Access eBarangayHub using your resident, staff, or admin account.</p>
 
         <form class="mt-6 space-y-5" method="POST" action="<?= site_url('login'); ?>">
             <?php csrf_field(); ?>
@@ -16,7 +16,10 @@
 
             <div>
                 <label class="form-label" for="password">Password</label>
-                <input class="form-input" id="password" type="password" name="password" required>
+                <input class="form-input" id="password" type="password" name="password" data-caps-lock-input="password" required>
+                <p id="password_caps_warning" class="mt-2 hidden rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900" data-caps-lock-warning="password">
+                    Caps Lock is on. Passwords are case-sensitive.
+                </p>
             </div>
 
             <button class="btn-primary w-full" type="submit">Login</button>

@@ -135,6 +135,38 @@ if (!function_exists('final_document_download_allowed')) {
     }
 }
 
+if (!function_exists('request_status_transition_allowed')) {
+    function request_status_transition_allowed($from, $to)
+    {
+        $from = (string) $from;
+        $to = (string) $to;
+
+        if ($from === $to) {
+            return true;
+        }
+
+        $allowed = [
+            'submitted' => ['under_review', 'needs_info', 'rejected'],
+            'under_review' => ['needs_info', 'approved', 'rejected'],
+            'needs_info' => ['under_review', 'rejected'],
+            'approved' => ['ready_for_pickup', 'released'],
+            'ready_for_pickup' => ['released'],
+            'released' => [],
+            'rejected' => ['under_review'],
+        ];
+
+        return in_array($to, $allowed[$from] ?? [], true);
+    }
+}
+
+if (!function_exists('request_status_transition_message')) {
+    function request_status_transition_message($from, $to)
+    {
+        return 'Move requests through the workflow one practical step at a time. Current status is '
+            . status_label($from) . ', so it cannot be changed directly to ' . status_label($to) . '.';
+    }
+}
+
 if (!function_exists('final_document_upload_allowed')) {
     function final_document_upload_allowed(array $request, $payment = null)
     {
@@ -378,6 +410,11 @@ if (!function_exists('audit_action_label')) {
             'updated_community_post' => 'Updated Community Post',
             'toggled_community_post' => 'Toggled Community Post',
             'toggled_community_feature' => 'Toggled Community Feature',
+            'exported_summary_report' => 'Exported Summary Report',
+            'exported_request_report' => 'Exported Request Report',
+            'exported_payment_report' => 'Exported Payment Report',
+            'exported_complaint_report' => 'Exported Complaint Report',
+            'exported_community_report' => 'Exported Community Report',
         ];
 
         return $labels[$action] ?? ucwords(str_replace('_', ' ', (string) $action));

@@ -14,6 +14,7 @@ $status_flow = [
 $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'] : 'pending_payment';
 $can_upload_final_document = final_document_upload_allowed($request, $payment);
 $final_document_block_reason = final_document_block_reason($request, $payment);
+$has_final_document = !empty($final_document);
 ?>
 
 <section>
@@ -258,11 +259,22 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                         <label class="form-label" for="status">Status</label>
                         <select class="form-input" id="status" name="status" required>
                             <?php foreach ($statuses as $status): ?>
-                                <option value="<?= e($status); ?>" <?= ($request['status'] === $status) ? 'selected' : ''; ?>>
+                                <?php
+                                    $blocked_by_transition = !request_status_transition_allowed($request['status'], $status);
+                                    $blocked_by_payment = (int) $request['requires_payment'] === 1
+                                        && in_array($status, ['approved', 'ready_for_pickup', 'released'], true)
+                                        && $payment_status !== 'payment_verified';
+                                    $blocked_by_document = in_array($status, ['ready_for_pickup', 'released'], true) && !$has_final_document;
+                                    $disabled = $status !== $request['status'] && ($blocked_by_transition || $blocked_by_payment || $blocked_by_document);
+                                ?>
+                                <option value="<?= e($status); ?>" <?= ($request['status'] === $status) ? 'selected' : ''; ?> <?= $disabled ? 'disabled' : ''; ?>>
                                     <?= e(status_label($status)); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
+                        <p class="mt-2 text-xs text-zinc-600">
+                            Paid requests need verified payment before approval. Ready for Pickup and Released also require a final document.
+                        </p>
                     </div>
 
                     <div>

@@ -27,6 +27,7 @@ class ResidentRequests extends Controller
         $this->call->model('Request_attachment_model');
         $this->call->model('Request_final_document_model');
         $this->call->model('Payment_model');
+        $this->call->library('Notification_service');
     }
 
     public function services()
@@ -92,11 +93,12 @@ class ResidentRequests extends Controller
 
         try {
             $this->db->transaction();
+            $reference_no = $this->generateReferenceNo();
 
             $request_id = $this->Service_request_model->create_request([
                 'user_id' => (int) $user['id'],
                 'service_id' => (int) $service['id'],
-                'reference_no' => $this->generateReferenceNo(),
+                'reference_no' => $reference_no,
                 'purpose' => $data['purpose'],
                 'remarks' => $data['remarks'] !== '' ? $data['remarks'] : null,
             ]);
@@ -112,6 +114,8 @@ class ResidentRequests extends Controller
             }
 
             $this->db->commit();
+
+            $this->Notification_service->service_request_submitted($user, $reference_no, $service['name']);
 
             $this->session->set_flashdata('success', 'Your service request was submitted.');
             redirect('resident/requests/' . $request_id);

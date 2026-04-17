@@ -28,6 +28,7 @@ class FinalDocuments extends Controller
         $this->call->model('Request_final_document_model');
         $this->call->model('Payment_model');
         $this->call->model('Audit_log_model');
+        $this->call->library('Notification_service');
     }
 
     public function staffUpload($id)
@@ -183,6 +184,8 @@ class FinalDocuments extends Controller
                 @unlink($old_path);
             }
         }
+
+        $this->Notification_service->final_document_available($request);
 
         $this->session->set_flashdata('success', empty($existing_document) ? 'Final document uploaded.' : 'Final document replaced.');
         redirect($redirect_path);

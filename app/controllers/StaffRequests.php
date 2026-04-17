@@ -12,6 +12,7 @@ class StaffRequests extends Controller
         $this->call->model('Request_final_document_model');
         $this->call->model('Payment_model');
         $this->call->model('Audit_log_model');
+        $this->call->library('Notification_service');
     }
 
     public function index()
@@ -76,6 +77,10 @@ class StaffRequests extends Controller
             $errors[] = 'Choose a valid request status.';
         }
 
+        if (empty($errors) && !request_status_transition_allowed($request['status'], $status)) {
+            $errors[] = request_status_transition_message($request['status'], $status);
+        }
+
         if (strlen($staff_notes) > 2000) {
             $errors[] = 'Staff notes must be 2000 characters or fewer.';
         }
@@ -85,6 +90,14 @@ class StaffRequests extends Controller
 
             if (empty($payment) || $payment['payment_status'] !== 'payment_verified') {
                 $errors[] = 'Verify the simulated payment before moving this paid request to an approved, pickup, or released status.';
+            }
+        }
+
+        if ($request['status'] !== $status && in_array($status, ['ready_for_pickup', 'released'], true)) {
+            $final_document = $this->Request_final_document_model->find_for_request((int) $id);
+
+            if (empty($final_document)) {
+                $errors[] = 'Upload the final document before moving this request to ' . status_label($status) . '.';
             }
         }
 
@@ -117,6 +130,10 @@ class StaffRequests extends Controller
                 (int) $id,
                 'Updated staff notes.'
             );
+        }
+
+        if ($old_status !== $status && $status === 'approved') {
+            $this->Notification_service->request_approved($request);
         }
 
         $this->session->set_flashdata('success', 'Request review was updated.');

@@ -22,6 +22,7 @@ class Payments extends Controller
         $this->call->model('Service_request_model');
         $this->call->model('Payment_model');
         $this->call->model('Audit_log_model');
+        $this->call->library('Notification_service');
     }
 
     public function residentForm($id)
@@ -216,6 +217,8 @@ class Payments extends Controller
             (int) $request_id,
             ($payment_status === 'payment_verified' ? 'Verified' : 'Rejected') . ' simulated payment for ' . $request['reference_no'] . '.'
         );
+
+        $this->Notification_service->payment_reviewed($request, $payment_status, $remarks);
 
         $this->session->set_flashdata('success', 'Payment review was saved.');
         redirect('staff/requests/' . (int) $request_id);

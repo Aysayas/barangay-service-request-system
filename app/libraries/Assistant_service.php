@@ -81,7 +81,7 @@ class Assistant_service
         if ($this->hasAny($normalized, ['what is this', 'system', 'barangay system', 'help', 'assistant'])) {
             return $this->response(
                 'general',
-                'This system helps residents submit barangay service requests, upload requirements, track status updates, submit simulated payments for paid services, and download approved final documents.',
+                'eBarangayHub helps residents submit barangay service requests, upload requirements, track status updates, submit simulated payments for paid services, file complaints, view community updates, and download approved final documents.',
                 $this->defaultSuggestions()
             );
         }
@@ -95,7 +95,7 @@ class Assistant_service
 
     public function welcomeMessage()
     {
-        return 'Hello. I am a virtual help assistant prototype for this barangay system. Ask me about services, requirements, simulated payments, request statuses, tracking, or document downloads.';
+        return 'Hello. I am the eBarangayHub virtual help assistant prototype. Ask me about services, requirements, simulated payments, request statuses, complaints, tracking, community updates, or document downloads.';
     }
 
     public function defaultSuggestions()

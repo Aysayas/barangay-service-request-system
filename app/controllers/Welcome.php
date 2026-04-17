@@ -20,7 +20,7 @@ class Welcome extends Controller {
 		);
 
 		$this->call->view('home', [
-			'title' => 'Barangay Service Request System',
+			'title' => 'eBarangayHub',
 			'announcements' => $announcements,
 			'community_posts' => $community_posts,
 		]);

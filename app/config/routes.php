@@ -120,4 +120,14 @@ $router->get('/admin/community/edit/{id}', 'AdminCommunity::edit')->middleware([
 $router->post('/admin/community/update/{id}', 'AdminCommunity::update')->middleware(['auth', 'admin'])->where_number('id');
 $router->post('/admin/community/toggle/{id}', 'AdminCommunity::toggle')->middleware(['auth', 'admin'])->where_number('id');
 $router->post('/admin/community/feature/{id}', 'AdminCommunity::feature')->middleware(['auth', 'admin'])->where_number('id');
+$router->get('/admin/reports', 'Reports::index')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/export', 'Reports::exportSummary')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/requests', 'Reports::requests')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/requests/export', 'Reports::exportRequests')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/payments', 'Reports::payments')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/payments/export', 'Reports::exportPayments')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/complaints', 'Reports::complaints')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/complaints/export', 'Reports::exportComplaints')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/community', 'Reports::community')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/community/export', 'Reports::exportCommunity')->middleware(['auth', 'admin']);
 $router->get('/admin/audit-logs', 'AdminAuditLogs::index')->middleware(['auth', 'admin']);

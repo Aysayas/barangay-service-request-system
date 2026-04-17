@@ -11,6 +11,7 @@ class StaffComplaints extends Controller
         $this->call->model('Complaint_attachment_model');
         $this->call->model('Audit_log_model');
         $this->call->model('User_model');
+        $this->call->library('Notification_service');
     }
 
     public function index()
@@ -139,6 +140,10 @@ class StaffComplaints extends Controller
                 (int) $id,
                 'Updated complaint assignment.'
             );
+        }
+
+        if ($old_status !== $data['status'] && in_array($data['status'], ['resolved', 'closed'], true)) {
+            $this->Notification_service->complaint_closed($complaint, $data['status']);
         }
 
         $this->session->set_flashdata('success', 'Complaint review was updated.');
