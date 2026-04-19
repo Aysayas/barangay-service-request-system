@@ -2,9 +2,10 @@
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
 <section class="mx-auto max-w-2xl">
-    <div class="rounded-md border border-zinc-200 bg-white p-6">
-        <h1 class="text-2xl font-bold text-zinc-950">Resident Registration</h1>
-        <p class="mt-2 text-sm text-zinc-600">Create your eBarangayHub resident account for online barangay services.</p>
+    <div class="surface-card p-6">
+        <p class="page-kicker">Resident Access</p>
+        <h1 class="mt-2 text-2xl font-bold text-slate-950">Resident Registration</h1>
+        <p class="mt-2 text-sm text-slate-600">Create your eBarangayHub resident account for online barangay services.</p>
 
         <form class="mt-6 grid gap-5 sm:grid-cols-2" method="POST" action="<?= site_url('register'); ?>">
             <?php csrf_field(); ?>
@@ -38,7 +39,7 @@
                 <label class="form-label" for="password">Password</label>
                 <div class="relative">
                     <input class="form-input pr-12" id="password" type="password" name="password" data-caps-lock-input="register_password" data-password-toggle-input="register_password" minlength="8" required>
-                    <button class="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-zinc-500 hover:text-teal-700" type="button" data-password-toggle-button="register_password" aria-label="Show password" aria-pressed="false">
+                    <button class="password-toggle" type="button" data-password-toggle-button="register_password" aria-label="Show password" aria-pressed="false">
                         <svg data-password-eye xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -60,7 +61,7 @@
                 <label class="form-label" for="password_confirm">Confirm password</label>
                 <div class="relative">
                     <input class="form-input pr-12" id="password_confirm" type="password" name="password_confirm" data-caps-lock-input="register_password_confirm" data-password-toggle-input="register_password_confirm" minlength="8" required>
-                    <button class="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-zinc-500 hover:text-teal-700" type="button" data-password-toggle-button="register_password_confirm" aria-label="Show password" aria-pressed="false">
+                    <button class="password-toggle" type="button" data-password-toggle-button="register_password_confirm" aria-label="Show password" aria-pressed="false">
                         <svg data-password-eye xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -83,7 +84,7 @@
             </div>
         </form>
 
-        <p class="mt-5 text-center text-sm text-zinc-600">
+        <p class="mt-5 text-center text-sm text-slate-600">
             Already registered?
             <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('login'); ?>">Login</a>
         </p>

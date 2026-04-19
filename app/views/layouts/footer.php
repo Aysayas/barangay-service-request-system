@@ -1,9 +1,13 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
     </main>
 
-    <footer class="border-t border-zinc-200 bg-white">
-        <div class="mx-auto max-w-6xl px-4 py-5 text-sm text-zinc-600">
-            eBarangayHub - Centralized Barangay Services, Reports, and Community Access
+    <footer class="border-t border-slate-200/80 bg-white/90">
+        <div class="app-shell flex flex-col gap-2 py-6 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <p class="font-semibold text-slate-900">eBarangayHub</p>
+                <p class="mt-1">Centralized Barangay Services, Reports, and Community Access</p>
+            </div>
+            <p class="text-xs text-slate-500">Local civic service platform</p>
         </div>
     </footer>
     <script>

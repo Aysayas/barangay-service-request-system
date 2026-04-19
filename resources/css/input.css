@@ -8,24 +8,176 @@
     }
 
     body {
-        @apply bg-zinc-50 text-zinc-900;
+        @apply bg-slate-50 text-slate-900 antialiased;
+        background-image:
+            radial-gradient(circle at top left, rgba(20, 184, 166, 0.10), transparent 32rem),
+            linear-gradient(180deg, #f8fafc 0%, #f1f5f9 42%, #f8fafc 100%);
+        min-height: 100vh;
+    }
+
+    ::selection {
+        @apply bg-teal-100 text-teal-950;
+    }
+
+    table {
+        @apply border-collapse;
+    }
+
+    th {
+        @apply whitespace-nowrap;
+    }
+
+    td {
+        @apply align-top;
     }
 }
 
 @layer components {
+    .app-shell {
+        @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    }
+
+    .app-main {
+        @apply mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8;
+    }
+
+    .app-header {
+        @apply sticky top-0 z-40 border-b border-slate-200/80 bg-white/90 shadow-sm backdrop-blur;
+    }
+
+    .brand-link {
+        @apply flex items-center gap-3 text-left text-slate-950 transition hover:text-teal-800;
+    }
+
+    .brand-mark {
+        @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-teal-700 text-sm font-bold text-white shadow-sm;
+    }
+
+    .nav-link {
+        @apply rounded-md px-2.5 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100;
+    }
+
+    .role-pill {
+        @apply rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs font-semibold text-amber-900;
+    }
+
+    .page-kicker {
+        @apply text-sm font-semibold uppercase tracking-normal text-teal-700;
+    }
+
+    .page-title {
+        @apply mt-2 text-3xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+    }
+
+    .page-subtitle {
+        @apply mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base;
+    }
+
+    .section-title {
+        @apply text-lg font-semibold text-slate-950;
+    }
+
+    .surface-card {
+        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+    }
+
+    .surface-card-hover {
+        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md;
+    }
+
+    .metric-card {
+        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+    }
+
+    .metric-label {
+        @apply text-sm font-medium text-slate-500;
+    }
+
+    .metric-value {
+        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950;
+    }
+
+    .filter-card {
+        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+    }
+
+    .empty-state {
+        @apply rounded-lg border border-dashed border-slate-300 bg-white/80 p-5 text-sm leading-6 text-slate-600;
+    }
+
+    .data-table-wrap {
+        @apply overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+    }
+
+    .data-table {
+        @apply w-full text-left text-sm;
+    }
+
+    .data-table thead {
+        @apply border-b border-slate-200 bg-slate-100/80 text-slate-700;
+    }
+
+    .data-table th {
+        @apply px-4 py-3 text-xs font-semibold uppercase tracking-normal;
+    }
+
+    .data-table td {
+        @apply px-4 py-3 text-slate-700;
+    }
+
+    .data-table tbody {
+        @apply divide-y divide-slate-100;
+    }
+
+    .data-table tbody tr {
+        @apply transition hover:bg-slate-50;
+    }
+
     .form-label {
-        @apply mb-2 block text-sm font-medium text-zinc-800;
+        @apply mb-2 block text-sm font-semibold text-slate-800;
     }
 
     .form-input {
-        @apply w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-950 outline-none transition focus:border-teal-600 focus:ring-2 focus:ring-teal-100;
+        @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500;
+    }
+
+    input[type="file"].form-input {
+        @apply cursor-pointer file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-slate-700 hover:file:bg-teal-50 hover:file:text-teal-800;
+    }
+
+    .form-help {
+        @apply mt-2 text-xs leading-5 text-slate-500;
+    }
+
+    .password-toggle {
+        @apply absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-md text-slate-500 transition hover:bg-slate-50 hover:text-teal-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-100;
     }
 
     .btn-primary {
-        @apply rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-200;
+        @apply inline-flex items-center justify-center rounded-md bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-200 disabled:cursor-not-allowed disabled:bg-slate-300;
     }
 
     .btn-secondary {
-        @apply rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-800 transition hover:border-teal-600 hover:text-teal-700;
+        @apply inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400;
+    }
+
+    .btn-danger {
+        @apply inline-flex items-center justify-center rounded-md border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-100;
+    }
+
+    .chip {
+        @apply rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-800;
+    }
+
+    .status-pill {
+        @apply rounded-md border px-2 py-1 text-xs font-semibold shadow-sm;
+    }
+
+    .message-card {
+        @apply mb-6 rounded-lg border bg-white px-4 py-3 text-sm shadow-sm;
+    }
+
+    .message-dot {
+        @apply mt-1 h-2.5 w-2.5 shrink-0 rounded-full;
     }
 }

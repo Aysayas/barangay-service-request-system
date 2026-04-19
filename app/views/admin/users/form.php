@@ -11,13 +11,13 @@ $role_options = $is_edit ? ['resident', 'staff', 'admin'] : ['staff', 'admin'];
 <section class="mx-auto max-w-3xl">
     <div class="flex flex-wrap items-start justify-between gap-4">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Admin User</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950"><?= $is_edit ? 'Edit User' : 'Create Staff/Admin'; ?></h1>
+            <p class="page-kicker">Admin User</p>
+            <h1 class="page-title"><?= $is_edit ? 'Edit User' : 'Create Staff/Admin'; ?></h1>
         </div>
         <a class="btn-secondary" href="<?= site_url('admin/users'); ?>">Back to Users</a>
     </div>
 
-    <form class="mt-6 grid gap-5 rounded-md border border-zinc-200 bg-white p-6 sm:grid-cols-2" method="POST" action="<?= $action; ?>">
+    <form class="filter-card mt-6 grid gap-5 p-6 sm:grid-cols-2" method="POST" action="<?= $action; ?>">
         <?php csrf_field(); ?>
 
         <div>
@@ -59,7 +59,7 @@ $role_options = $is_edit ? ['resident', 'staff', 'admin'] : ['staff', 'admin'];
             <label class="form-label" for="password"><?= $is_edit ? 'New password' : 'Password'; ?></label>
             <div class="relative">
                 <input class="form-input pr-12" id="password" type="password" name="password" data-caps-lock-input="admin_user_password" data-password-toggle-input="admin_user_password" <?= $is_edit ? '' : 'required'; ?>>
-                <button class="absolute inset-y-0 right-0 flex w-11 items-center justify-center text-zinc-500 hover:text-teal-700" type="button" data-password-toggle-button="admin_user_password" aria-label="Show password" aria-pressed="false">
+                <button class="password-toggle" type="button" data-password-toggle-button="admin_user_password" aria-label="Show password" aria-pressed="false">
                     <svg data-password-eye xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -72,7 +72,7 @@ $role_options = $is_edit ? ['resident', 'staff', 'admin'] : ['staff', 'admin'];
                     </svg>
                 </button>
             </div>
-            <p class="mt-2 text-xs text-zinc-600"><?= $is_edit ? 'Leave blank to keep the current password.' : 'Use at least 8 characters.'; ?></p>
+            <p class="form-help"><?= $is_edit ? 'Leave blank to keep the current password.' : 'Use at least 8 characters.'; ?></p>
             <p id="admin_user_password_caps_warning" class="mt-2 hidden rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900" data-caps-lock-warning="admin_user_password">
                 Caps Lock is on. Passwords are case-sensitive.
             </p>

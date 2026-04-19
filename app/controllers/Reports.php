@@ -9,14 +9,20 @@ class Reports extends Controller
         $this->call->database();
         $this->call->model('Report_model');
         $this->call->model('Audit_log_model');
+        $this->call->library('Ai_service');
+        $this->call->library('Report_ai_summary_service');
     }
 
     public function index()
     {
+        $summary = $this->Report_model->overview_summary();
+        $charts = $this->Report_model->charts_data();
+
         $this->call->view('admin/reports/index', [
             'title' => 'Reports',
-            'summary' => $this->Report_model->overview_summary(),
-            'charts' => $this->Report_model->charts_data(),
+            'summary' => $summary,
+            'charts' => $charts,
+            'report_summary' => $this->Report_ai_summary_service->overview($summary, $charts),
         ]);
     }
 
@@ -47,13 +53,15 @@ class Reports extends Controller
     public function requests()
     {
         $filters = $this->requestFilters();
+        $summary = $this->Report_model->request_summary($filters);
 
         $this->call->view('admin/reports/requests', [
             'title' => 'Request Reports',
             'filters' => $filters,
             'services' => $this->Report_model->services(),
             'statuses' => $this->Report_model->request_statuses(),
-            'summary' => $this->Report_model->request_summary($filters),
+            'summary' => $summary,
+            'report_summary' => $this->Report_ai_summary_service->requests($summary, $filters),
             'rows' => $this->Report_model->request_rows($filters),
             'export_url' => $this->exportUrl('admin/reports/requests/export', $filters),
         ]);
@@ -62,13 +70,15 @@ class Reports extends Controller
     public function payments()
     {
         $filters = $this->paymentFilters();
+        $summary = $this->Report_model->payment_summary($filters);
 
         $this->call->view('admin/reports/payments', [
             'title' => 'Payment Reports',
             'filters' => $filters,
             'services' => $this->Report_model->services(),
             'payment_statuses' => $this->Report_model->payment_statuses(),
-            'summary' => $this->Report_model->payment_summary($filters),
+            'summary' => $summary,
+            'report_summary' => $this->Report_ai_summary_service->payments($summary, $filters),
             'rows' => $this->Report_model->payment_rows($filters),
             'export_url' => $this->exportUrl('admin/reports/payments/export', $filters),
         ]);
@@ -77,6 +87,7 @@ class Reports extends Controller
     public function complaints()
     {
         $filters = $this->complaintFilters();
+        $summary = $this->Report_model->complaint_summary($filters);
 
         $this->call->view('admin/reports/complaints', [
             'title' => 'Complaint Reports',
@@ -84,7 +95,8 @@ class Reports extends Controller
             'statuses' => $this->Report_model->complaint_statuses(),
             'categories' => $this->Report_model->complaint_categories(),
             'priorities' => $this->Report_model->complaint_priorities(),
-            'summary' => $this->Report_model->complaint_summary($filters),
+            'summary' => $summary,
+            'report_summary' => $this->Report_ai_summary_service->complaints($summary, $filters),
             'rows' => $this->Report_model->complaint_rows($filters),
             'export_url' => $this->exportUrl('admin/reports/complaints/export', $filters),
         ]);
@@ -93,12 +105,14 @@ class Reports extends Controller
     public function community()
     {
         $filters = $this->communityFilters();
+        $summary = $this->Report_model->community_summary($filters);
 
         $this->call->view('admin/reports/community', [
             'title' => 'Community Reports',
             'filters' => $filters,
             'categories' => $this->Report_model->community_categories(),
-            'summary' => $this->Report_model->community_summary($filters),
+            'summary' => $summary,
+            'report_summary' => $this->Report_ai_summary_service->community($summary, $filters),
             'rows' => $this->Report_model->community_rows($filters),
             'export_url' => $this->exportUrl('admin/reports/community/export', $filters),
         ]);

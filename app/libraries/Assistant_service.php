@@ -38,6 +38,10 @@ class Assistant_service
             return $this->statusResponse($normalized);
         }
 
+        if ($this->hasAny($normalized, ['complaint', 'complaints', 'evidence', 'incident', 'respondent', 'resolution', 'investigating', 'dismissed'])) {
+            return $this->complaintResponse($normalized);
+        }
+
         if ($this->hasAny($normalized, ['download', 'final document', 'document ready', 'no download', 'download button'])) {
             return $this->response(
                 'final_document',
@@ -62,11 +66,19 @@ class Assistant_service
             );
         }
 
-        if ($this->hasAny($normalized, ['announcement', 'announcements', 'homepage', 'public'])) {
+        if ($this->hasAny($normalized, ['announcement', 'announcements', 'homepage', 'public', 'community', 'event', 'advisory', 'program', 'resource'])) {
             return $this->response(
-                'announcements',
-                'Published announcements appear on the homepage. Admin users manage announcements from the admin panel.',
-                ['How do I register?', 'What is this system?', 'How do I track a request?']
+                'community',
+                'Use the Community page to read published barangay announcements, events, advisories, programs, and resources. Admin users manage community posts from Admin Community.',
+                ['Where are announcements?', 'How do I register?', 'What services are available?']
+            );
+        }
+
+        if ($this->hasAny($normalized, ['report', 'reports', 'chart', 'charts', 'csv', 'export', 'audit log', 'audit logs'])) {
+            return $this->response(
+                'reports',
+                'Reports, charts, CSV exports, and audit logs are admin-only tools. Admin users can open Reports from the admin dashboard to review request, payment, complaint, and community summary data.',
+                ['How do CSV exports work?', 'Where can admins view reports?', 'What are audit logs for?']
             );
         }
 
@@ -88,14 +100,14 @@ class Assistant_service
 
         return $this->response(
             'fallback',
-            'I can help with services, requirements, simulated payments, request statuses, tracking, and final documents. Try asking about a specific service or status.',
+            'I can help with eBarangayHub services, requirements, request tracking, simulated payments, complaints, final documents, community updates, reports, and navigation. Try asking about a specific service, status, payment step, complaint step, or report page.',
             $this->defaultSuggestions()
         );
     }
 
     public function welcomeMessage()
     {
-        return 'Hello. I am the eBarangayHub virtual help assistant prototype. Ask me about services, requirements, simulated payments, request statuses, complaints, tracking, community updates, or document downloads.';
+        return 'Hello. I am the eBarangayHub virtual help assistant. Ask me about services, requirements, simulated payments, request statuses, complaints, tracking, community updates, or document downloads.';
     }
 
     public function defaultSuggestions()
@@ -104,8 +116,33 @@ class Assistant_service
             'How do I request Barangay Clearance?',
             'What does Under Review mean?',
             'How do simulated payments work?',
-            'Why cannot I download my document yet?',
+            'How do complaints work?',
         ];
+    }
+
+    private function complaintResponse($normalized)
+    {
+        if ($this->hasAny($normalized, ['resolved', 'closed', 'dismissed'])) {
+            return $this->response(
+                'complaints',
+                'Resolved, Closed, and Dismissed are ending complaint states. Staff should add resolution notes before using these statuses, and residents can review notes from their complaint details page.',
+                ['How do I file a complaint?', 'What does investigating mean?', 'Where do I see resolution notes?']
+            );
+        }
+
+        if ($this->hasAny($normalized, ['investigating', 'under review', 'needs info'])) {
+            return $this->response(
+                'complaints',
+                'Complaint review usually moves from Submitted to Under Review, Needs Info, or Investigating. If staff needs more details, residents should check My Complaints and read the staff notes.',
+                ['How do I file a complaint?', 'What evidence can I upload?', 'What does resolved mean?']
+            );
+        }
+
+        return $this->response(
+            'complaints',
+            'Residents can file complaints from My Complaints, add the subject, category, incident details, location, respondent name if known, and evidence files. Staff then reviews the complaint, updates status and priority, and adds notes or resolution details.',
+            ['What complaint categories are available?', 'What evidence can I upload?', 'How do I track my complaint?']
+        );
     }
 
     private function serviceResponse($normalized, array $service)

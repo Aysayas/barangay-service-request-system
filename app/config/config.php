@@ -124,6 +124,29 @@ $config['notifications_enabled']   = $config['mail_driver'] === 'smtp';
 
 /*
 |--------------------------------------------------------------------------
+| AI Assistant Foundation
+|--------------------------------------------------------------------------
+|
+| V3 starts with a safe server-side AI foundation. Keep AI_ENABLED=false
+| for normal local demos. When disabled, incomplete, or failed, the app
+| keeps using the current rule-based assistant and report summary fallbacks.
+|
+*/
+$config['ai_enabled']              = getenv('AI_ENABLED') ?: 'false';
+$config['ai_provider']             = strtolower(getenv('AI_PROVIDER') ?: 'openai');
+$config['ai_api_key']              = getenv('AI_API_KEY') ?: '';
+$config['ai_model']                = getenv('AI_MODEL') ?: '';
+$config['ai_timeout']              = (int) (getenv('AI_TIMEOUT') ?: 30);
+$config['ai_max_tokens']           = (int) (getenv('AI_MAX_TOKENS') ?: 500);
+$config['ai_temperature']          = (float) (getenv('AI_TEMPERATURE') ?: 0.2);
+$config['ai_assistant_enabled']    = getenv('AI_ASSISTANT_ENABLED') ?: $config['ai_enabled'];
+$config['ai_report_summaries_enabled'] = getenv('AI_REPORT_SUMMARIES_ENABLED') ?: 'true';
+$config['ai_log_verbose']          = getenv('AI_LOG_VERBOSE') ?: 'false';
+$config['ai_max_assistant_chars']  = (int) (getenv('AI_MAX_ASSISTANT_CHARS') ?: 1200);
+$config['ai_max_report_summary_chars'] = (int) (getenv('AI_MAX_REPORT_SUMMARY_CHARS') ?: 700);
+
+/*
+|--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
 |
