@@ -2,21 +2,65 @@
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
 <section>
-    <p class="page-kicker">Staff</p>
-    <h1 class="page-title">Welcome, <?= e($user['name'] ?? 'Staff'); ?></h1>
-    <p class="page-subtitle">
-        Review resident requests, check submitted attachments, and update request statuses.
-    </p>
+    <div class="dashboard-hero dashboard-hero-staff">
+        <div class="section-heading-row">
+            <div>
+                <p class="dashboard-eyebrow text-amber-700">Staff Operations</p>
+                <h1 class="dashboard-title">Welcome, <?= e($user['name'] ?? 'Staff'); ?></h1>
+                <p class="dashboard-subtitle">
+                    Review incoming service requests, verify payment proofs, process complaints, and keep resident workflows moving.
+                </p>
+            </div>
+            <a class="btn-primary" href="<?= site_url('staff/requests'); ?>">Open Request Queue</a>
+        </div>
 
-    <div class="mt-6 flex flex-wrap gap-3">
-        <a class="btn-primary" href="<?= site_url('staff/requests'); ?>">Open Request Queue</a>
-        <a class="btn-secondary" href="<?= site_url('staff/complaints'); ?>">Open Complaint Queue</a>
-        <a class="btn-secondary" href="<?= site_url('staff/requests') . '?status=submitted'; ?>">Submitted</a>
-        <a class="btn-secondary" href="<?= site_url('staff/requests') . '?status=under_review'; ?>">Under Review</a>
+        <div class="mini-stat-grid mt-6">
+            <div class="mini-stat">
+                <p class="mini-stat-label">Submitted Requests</p>
+                <p class="mini-stat-value text-amber-700"><?= e($counts['submitted_count'] ?? 0); ?></p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-stat-label">Needs Info</p>
+                <p class="mini-stat-value text-rose-700"><?= e($counts['needs_info_count'] ?? 0); ?></p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-stat-label">Investigating Complaints</p>
+                <p class="mini-stat-value text-amber-700"><?= e($complaint_counts['investigating_count'] ?? 0); ?></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-action-grid mt-6">
+        <a class="action-tile" href="<?= site_url('staff/requests'); ?>">
+            <span class="action-tile-label">Request Queue</span>
+            <span class="action-tile-text block">Review requirements, payment state, notes, and final document readiness.</span>
+        </a>
+        <a class="action-tile" href="<?= site_url('staff/complaints'); ?>">
+            <span class="action-tile-label">Complaint Queue</span>
+            <span class="action-tile-text block">Review resident concerns, evidence, staff notes, and resolution status.</span>
+        </a>
+        <a class="action-tile" href="<?= site_url('staff/requests') . '?status=submitted'; ?>">
+            <span class="action-tile-label">New Requests</span>
+            <span class="action-tile-text block">Jump directly to submitted items waiting for first review.</span>
+        </a>
+        <a class="action-tile" href="<?= site_url('staff/requests') . '?status=under_review'; ?>">
+            <span class="action-tile-label">Under Review</span>
+            <span class="action-tile-text block">Continue processing requests already being checked.</span>
+        </a>
+    </div>
+
+    <div class="mt-8">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-kicker">Request Operations</p>
+                <h2 class="mt-2 text-xl font-bold text-slate-950">Service request workload</h2>
+            </div>
+            <a class="btn-secondary" href="<?= site_url('staff/requests'); ?>">View Queue</a>
+        </div>
     </div>
 
     <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="metric-card">
+        <div class="metric-card-featured">
             <p class="metric-label">Total Requests</p>
             <p class="metric-value"><?= e($counts['total_requests'] ?? 0); ?></p>
         </div>
@@ -50,8 +94,18 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="metric-card">
+    <div class="mt-8">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-kicker">Complaint Operations</p>
+                <h2 class="mt-2 text-xl font-bold text-slate-950">Resident concern workload</h2>
+            </div>
+            <a class="btn-secondary" href="<?= site_url('staff/complaints'); ?>">View Queue</a>
+        </div>
+    </div>
+
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="metric-card-featured">
             <p class="metric-label">Total Complaints</p>
             <p class="metric-value"><?= e($complaint_counts['total_complaints'] ?? 0); ?></p>
         </div>
@@ -69,94 +123,102 @@
         </div>
     </div>
 
-    <div class="mt-8">
-        <div class="flex items-center justify-between gap-4">
-            <h2 class="text-lg font-semibold text-zinc-950">Recent Incoming Requests</h2>
-            <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests'); ?>">View queue</a>
-        </div>
-
-        <?php if (empty($recent_requests)): ?>
-            <div class="empty-state mt-4">
-                No resident requests yet.
+    <div class="dashboard-work-grid mt-8">
+        <section class="section-panel">
+            <div class="section-heading-row">
+                <div>
+                    <p class="page-kicker">Incoming Requests</p>
+                    <h2 class="mt-2 text-lg font-semibold text-slate-950">Recently submitted service work</h2>
+                </div>
+                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests'); ?>">View queue</a>
             </div>
-        <?php else: ?>
-            <div class="data-table-wrap mt-4">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Reference</th>
-                            <th class="px-4 py-3 font-medium">Resident</th>
-                            <th class="px-4 py-3 font-medium">Service</th>
-                            <th class="px-4 py-3 font-medium">Status</th>
-                            <th class="px-4 py-3 font-medium">Date</th>
-                            <th class="px-4 py-3 font-medium">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-zinc-200">
-                        <?php foreach ($recent_requests as $request): ?>
+
+            <?php if (empty($recent_requests)): ?>
+                <div class="empty-state mt-4">
+                    No resident requests yet.
+                </div>
+            <?php else: ?>
+                <div class="data-table-wrap mt-4">
+                    <table class="data-table">
+                        <thead>
                             <tr>
-                                <td class="px-4 py-3 font-medium text-zinc-950"><?= e($request['reference_no']); ?></td>
-                                <td class="px-4 py-3 text-zinc-700"><?= e($request['resident_name']); ?></td>
-                                <td class="px-4 py-3 text-zinc-700"><?= e($request['service_name']); ?></td>
-                                <td class="px-4 py-3">
-                                    <span class="status-pill <?= status_badge_class($request['status']); ?>">
-                                        <?= e(status_label($request['status'])); ?>
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3 text-zinc-700"><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
-                                <td class="px-4 py-3">
-                                    <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests/' . $request['id']); ?>">Review</a>
-                                </td>
+                                <th>Reference</th>
+                                <th>Resident</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
-    </div>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recent_requests as $request): ?>
+                                <tr>
+                                    <td class="font-medium text-slate-950"><?= e($request['reference_no']); ?></td>
+                                    <td><?= e($request['resident_name']); ?></td>
+                                    <td><?= e($request['service_name']); ?></td>
+                                    <td>
+                                        <span class="status-pill <?= status_badge_class($request['status']); ?>">
+                                            <?= e(status_label($request['status'])); ?>
+                                        </span>
+                                    </td>
+                                    <td><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
+                                    <td>
+                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests/' . $request['id']); ?>">Review</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </section>
 
-    <div class="mt-8">
-        <div class="flex items-center justify-between gap-4">
-            <h2 class="text-lg font-semibold text-zinc-950">Recent Complaints</h2>
-            <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints'); ?>">View queue</a>
-        </div>
-
-        <?php if (empty($recent_complaints)): ?>
-            <div class="empty-state mt-4">
-                No resident complaints yet.
+        <section class="section-panel">
+            <div class="section-heading-row">
+                <div>
+                    <p class="page-kicker">Recent Complaints</p>
+                    <h2 class="mt-2 text-lg font-semibold text-slate-950">Resident concerns needing review</h2>
+                </div>
+                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints'); ?>">View queue</a>
             </div>
-        <?php else: ?>
-            <div class="data-table-wrap mt-4">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-3 font-medium">Reference</th>
-                            <th class="px-4 py-3 font-medium">Complainant</th>
-                            <th class="px-4 py-3 font-medium">Subject</th>
-                            <th class="px-4 py-3 font-medium">Status</th>
-                            <th class="px-4 py-3 font-medium">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-zinc-200">
-                        <?php foreach ($recent_complaints as $complaint): ?>
+
+            <?php if (empty($recent_complaints)): ?>
+                <div class="empty-state mt-4">
+                    No resident complaints yet.
+                </div>
+            <?php else: ?>
+                <div class="data-table-wrap mt-4">
+                    <table class="data-table">
+                        <thead>
                             <tr>
-                                <td class="px-4 py-3 font-medium text-zinc-950"><?= e($complaint['reference_no']); ?></td>
-                                <td class="px-4 py-3 text-zinc-700"><?= e($complaint['resident_name']); ?></td>
-                                <td class="px-4 py-3 text-zinc-700"><?= e($complaint['subject']); ?></td>
-                                <td class="px-4 py-3">
-                                    <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
-                                        <?= e(complaint_status_label($complaint['status'])); ?>
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">Review</a>
-                                </td>
+                                <th>Reference</th>
+                                <th>Complainant</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-        <?php endif; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($recent_complaints as $complaint): ?>
+                                <tr>
+                                    <td class="font-medium text-slate-950"><?= e($complaint['reference_no']); ?></td>
+                                    <td><?= e($complaint['resident_name']); ?></td>
+                                    <td><?= e($complaint['subject']); ?></td>
+                                    <td>
+                                        <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
+                                            <?= e(complaint_status_label($complaint['status'])); ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">Review</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
+        </section>
     </div>
 </section>
 
