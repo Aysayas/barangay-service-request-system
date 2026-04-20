@@ -1,11 +1,27 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section class="mx-auto max-w-2xl">
-    <div class="surface-card p-6">
+<section class="auth-page">
+    <aside class="auth-intro-card">
+        <p class="text-sm font-semibold uppercase tracking-normal">Resident Access</p>
+        <h1 class="mt-3 text-3xl font-bold tracking-normal">Start with an eBarangayHub account</h1>
+        <p class="mt-4 text-sm leading-6">Use one resident profile for service requests, payment proof submissions, complaints, final documents, and community information.</p>
+        <div class="mt-6 space-y-3 text-sm">
+            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+                <strong class="block text-white">Keep your email active</strong>
+                <span class="mt-1 block text-teal-50">Notifications use the email address you register here.</span>
+            </div>
+            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+                <strong class="block text-white">Use accurate details</strong>
+                <span class="mt-1 block text-teal-50">Barangay staff rely on these details when processing requests.</span>
+            </div>
+        </div>
+    </aside>
+
+    <div class="auth-card">
         <p class="page-kicker">Resident Access</p>
-        <h1 class="mt-2 text-2xl font-bold text-slate-950">Resident Registration</h1>
-        <p class="mt-2 text-sm text-slate-600">Create your eBarangayHub resident account for online barangay services.</p>
+        <h2 class="auth-title">Resident Registration</h2>
+        <p class="auth-subtitle">Create your eBarangayHub resident account for online barangay services.</p>
 
         <form class="mt-6 grid gap-5 sm:grid-cols-2" method="POST" action="<?= site_url('register'); ?>">
             <?php csrf_field(); ?>

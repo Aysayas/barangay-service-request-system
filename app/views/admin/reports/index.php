@@ -2,23 +2,23 @@
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 <?php $charts_json = json_encode($charts ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="analytics-page">
+    <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
-            <h1 class="page-title">Reports and Summary Data</h1>
-            <p class="page-subtitle">
+            <h1 class="analytics-title">Reports and Summary Data</h1>
+            <p class="analytics-subtitle">
                 Review reusable report data for requests, payments, complaints, and community content. Each detailed report page can export its filtered table as a CSV file.
             </p>
         </div>
-        <div class="flex flex-wrap gap-3">
+        <div class="analytics-actions">
             <a class="btn-primary" href="<?= site_url('admin/reports/export'); ?>">Export Summary CSV</a>
             <a class="btn-secondary" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
         </div>
     </div>
 
     <?php if (!empty($report_summary['text'])): ?>
-        <section class="surface-card mt-8">
+        <section class="report-summary-card">
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <p class="page-kicker">Report Summary</p>
@@ -30,14 +30,14 @@
                     <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
-            <p class="mt-3 text-sm leading-6 text-slate-600"><?= e($report_summary['text']); ?></p>
+            <p class="report-summary-text"><?= e($report_summary['text']); ?></p>
             <?php if (($report_summary['source'] ?? '') === 'fallback' && !empty($report_summary['fallback_reason']) && !in_array($report_summary['fallback_reason'], ['disabled', 'incomplete_config'], true)): ?>
-                <p class="mt-3 text-xs text-zinc-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
+                <p class="mt-3 text-xs text-slate-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
             <?php endif; ?>
         </section>
     <?php endif; ?>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="report-metric-grid">
         <div class="metric-card">
             <p class="metric-label">Total Requests</p>
             <p class="metric-value"><?= e($summary['total_requests']); ?></p>
@@ -56,26 +56,26 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-4 md:grid-cols-2">
-        <a class="surface-card-hover" href="<?= site_url('admin/reports/requests'); ?>">
+    <div class="grid gap-4 md:grid-cols-2">
+        <a class="report-link-card" href="<?= site_url('admin/reports/requests'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Request Reports</h2>
             <p class="mt-2 text-sm leading-6 text-slate-600">Filter service requests by date, service, and status. Includes payment and final document availability.</p>
         </a>
-        <a class="surface-card-hover" href="<?= site_url('admin/reports/payments'); ?>">
+        <a class="report-link-card" href="<?= site_url('admin/reports/payments'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Payment Reports</h2>
             <p class="mt-2 text-sm leading-6 text-slate-600">Track simulated payment records, expected amounts, verified amounts, and payment review status.</p>
         </a>
-        <a class="surface-card-hover" href="<?= site_url('admin/reports/complaints'); ?>">
+        <a class="report-link-card" href="<?= site_url('admin/reports/complaints'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Complaint Reports</h2>
             <p class="mt-2 text-sm leading-6 text-slate-600">Summarize complaint categories, statuses, priorities, assignments, and active workload.</p>
         </a>
-        <a class="surface-card-hover" href="<?= site_url('admin/reports/community'); ?>">
+        <a class="report-link-card" href="<?= site_url('admin/reports/community'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Community Reports</h2>
             <p class="mt-2 text-sm leading-6 text-slate-600">Review community posts by category, publishing state, featured state, and upcoming events.</p>
         </a>
     </div>
 
-    <section class="mt-10">
+    <section>
         <div>
             <h2 class="text-2xl font-bold text-slate-950">Charts Dashboard</h2>
             <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
@@ -84,75 +84,75 @@
         </div>
 
         <div class="mt-5 grid gap-6 lg:grid-cols-2">
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Requests by Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Current service request workload by workflow state.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="requestStatusChart"></canvas>
-                    <p id="requestStatusChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No request status data yet.</p>
+                    <p id="requestStatusChartEmpty" class="compact-note hidden">No request status data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Requests by Service</h3>
                 <p class="mt-1 text-sm text-slate-600">Most requested barangay services.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="requestServiceChart"></canvas>
-                    <p id="requestServiceChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No service request data yet.</p>
+                    <p id="requestServiceChartEmpty" class="compact-note hidden">No service request data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Requests by Month</h3>
                 <p class="mt-1 text-sm text-slate-600">Monthly request volume for the last 12 months.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="requestMonthlyChart"></canvas>
-                    <p id="requestMonthlyChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No monthly request data yet.</p>
+                    <p id="requestMonthlyChartEmpty" class="compact-note hidden">No monthly request data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Payments by Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Simulated payment records by review state.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="paymentStatusChart"></canvas>
-                    <p id="paymentStatusChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No payment data yet.</p>
+                    <p id="paymentStatusChartEmpty" class="compact-note hidden">No payment data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Complaints by Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Complaint workload by handling state.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="complaintStatusChart"></canvas>
-                    <p id="complaintStatusChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No complaint status data yet.</p>
+                    <p id="complaintStatusChartEmpty" class="compact-note hidden">No complaint status data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Complaints by Category</h3>
                 <p class="mt-1 text-sm text-slate-600">Common complaint types submitted by residents.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="complaintCategoryChart"></canvas>
-                    <p id="complaintCategoryChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No complaint category data yet.</p>
+                    <p id="complaintCategoryChartEmpty" class="compact-note hidden">No complaint category data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Community Posts by Category</h3>
                 <p class="mt-1 text-sm text-slate-600">Published and managed community content grouped by type.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="communityCategoryChart"></canvas>
-                    <p id="communityCategoryChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No community category data yet.</p>
+                    <p id="communityCategoryChartEmpty" class="compact-note hidden">No community category data yet.</p>
                 </div>
             </div>
 
-            <div class="surface-card">
+            <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Community Publishing State</h3>
                 <p class="mt-1 text-sm text-slate-600">Published, unpublished, and featured community posts.</p>
-                <div class="relative mt-4 h-72">
+                <div class="chart-frame">
                     <canvas id="communityPublishChart"></canvas>
-                    <p id="communityPublishChartEmpty" class="hidden rounded-md border border-zinc-200 bg-zinc-50 p-5 text-sm text-zinc-600">No community publishing data yet.</p>
+                    <p id="communityPublishChartEmpty" class="compact-note hidden">No community publishing data yet.</p>
                 </div>
             </div>
         </div>
@@ -170,7 +170,7 @@
             '#3f3f46',
             '#0284c7',
             '#16a34a',
-            '#7c3aed',
+            '#4d7c0f',
             '#dc2626',
             '#64748b',
             '#0891b2',

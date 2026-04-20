@@ -1,21 +1,21 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="analytics-page">
+    <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
-            <h1 class="page-title">Request Reports</h1>
-            <p class="page-subtitle">Filter service requests and review request workflow totals.</p>
+            <h1 class="analytics-title">Request Reports</h1>
+            <p class="analytics-subtitle">Filter service requests and review request workflow totals.</p>
         </div>
-        <div class="flex flex-wrap gap-3">
+        <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
             <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
         </div>
     </div>
 
     <?php if (!empty($report_summary['text'])): ?>
-        <section class="surface-card mt-8">
+        <section class="report-summary-card">
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <p class="page-kicker">Report Summary</p>
@@ -27,24 +27,24 @@
                     <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
-            <p class="mt-3 text-sm leading-6 text-slate-600"><?= e($report_summary['text']); ?></p>
+            <p class="report-summary-text"><?= e($report_summary['text']); ?></p>
             <?php if (($report_summary['source'] ?? '') === 'fallback' && !empty($report_summary['fallback_reason']) && !in_array($report_summary['fallback_reason'], ['disabled', 'incomplete_config'], true)): ?>
-                <p class="mt-3 text-xs text-zinc-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
+                <p class="mt-3 text-xs text-slate-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
             <?php endif; ?>
         </section>
     <?php endif; ?>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Total</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['total_requests']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Submitted</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['submitted_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Under Review</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['under_review_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Needs Info</p><p class="mt-2 text-2xl font-bold text-rose-700"><?= e($summary['needs_info_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Approved</p><p class="mt-2 text-2xl font-bold text-teal-700"><?= e($summary['approved_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Rejected</p><p class="mt-2 text-2xl font-bold text-rose-700"><?= e($summary['rejected_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Ready for Pickup</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['ready_for_pickup_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Released</p><p class="mt-2 text-2xl font-bold text-teal-700"><?= e($summary['released_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">This Month</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['requests_this_month']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Most Requested</p><p class="mt-2 text-base font-bold text-zinc-950"><?= e($summary['most_requested_service']); ?></p><p class="mt-1 text-xs text-zinc-600"><?= e($summary['most_requested_service_total']); ?> request(s)</p></div>
+    <div class="report-metric-grid">
+        <div class="report-metric-card"><p class="metric-label">Total</p><strong><?= e($summary['total_requests']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Submitted</p><strong class="text-amber-700"><?= e($summary['submitted_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Under Review</p><strong class="text-amber-700"><?= e($summary['under_review_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Needs Info</p><strong class="text-rose-700"><?= e($summary['needs_info_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Approved</p><strong class="text-teal-700"><?= e($summary['approved_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Rejected</p><strong class="text-rose-700"><?= e($summary['rejected_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Ready for Pickup</p><strong class="text-amber-700"><?= e($summary['ready_for_pickup_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Released</p><strong class="text-teal-700"><?= e($summary['released_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">This Month</p><strong><?= e($summary['requests_this_month']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Most Requested</p><strong class="text-base"><?= e($summary['most_requested_service']); ?></strong><p class="mt-1 text-xs text-slate-600"><?= e($summary['most_requested_service_total']); ?> request(s)</p></div>
     </div>
 
     <form class="filter-card mt-8 grid gap-4 md:grid-cols-5" method="GET" action="<?= site_url('admin/reports/requests'); ?>">
@@ -96,22 +96,22 @@
                         <th class="px-4 py-3 font-medium">Created</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-200">
+                <tbody class="divide-y divide-slate-200">
                     <?php foreach ($rows as $row): ?>
                         <tr>
-                            <td class="px-4 py-3 font-medium text-zinc-950"><?= e($row['reference_no']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($row['resident_name']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($row['service_name']); ?></td>
+                            <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['reference_no']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($row['resident_name']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($row['service_name']); ?></td>
                             <td class="px-4 py-3"><span class="status-pill <?= status_badge_class($row['status']); ?>"><?= e(status_label($row['status'])); ?></span></td>
                             <td class="px-4 py-3">
                                 <?php if ((int) $row['requires_payment'] === 1): ?>
                                     <span class="status-pill <?= payment_status_badge_class($row['payment_status']); ?>"><?= e(payment_status_label($row['payment_status'])); ?></span>
                                 <?php else: ?>
-                                    <span class="text-xs text-zinc-600">Not required</span>
+                                    <span class="text-xs text-slate-600">Not required</span>
                                 <?php endif; ?>
                             </td>
-                            <td class="px-4 py-3 text-zinc-700"><?= ((int) $row['has_final_document'] === 1) ? 'Available' : 'None'; ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['has_final_document'] === 1) ? 'Available' : 'None'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

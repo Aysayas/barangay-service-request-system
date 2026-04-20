@@ -17,23 +17,23 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
 $has_final_document = !empty($final_document);
 ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="workflow-page">
+    <div class="workflow-header">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Staff Review</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950"><?= e($request['reference_no']); ?></h1>
-            <p class="mt-3 text-zinc-700"><?= e($request['resident_name']); ?> - <?= e($request['service_name']); ?></p>
+            <p class="workflow-kicker">Staff Review</p>
+            <h1 class="workflow-title"><?= e($request['reference_no']); ?></h1>
+            <p class="workflow-subtitle"><?= e($request['resident_name']); ?> - <?= e($request['service_name']); ?></p>
         </div>
         <a class="btn-secondary" href="<?= site_url('staff/requests'); ?>">Back to Queue</a>
     </div>
 
     <div class="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
         <div class="space-y-6">
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
+            <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h2 class="text-lg font-semibold text-zinc-950">Request Details</h2>
-                        <p class="mt-1 text-sm text-zinc-600">Submitted <?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></p>
+                        <h2 class="text-lg font-semibold text-slate-950">Request Details</h2>
+                        <p class="mt-1 text-sm text-slate-600">Submitted <?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></p>
                     </div>
                     <span class="rounded-md px-2 py-1 text-sm font-medium <?= status_badge_class($request['status']); ?>">
                         <?= e(status_label($request['status'])); ?>
@@ -42,59 +42,59 @@ $has_final_document = !empty($final_document);
 
                 <dl class="mt-5 grid gap-4 text-sm sm:grid-cols-2">
                     <div>
-                        <dt class="font-medium text-zinc-800">Resident</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e($request['resident_name']); ?></dd>
+                        <dt class="font-medium text-slate-800">Resident</dt>
+                        <dd class="mt-1 text-slate-600"><?= e($request['resident_name']); ?></dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-zinc-800">Email</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e($request['resident_email']); ?></dd>
+                        <dt class="font-medium text-slate-800">Email</dt>
+                        <dd class="mt-1 text-slate-600"><?= e($request['resident_email']); ?></dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-zinc-800">Contact Number</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e($request['resident_contact_number'] ?: 'Not provided'); ?></dd>
+                        <dt class="font-medium text-slate-800">Contact Number</dt>
+                        <dd class="mt-1 text-slate-600"><?= e($request['resident_contact_number'] ?: 'Not provided'); ?></dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-zinc-800">Address</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e($request['resident_address'] ?: 'Not provided'); ?></dd>
+                        <dt class="font-medium text-slate-800">Address</dt>
+                        <dd class="mt-1 text-slate-600"><?= e($request['resident_address'] ?: 'Not provided'); ?></dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-zinc-800">Service</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e($request['service_name']); ?></dd>
+                        <dt class="font-medium text-slate-800">Service</dt>
+                        <dd class="mt-1 text-slate-600"><?= e($request['service_name']); ?></dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-zinc-800">Fee</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e(format_money($request['fee'])); ?></dd>
+                        <dt class="font-medium text-slate-800">Fee</dt>
+                        <dd class="mt-1 text-slate-600"><?= e(format_money($request['fee'])); ?></dd>
                     </div>
                 </dl>
 
                 <div class="mt-5">
-                    <h3 class="text-sm font-medium text-zinc-800">Purpose</h3>
-                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-700"><?= e($request['purpose']); ?></p>
+                    <h3 class="text-sm font-medium text-slate-800">Purpose</h3>
+                    <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700"><?= e($request['purpose']); ?></p>
                 </div>
 
                 <div class="mt-5">
-                    <h3 class="text-sm font-medium text-zinc-800">Resident Remarks</h3>
+                    <h3 class="text-sm font-medium text-slate-800">Resident Remarks</h3>
                     <?php if (!empty($request['remarks'])): ?>
-                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-zinc-700"><?= e($request['remarks']); ?></p>
+                        <p class="mt-2 whitespace-pre-line text-sm leading-6 text-slate-700"><?= e($request['remarks']); ?></p>
                     <?php else: ?>
-                        <p class="mt-2 text-sm text-zinc-600">No remarks provided.</p>
+                        <p class="mt-2 text-sm text-slate-600">No remarks provided.</p>
                     <?php endif; ?>
                 </div>
             </section>
 
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
-                <h2 class="text-lg font-semibold text-zinc-950">Submitted Attachments</h2>
+            <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Submitted Attachments</h2>
 
                 <?php if (empty($attachments)): ?>
-                    <p class="mt-3 text-sm text-zinc-600">No attachments were submitted.</p>
+                    <p class="mt-3 text-sm text-slate-600">No attachments were submitted.</p>
                 <?php else: ?>
-                    <ul class="mt-4 divide-y divide-zinc-200">
+                    <ul class="workflow-file-list mt-4 space-y-3">
                         <?php foreach ($attachments as $attachment): ?>
                             <?php $attachment_exists = safe_storage_path($attachment['file_path'] ?? '', 'runtime/uploads/resident_requests') !== null; ?>
-                            <li class="flex flex-wrap items-center justify-between gap-3 py-3">
+                            <li class="flex flex-wrap items-center justify-between gap-3">
                                 <div>
-                                    <p class="font-medium text-zinc-950"><?= e($attachment['original_name']); ?></p>
-                                    <p class="mt-1 text-sm text-zinc-600">
+                                    <p class="font-medium text-slate-950"><?= e($attachment['original_name']); ?></p>
+                                    <p class="mt-1 text-sm text-slate-600">
                                         <?= e(format_file_size($attachment['file_size'])); ?> -
                                         <?= e($attachment['file_type']); ?>
                                     </p>
@@ -114,16 +114,16 @@ $has_final_document = !empty($final_document);
                 <?php endif; ?>
             </section>
 
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
-                <h2 class="text-lg font-semibold text-zinc-950">Activity Log</h2>
+            <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Activity Log</h2>
                 <?php if (empty($audit_logs)): ?>
-                    <p class="mt-3 text-sm text-zinc-600">No staff activity recorded yet.</p>
+                    <p class="mt-3 text-sm text-slate-600">No staff activity recorded yet.</p>
                 <?php else: ?>
-                    <ul class="mt-4 divide-y divide-zinc-200 text-sm">
+                    <ul class="mt-4 divide-y divide-slate-200 text-sm">
                         <?php foreach ($audit_logs as $log): ?>
                             <li class="py-3">
-                                <p class="font-medium text-zinc-950"><?= e($log['description']); ?></p>
-                                <p class="mt-1 text-zinc-600">
+                                <p class="font-medium text-slate-950"><?= e($log['description']); ?></p>
+                                <p class="mt-1 text-slate-600">
                                     <?= e($log['user_name'] ?: 'System'); ?> -
                                     <?= e(date('M d, Y h:i A', strtotime($log['created_at']))); ?>
                                 </p>
@@ -135,11 +135,11 @@ $has_final_document = !empty($final_document);
         </div>
 
         <div class="space-y-6">
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
+            <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h2 class="text-lg font-semibold text-zinc-950">Simulated Payment</h2>
-                        <p class="mt-1 text-sm text-zinc-600">Payment verification is manual for this demo.</p>
+                        <h2 class="text-lg font-semibold text-slate-950">Simulated Payment</h2>
+                        <p class="mt-1 text-sm text-slate-600">Payment verification is manual for this demo.</p>
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>
                         <span class="rounded-md px-2 py-1 text-sm font-medium <?= payment_status_badge_class($payment_status); ?>">
@@ -149,24 +149,24 @@ $has_final_document = !empty($final_document);
                 </div>
 
                 <?php if ((int) $request['requires_payment'] !== 1): ?>
-                    <p class="mt-4 text-sm text-zinc-600">This service does not require payment.</p>
+                    <p class="mt-4 text-sm text-slate-600">This service does not require payment.</p>
                 <?php else: ?>
                     <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-2">
                         <div>
-                            <dt class="font-medium text-zinc-800">Amount</dt>
-                            <dd class="mt-1 text-zinc-600"><?= e(format_money($request['fee'])); ?></dd>
+                            <dt class="font-medium text-slate-800">Amount</dt>
+                            <dd class="mt-1 text-slate-600"><?= e(format_money($request['fee'])); ?></dd>
                         </div>
                         <div>
-                            <dt class="font-medium text-zinc-800">Method</dt>
-                            <dd class="mt-1 text-zinc-600"><?= e(payment_method_label($payment['payment_method'] ?? null)); ?></dd>
+                            <dt class="font-medium text-slate-800">Method</dt>
+                            <dd class="mt-1 text-slate-600"><?= e(payment_method_label($payment['payment_method'] ?? null)); ?></dd>
                         </div>
                         <div>
-                            <dt class="font-medium text-zinc-800">Reference Number</dt>
-                            <dd class="mt-1 text-zinc-600"><?= e($payment['reference_number'] ?? 'Not submitted yet'); ?></dd>
+                            <dt class="font-medium text-slate-800">Reference Number</dt>
+                            <dd class="mt-1 text-slate-600"><?= e($payment['reference_number'] ?? 'Not submitted yet'); ?></dd>
                         </div>
                         <div>
-                            <dt class="font-medium text-zinc-800">Submitted</dt>
-                            <dd class="mt-1 text-zinc-600">
+                            <dt class="font-medium text-slate-800">Submitted</dt>
+                            <dd class="mt-1 text-slate-600">
                                 <?= !empty($payment['submitted_at']) ? e(date('M d, Y h:i A', strtotime($payment['submitted_at']))) : 'Not submitted yet'; ?>
                             </dd>
                         </div>
@@ -177,14 +177,14 @@ $has_final_document = !empty($final_document);
                             && safe_storage_path($payment['proof_file_path'], 'runtime/uploads/payment_proofs') !== null;
                     ?>
                     <?php if (!empty($payment['proof_file_path'])): ?>
-                        <div class="mt-4 rounded-md border border-zinc-200 bg-zinc-50 p-4 text-sm">
-                            <p class="font-medium text-zinc-950"><?= e($payment['proof_original_name']); ?></p>
-                            <p class="mt-1 text-zinc-600">
+                        <div class="mt-4 compact-note text-sm">
+                            <p class="font-medium text-slate-950"><?= e($payment['proof_original_name']); ?></p>
+                            <p class="mt-1 text-slate-600">
                                 <?= e(format_file_size($payment['proof_file_size'])); ?> -
                                 <?= e($payment['proof_file_type']); ?>
                             </p>
                             <?php if ($payment_proof_exists): ?>
-                                <a class="mt-3 inline-flex rounded-md border border-zinc-300 px-3 py-2 text-sm font-semibold text-zinc-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('staff/requests/payment-proof/' . $payment['id']); ?>">
+                                <a class="mt-3 inline-flex rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('staff/requests/payment-proof/' . $payment['id']); ?>">
                                     Open Payment Proof
                                 </a>
                             <?php else: ?>
@@ -212,7 +212,7 @@ $has_final_document = !empty($final_document);
                             <div>
                                 <label class="form-label" for="payment_remarks">Payment Remarks</label>
                                 <textarea class="form-input min-h-28" id="payment_remarks" name="remarks"><?= e($payment['remarks'] ?? ''); ?></textarea>
-                                <p class="mt-2 text-xs text-zinc-600">Remarks are useful when rejecting a payment.</p>
+                                <p class="mt-2 text-xs text-slate-600">Remarks are useful when rejecting a payment.</p>
                             </div>
 
                                 <button class="btn-primary w-full" type="submit">Save Payment Review</button>
@@ -226,8 +226,8 @@ $has_final_document = !empty($final_document);
                 <?php endif; ?>
             </section>
 
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
-                <h2 class="text-lg font-semibold text-zinc-950">Final Document</h2>
+            <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Final Document</h2>
 
                 <?php
                     $final_document_exists = !empty($final_document['file_path'])
@@ -252,7 +252,7 @@ $has_final_document = !empty($final_document);
                         <?php endif; ?>
                     </div>
                 <?php else: ?>
-                    <p class="mt-3 text-sm text-zinc-600">No final document has been uploaded yet.</p>
+                    <p class="mt-3 text-sm text-slate-600">No final document has been uploaded yet.</p>
                 <?php endif; ?>
 
                 <?php if ($can_upload_final_document): ?>
@@ -262,7 +262,7 @@ $has_final_document = !empty($final_document);
                         <div>
                             <label class="form-label" for="final_document">Upload Final Document</label>
                             <input class="form-input" id="final_document" type="file" name="final_document" accept=".pdf,.doc,.docx" required>
-                            <p class="mt-2 text-xs text-zinc-600">
+                            <p class="mt-2 text-xs text-slate-600">
                                 Allowed types: PDF, DOC, DOCX. Maximum size: <?= e($max_upload_mb); ?>MB.
                                 Uploading a new file replaces the current final document.
                             </p>
@@ -279,8 +279,8 @@ $has_final_document = !empty($final_document);
                 <?php endif; ?>
             </section>
 
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
-                <h2 class="text-lg font-semibold text-zinc-950">Update Request</h2>
+            <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Update Request</h2>
                 <form class="mt-5 space-y-5" method="POST" action="<?= site_url('staff/requests/update/' . $request['id']); ?>">
                     <?php csrf_field(); ?>
 
@@ -301,7 +301,7 @@ $has_final_document = !empty($final_document);
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <p class="mt-2 text-xs text-zinc-600">
+                        <p class="mt-2 text-xs text-slate-600">
                             Paid requests need verified payment before approval. Ready for Pickup and Released also require a final document.
                         </p>
                     </div>
@@ -309,20 +309,20 @@ $has_final_document = !empty($final_document);
                     <div>
                         <label class="form-label" for="staff_notes">Staff Notes</label>
                         <textarea class="form-input min-h-40" id="staff_notes" name="staff_notes"><?= e($request['staff_notes'] ?? ''); ?></textarea>
-                        <p class="mt-2 text-xs text-zinc-600">Residents can see these notes on their request details page.</p>
+                        <p class="mt-2 text-xs text-slate-600">Residents can see these notes on their request details page.</p>
                     </div>
 
                     <button class="btn-primary w-full" type="submit">Save Review</button>
                 </form>
             </section>
 
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
-                <h2 class="text-lg font-semibold text-zinc-950">Status Direction</h2>
+            <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Status Direction</h2>
                 <ol class="mt-4 space-y-3 text-sm">
                     <?php foreach ($status_flow as $status): ?>
                         <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md <?= ($status === $request['status']) ? 'bg-teal-700' : 'bg-zinc-300'; ?>"></span>
-                            <span class="<?= ($status === $request['status']) ? 'font-semibold text-zinc-950' : 'text-zinc-600'; ?>">
+                            <span class="h-3 w-3 rounded-md <?= ($status === $request['status']) ? 'bg-teal-700' : 'bg-slate-300'; ?>"></span>
+                            <span class="<?= ($status === $request['status']) ? 'font-semibold text-slate-950' : 'text-slate-600'; ?>">
                                 <?= e(status_label($status)); ?>
                             </span>
                         </li>
@@ -336,16 +336,16 @@ $has_final_document = !empty($final_document);
                 </ol>
             </section>
 
-            <section class="rounded-md border border-zinc-200 bg-white p-5">
-                <h2 class="text-lg font-semibold text-zinc-950">Processing Info</h2>
+            <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Processing Info</h2>
                 <dl class="mt-4 space-y-4 text-sm">
                     <div>
-                        <dt class="font-medium text-zinc-800">Last Updated</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e(date('M d, Y h:i A', strtotime($request['updated_at']))); ?></dd>
+                        <dt class="font-medium text-slate-800">Last Updated</dt>
+                        <dd class="mt-1 text-slate-600"><?= e(date('M d, Y h:i A', strtotime($request['updated_at']))); ?></dd>
                     </div>
                     <div>
-                        <dt class="font-medium text-zinc-800">Last Processed By</dt>
-                        <dd class="mt-1 text-zinc-600"><?= e($request['last_processed_by_name'] ?: 'Not processed yet'); ?></dd>
+                        <dt class="font-medium text-slate-800">Last Processed By</dt>
+                        <dd class="mt-1 text-slate-600"><?= e($request['last_processed_by_name'] ?: 'Not processed yet'); ?></dd>
                     </div>
                 </dl>
             </section>

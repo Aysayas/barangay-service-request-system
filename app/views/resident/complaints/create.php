@@ -1,19 +1,19 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section class="mx-auto max-w-3xl">
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="workflow-page mx-auto max-w-3xl">
+    <div class="workflow-header">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">New Complaint</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950">Submit Complaint</h1>
-            <p class="mt-3 text-zinc-700">
+            <p class="workflow-kicker">New Complaint</p>
+            <h1 class="workflow-title">Submit Complaint</h1>
+            <p class="workflow-subtitle">
                 Use this for barangay concerns such as noise, sanitation, disputes, disturbance, or property issues.
             </p>
         </div>
         <a class="btn-secondary" href="<?= site_url('resident/complaints'); ?>">Back to Complaints</a>
     </div>
 
-    <form class="mt-6 space-y-5 rounded-md border border-zinc-200 bg-white p-6" method="POST" action="<?= site_url('resident/complaints/store'); ?>" enctype="multipart/form-data">
+    <form class="workflow-card mt-6 space-y-5 p-6" method="POST" action="<?= site_url('resident/complaints/store'); ?>" enctype="multipart/form-data">
         <?php csrf_field(); ?>
 
         <div>
@@ -36,7 +36,7 @@
         <div>
             <label class="form-label" for="description">Description</label>
             <textarea class="form-input min-h-40" id="description" name="description" required><?= old_value($old, 'description'); ?></textarea>
-            <p class="mt-2 text-xs text-zinc-600">Explain what happened, who was involved, and what help you need from the barangay.</p>
+            <p class="mt-2 text-xs text-slate-600">Explain what happened, who was involved, and what help you need from the barangay.</p>
         </div>
 
         <div class="grid gap-5 sm:grid-cols-2">
@@ -58,13 +58,13 @@
         <div>
             <label class="form-label" for="respondent_name">Respondent Name</label>
             <input class="form-input" id="respondent_name" type="text" name="respondent_name" value="<?= old_value($old, 'respondent_name'); ?>" maxlength="160">
-            <p class="mt-2 text-xs text-zinc-600">Optional. Add this only if you know the person or business involved.</p>
+            <p class="mt-2 text-xs text-slate-600">Optional. Add this only if you know the person or business involved.</p>
         </div>
 
         <div>
             <label class="form-label" for="attachments">Evidence Attachments</label>
             <input class="form-input" id="attachments" type="file" name="attachments[]" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-            <p class="mt-2 text-xs text-zinc-600">
+            <p class="mt-2 text-xs text-slate-600">
                 Optional. Allowed: PDF, JPG, PNG, DOC, DOCX. Maximum <?= e($max_upload_mb); ?>MB per file.
             </p>
         </div>

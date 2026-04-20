@@ -1,21 +1,21 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="analytics-page">
+    <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
-            <h1 class="page-title">Payment Reports</h1>
-            <p class="page-subtitle">Track simulated payment records, verification status, and payment amounts.</p>
+            <h1 class="analytics-title">Payment Reports</h1>
+            <p class="analytics-subtitle">Track simulated payment records, verification status, and payment amounts.</p>
         </div>
-        <div class="flex flex-wrap gap-3">
+        <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
             <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
         </div>
     </div>
 
     <?php if (!empty($report_summary['text'])): ?>
-        <section class="surface-card mt-8">
+        <section class="report-summary-card">
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <p class="page-kicker">Report Summary</p>
@@ -27,21 +27,21 @@
                     <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
-            <p class="mt-3 text-sm leading-6 text-slate-600"><?= e($report_summary['text']); ?></p>
+            <p class="report-summary-text"><?= e($report_summary['text']); ?></p>
             <?php if (($report_summary['source'] ?? '') === 'fallback' && !empty($report_summary['fallback_reason']) && !in_array($report_summary['fallback_reason'], ['disabled', 'incomplete_config'], true)): ?>
-                <p class="mt-3 text-xs text-zinc-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
+                <p class="mt-3 text-xs text-slate-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
             <?php endif; ?>
         </section>
     <?php endif; ?>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Payment Records</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['total_payments']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Pending Payment</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['pending_payment_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Payment Submitted</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['payment_submitted_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Payment Verified</p><p class="mt-2 text-2xl font-bold text-teal-700"><?= e($summary['payment_verified_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Payment Rejected</p><p class="mt-2 text-2xl font-bold text-rose-700"><?= e($summary['payment_rejected_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Expected Amount</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e(format_money($summary['expected_amount'])); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Verified Amount</p><p class="mt-2 text-2xl font-bold text-teal-700"><?= e(format_money($summary['verified_amount'])); ?></p></div>
+    <div class="report-metric-grid">
+        <div class="report-metric-card"><p class="metric-label">Payment Records</p><strong><?= e($summary['total_payments']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Pending Payment</p><strong class="text-amber-700"><?= e($summary['pending_payment_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Payment Submitted</p><strong><?= e($summary['payment_submitted_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Payment Verified</p><strong class="text-teal-700"><?= e($summary['payment_verified_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Payment Rejected</p><strong class="text-rose-700"><?= e($summary['payment_rejected_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Expected Amount</p><strong><?= e(format_money($summary['expected_amount'])); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Verified Amount</p><strong class="text-teal-700"><?= e(format_money($summary['verified_amount'])); ?></strong></div>
     </div>
 
     <form class="filter-card mt-8 grid gap-4 md:grid-cols-5" method="GET" action="<?= site_url('admin/reports/payments'); ?>">
@@ -94,17 +94,17 @@
                         <th class="px-4 py-3 font-medium">Verified</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-200">
+                <tbody class="divide-y divide-slate-200">
                     <?php foreach ($rows as $row): ?>
                         <tr>
-                            <td class="px-4 py-3 font-medium text-zinc-950"><?= e($row['reference_no']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($row['resident_name']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($row['service_name']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e(format_money($row['amount'])); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e(payment_method_label($row['payment_method'])); ?></td>
+                            <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['reference_no']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($row['resident_name']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($row['service_name']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(format_money($row['amount'])); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(payment_method_label($row['payment_method'])); ?></td>
                             <td class="px-4 py-3"><span class="status-pill <?= payment_status_badge_class($row['payment_status']); ?>"><?= e(payment_status_label($row['payment_status'])); ?></span></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= !empty($row['submitted_at']) ? e(date('M d, Y', strtotime($row['submitted_at']))) : 'Not submitted'; ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= !empty($row['verified_at']) ? e(date('M d, Y', strtotime($row['verified_at']))) : 'Not verified'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= !empty($row['submitted_at']) ? e(date('M d, Y', strtotime($row['submitted_at']))) : 'Not submitted'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= !empty($row['verified_at']) ? e(date('M d, Y', strtotime($row['verified_at']))) : 'Not verified'; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

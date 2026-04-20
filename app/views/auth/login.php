@@ -1,11 +1,31 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section class="mx-auto max-w-md">
-    <div class="surface-card p-6">
+<section class="auth-page">
+    <aside class="auth-intro-card">
+        <p class="text-sm font-semibold uppercase tracking-normal">eBarangayHub</p>
+        <h1 class="mt-3 text-3xl font-bold tracking-normal">Centralized Barangay Services, Reports, and Community Access</h1>
+        <p class="mt-4 text-sm leading-6">Log in to continue your requests, complaints, payments, documents, reports, and community work from one secure local portal.</p>
+        <div class="mt-6 grid gap-3 text-sm sm:grid-cols-3 lg:grid-cols-1">
+            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+                <strong class="block text-white">Residents</strong>
+                <span class="mt-1 block text-teal-50">Submit and track requests.</span>
+            </div>
+            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+                <strong class="block text-white">Staff</strong>
+                <span class="mt-1 block text-teal-50">Process service workflows.</span>
+            </div>
+            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+                <strong class="block text-white">Admins</strong>
+                <span class="mt-1 block text-teal-50">Manage records and reports.</span>
+            </div>
+        </div>
+    </aside>
+
+    <div class="auth-card">
         <p class="page-kicker">Account Access</p>
-        <h1 class="mt-2 text-2xl font-bold text-slate-950">Login</h1>
-        <p class="mt-2 text-sm text-slate-600">Access eBarangayHub using your resident, staff, or admin account.</p>
+        <h2 class="auth-title">Login</h2>
+        <p class="auth-subtitle">Access eBarangayHub using your resident, staff, or admin account.</p>
 
         <form class="mt-6 space-y-5" method="POST" action="<?= site_url('login'); ?>">
             <?php csrf_field(); ?>
@@ -37,7 +57,7 @@
                 </p>
             </div>
 
-            <button class="btn-primary w-full" type="submit">Login</button>
+            <button class="btn-primary w-full" type="submit">Login Securely</button>
         </form>
 
         <p class="mt-5 text-center text-sm text-slate-600">

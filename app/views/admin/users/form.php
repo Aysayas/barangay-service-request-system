@@ -8,16 +8,16 @@ $action = $is_edit ? site_url('admin/users/update/' . $user_record['id']) : site
 $role_options = $is_edit ? ['resident', 'staff', 'admin'] : ['staff', 'admin'];
 ?>
 
-<section class="mx-auto max-w-3xl">
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="management-page mx-auto max-w-3xl">
+    <div class="management-header">
         <div>
             <p class="page-kicker">Admin User</p>
-            <h1 class="page-title"><?= $is_edit ? 'Edit User' : 'Create Staff/Admin'; ?></h1>
+            <h1 class="management-title"><?= $is_edit ? 'Edit User' : 'Create Staff/Admin'; ?></h1>
         </div>
         <a class="btn-secondary" href="<?= site_url('admin/users'); ?>">Back to Users</a>
     </div>
 
-    <form class="filter-card mt-6 grid gap-5 p-6 sm:grid-cols-2" method="POST" action="<?= $action; ?>">
+    <form class="management-form grid gap-5 sm:grid-cols-2" method="POST" action="<?= $action; ?>">
         <?php csrf_field(); ?>
 
         <div>

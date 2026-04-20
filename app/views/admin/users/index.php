@@ -3,17 +3,17 @@
 
 <?php $base_url = site_url('admin/users'); ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="management-page">
+    <div class="management-header">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Admin</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950">Users</h1>
-            <p class="mt-3 max-w-2xl text-zinc-700">View residents and manage staff/admin accounts.</p>
+            <p class="page-kicker">Admin</p>
+            <h1 class="management-title">Users</h1>
+            <p class="management-subtitle">View residents and manage staff/admin accounts.</p>
         </div>
         <a class="btn-primary" href="<?= site_url('admin/users/create'); ?>">Create Staff/Admin</a>
     </div>
 
-    <div class="mt-6 rounded-md border border-zinc-200 bg-white p-5">
+    <div class="filter-card">
         <form class="grid gap-4 md:grid-cols-[0.6fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
             <div>
                 <label class="form-label" for="role">Role</label>
@@ -36,13 +36,13 @@
     </div>
 
     <?php if (empty($users)): ?>
-        <div class="mt-8 rounded-md border border-zinc-200 bg-white p-5 text-sm text-zinc-600">
+        <div class="empty-state-strong mt-8">
             No users matched your filters.
         </div>
     <?php else: ?>
-        <div class="mt-8 overflow-x-auto rounded-md border border-zinc-200 bg-white">
-            <table class="w-full text-left text-sm">
-                <thead class="bg-zinc-100 text-zinc-700">
+        <div class="management-table-wrap">
+            <table class="management-table">
+                <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Name</th>
                         <th class="px-4 py-3 font-medium">Email</th>
@@ -51,14 +51,14 @@
                         <th class="px-4 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-200">
+                <tbody>
                     <?php foreach ($users as $row): ?>
                         <tr>
-                            <td class="px-4 py-3 font-medium text-zinc-950"><?= e($row['first_name'] . ' ' . $row['last_name']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($row['email']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e(ucfirst($row['role'])); ?></td>
+                            <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['first_name'] . ' ' . $row['last_name']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($row['email']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(ucfirst($row['role'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= ($row['status'] === 'active') ? 'bg-teal-50 text-teal-900' : 'bg-zinc-100 text-zinc-800'; ?>">
+                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= ($row['status'] === 'active') ? 'bg-teal-50 text-teal-900' : 'bg-slate-100 text-slate-800'; ?>">
                                     <?= e(ucfirst($row['status'])); ?>
                                 </span>
                             </td>

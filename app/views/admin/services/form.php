@@ -7,16 +7,16 @@ $is_edit = ($mode === 'edit');
 $action = $is_edit ? site_url('admin/services/update/' . $service['id']) : site_url('admin/services/store');
 ?>
 
-<section class="mx-auto max-w-3xl">
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="management-page mx-auto max-w-3xl">
+    <div class="management-header">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Admin Service</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950"><?= $is_edit ? 'Edit Service' : 'Create Service'; ?></h1>
+            <p class="page-kicker">Admin Service</p>
+            <h1 class="management-title"><?= $is_edit ? 'Edit Service' : 'Create Service'; ?></h1>
         </div>
         <a class="btn-secondary" href="<?= site_url('admin/services'); ?>">Back to Services</a>
     </div>
 
-    <form class="mt-6 space-y-5 rounded-md border border-zinc-200 bg-white p-6" method="POST" action="<?= $action; ?>">
+    <form class="management-form space-y-5" method="POST" action="<?= $action; ?>">
         <?php csrf_field(); ?>
 
         <div>
@@ -39,11 +39,11 @@ $action = $is_edit ? site_url('admin/services/update/' . $service['id']) : site_
             <label class="form-label" for="fee">Fee</label>
             <input class="form-input" id="fee" type="number" step="0.01" min="0" name="fee" value="<?= e($data['fee'] ?? '0.00'); ?>" required>
         </div>
-        <label class="flex items-center gap-3 text-sm text-zinc-700">
+        <label class="flex items-center gap-3 text-sm text-slate-700">
             <input type="checkbox" name="requires_payment" value="1" <?= ((int) ($data['requires_payment'] ?? 0) === 1) ? 'checked' : ''; ?>>
             Requires payment later
         </label>
-        <label class="flex items-center gap-3 text-sm text-zinc-700">
+        <label class="flex items-center gap-3 text-sm text-slate-700">
             <input type="checkbox" name="is_active" value="1" <?= ((int) ($data['is_active'] ?? 1) === 1) ? 'checked' : ''; ?>>
             Active
         </label>

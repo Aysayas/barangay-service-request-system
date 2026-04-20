@@ -286,7 +286,7 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filePath, $lineNum);
     <div class="section">
         <h3>Tips</h3>
         <div class="code">
-                            This error page is shown because debug mode is enabled.<br>
+            This error page is shown because debug mode is enabled.<br>
             In production, set <code>$config['ENVIRONMENT'] = 'production'</code> to hide detailed error output.
         </div>
     </div>

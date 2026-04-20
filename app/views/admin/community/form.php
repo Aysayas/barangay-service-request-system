@@ -8,17 +8,17 @@ $action = $is_edit ? site_url('admin/community/update/' . $post['id']) : site_ur
 $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : '';
 ?>
 
-<section class="mx-auto max-w-4xl">
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="workflow-page mx-auto max-w-4xl">
+    <div class="workflow-header">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Admin Community</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950"><?= $is_edit ? 'Edit Community Post' : 'Create Community Post'; ?></h1>
-            <p class="mt-3 text-zinc-700">Use one form for updates, events, programs, advisories, and resources.</p>
+            <p class="workflow-kicker">Admin Community</p>
+            <h1 class="workflow-title"><?= $is_edit ? 'Edit Community Post' : 'Create Community Post'; ?></h1>
+            <p class="workflow-subtitle">Use one form for updates, events, programs, advisories, and resources.</p>
         </div>
         <a class="btn-secondary" href="<?= site_url('admin/community'); ?>">Back to Community</a>
     </div>
 
-    <form class="mt-6 space-y-5 rounded-md border border-zinc-200 bg-white p-6" method="POST" enctype="multipart/form-data" action="<?= $action; ?>">
+    <form class="workflow-card mt-6 space-y-5 p-6" method="POST" enctype="multipart/form-data" action="<?= $action; ?>">
         <?php csrf_field(); ?>
 
         <div class="grid gap-5 sm:grid-cols-2">
@@ -47,7 +47,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
         <div>
             <label class="form-label" for="excerpt">Excerpt</label>
             <textarea class="form-input min-h-24" id="excerpt" name="excerpt" maxlength="255"><?= e($data['excerpt'] ?? ''); ?></textarea>
-            <p class="mt-2 text-xs text-zinc-600">Short summary used on community cards. Maximum 255 characters.</p>
+            <p class="mt-2 text-xs text-slate-600">Short summary used on community cards. Maximum 255 characters.</p>
         </div>
 
         <div>
@@ -55,8 +55,8 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             <textarea class="form-input min-h-56" id="content" name="content" required><?= e($data['content'] ?? ''); ?></textarea>
         </div>
 
-        <section class="rounded-md border border-zinc-200 bg-zinc-50 p-4">
-            <h2 class="text-sm font-semibold text-zinc-950">Optional Event Details</h2>
+        <section class="compact-note">
+            <h2 class="text-sm font-semibold text-slate-950">Optional Event Details</h2>
             <div class="mt-4 grid gap-5 sm:grid-cols-2">
                 <div>
                     <label class="form-label" for="event_date">Event Date</label>
@@ -85,12 +85,12 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
         <div>
             <label class="form-label" for="image">Community Image</label>
             <input class="form-input" id="image" type="file" name="image" accept=".jpg,.jpeg,.png,.webp">
-            <p class="mt-2 text-xs text-zinc-600">Optional. Allowed: JPG, PNG, WEBP. Maximum <?= e($max_upload_mb); ?>MB.</p>
+            <p class="mt-2 text-xs text-slate-600">Optional. Allowed: JPG, PNG, WEBP. Maximum <?= e($max_upload_mb); ?>MB.</p>
             <?php if ($is_edit && !empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
-                <div class="mt-4 rounded-md border border-zinc-200 bg-white p-3">
-                    <p class="text-sm font-medium text-zinc-800">Current image</p>
+                <div class="mt-4 rounded-md border border-slate-200 bg-white p-3">
+                    <p class="text-sm font-medium text-slate-800">Current image</p>
                     <img class="mt-3 h-40 w-full rounded-md object-cover" src="<?= site_url('admin/community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
-                    <p class="mt-2 text-xs text-zinc-600">Uploading a new image replaces this image.</p>
+                    <p class="mt-2 text-xs text-slate-600">Uploading a new image replaces this image.</p>
                 </div>
             <?php elseif ($is_edit && !empty($post['image_path'])): ?>
                 <p class="mt-3 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950">
@@ -99,7 +99,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             <?php endif; ?>
         </div>
 
-        <div class="flex flex-wrap gap-5 text-sm text-zinc-700">
+        <div class="flex flex-wrap gap-5 text-sm text-slate-700">
             <label class="flex items-center gap-3">
                 <input type="checkbox" name="is_published" value="1" <?= ((int) ($data['is_published'] ?? 0) === 1) ? 'checked' : ''; ?>>
                 Published

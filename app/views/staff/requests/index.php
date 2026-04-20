@@ -3,19 +3,19 @@
 
 <?php $base_url = site_url('staff/requests'); ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="workflow-page">
+    <div class="workflow-header">
         <div>
-            <p class="text-sm font-semibold uppercase tracking-normal text-teal-700">Staff Queue</p>
-            <h1 class="mt-2 text-3xl font-bold text-zinc-950">Resident Requests</h1>
-            <p class="mt-3 max-w-2xl text-zinc-700">
+            <p class="workflow-kicker">Staff Queue</p>
+            <h1 class="workflow-title">Resident Requests</h1>
+            <p class="workflow-subtitle">
                 Filter and search submitted requests from residents.
             </p>
         </div>
         <a class="btn-secondary" href="<?= site_url('staff/dashboard'); ?>">Back to Dashboard</a>
     </div>
 
-    <div class="mt-6 rounded-md border border-zinc-200 bg-white p-5">
+    <div class="filter-card mt-6">
         <form class="grid gap-4 md:grid-cols-[0.7fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
             <div>
                 <label class="form-label" for="status">Status</label>
@@ -39,11 +39,11 @@
         </form>
 
         <div class="mt-5 flex flex-wrap gap-2 text-sm">
-            <a class="rounded-md px-3 py-2 <?= ($current_status === 'all') ? 'bg-teal-700 text-white' : 'bg-zinc-100 text-zinc-800 hover:text-teal-700'; ?>" href="<?= $base_url; ?>">
+            <a class="rounded-md px-3 py-2 <?= ($current_status === 'all') ? 'bg-teal-700 text-white' : 'bg-slate-100 text-slate-800 hover:text-teal-700'; ?>" href="<?= $base_url; ?>">
                 All
             </a>
             <?php foreach ($statuses as $status): ?>
-                <a class="rounded-md px-3 py-2 <?= ($current_status === $status) ? 'bg-teal-700 text-white' : 'bg-zinc-100 text-zinc-800 hover:text-teal-700'; ?>" href="<?= $base_url . '?status=' . rawurlencode($status); ?>">
+                <a class="rounded-md px-3 py-2 <?= ($current_status === $status) ? 'bg-teal-700 text-white' : 'bg-slate-100 text-slate-800 hover:text-teal-700'; ?>" href="<?= $base_url . '?status=' . rawurlencode($status); ?>">
                     <?= e(status_label($status)); ?>
                 </a>
             <?php endforeach; ?>
@@ -51,13 +51,13 @@
     </div>
 
     <?php if (empty($requests)): ?>
-        <div class="mt-8 rounded-md border border-zinc-200 bg-white p-5 text-sm text-zinc-600">
+        <div class="empty-state-strong mt-8">
             No requests matched your filters.
         </div>
     <?php else: ?>
-        <div class="mt-8 overflow-x-auto rounded-md border border-zinc-200 bg-white">
-            <table class="w-full text-left text-sm">
-                <thead class="bg-zinc-100 text-zinc-700">
+        <div class="mt-8 workflow-table-wrap">
+            <table class="workflow-table">
+                <thead class="bg-slate-100 text-slate-700">
                     <tr>
                         <th class="px-4 py-3 font-medium">Reference No.</th>
                         <th class="px-4 py-3 font-medium">Resident</th>
@@ -68,12 +68,12 @@
                         <th class="px-4 py-3 font-medium">Action</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-200">
+                <tbody class="divide-y divide-slate-200">
                     <?php foreach ($requests as $request): ?>
                         <tr>
-                            <td class="px-4 py-3 font-medium text-zinc-950"><?= e($request['reference_no']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($request['resident_name']); ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e($request['service_name']); ?></td>
+                            <td class="px-4 py-3 font-medium text-slate-950"><?= e($request['reference_no']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($request['resident_name']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e($request['service_name']); ?></td>
                             <td class="px-4 py-3">
                                 <span class="rounded-md px-2 py-1 text-xs font-medium <?= status_badge_class($request['status']); ?>">
                                     <?= e(status_label($request['status'])); ?>
@@ -85,10 +85,10 @@
                                         <?= e(payment_status_label($request['payment_status'])); ?>
                                     </span>
                                 <?php else: ?>
-                                    <span class="text-xs text-zinc-600">Not required</span>
+                                    <span class="text-xs text-slate-600">Not required</span>
                                 <?php endif; ?>
                             </td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></td>
                             <td class="px-4 py-3">
                                 <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests/' . $request['id']); ?>">
                                     Review

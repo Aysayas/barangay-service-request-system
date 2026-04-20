@@ -3,119 +3,97 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>404 | Not Found</title>
+<title>404 | eBarangayHub</title>
 
 <style nonce="<?= defined('CSP_NONCE') ? CSP_NONCE : '' ?>">
-:root {
-  --bg: #f6f8fb;
-  --card: #ffffff;
-  --text: #0f172a;
-  --muted: #475569;
-  --primary: #dd4814;
-  --border: #e5e7eb;
-  --shadow: 0 8px 18px rgba(2,6,23,.06);
-}
-
 * { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; }
-
+html, body { min-height: 100%; margin: 0; }
 body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  background: var(--bg);
-  color: var(--text);
   display: grid;
   place-items: center;
   padding: 1rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef7f6 100%);
+  color: #0f172a;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-
 .card {
   width: 100%;
-  max-width: 420px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  box-shadow: var(--shadow);
-  padding: 1.25rem;
+  max-width: 520px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 1.5rem;
+  box-shadow: 0 12px 26px rgba(15, 23, 42, .08);
 }
-
 .code {
-  font-size: .7rem;
+  display: inline-flex;
+  border: 1px solid #99f6e4;
+  border-radius: 6px;
+  background: #f0fdfa;
+  padding: .35rem .65rem;
+  color: #0f766e;
+  font-size: .75rem;
   font-weight: 700;
-  color: var(--primary);
-  background: rgba(221,72,20,.08);
-  border: 1px solid rgba(221,72,20,.15);
-  border-radius: 999px;
-  padding: .25rem .6rem;
-  margin-bottom: .6rem;
-  display: inline-block;
+  text-transform: uppercase;
 }
-
 h1 {
-  margin: 0 0 .25rem;
-  font-size: 1.25rem;
-  line-height: 1.2;
+  margin: .9rem 0 .45rem;
+  font-size: clamp(1.65rem, 4vw, 2.25rem);
+  line-height: 1.15;
 }
-
 p {
   margin: 0;
-  font-size: .9rem;
-  color: var(--muted);
+  color: #475569;
+  font-size: .95rem;
+  line-height: 1.65;
 }
-
 .actions {
-  margin-top: 1rem;
   display: flex;
-  gap: .5rem;
+  flex-wrap: wrap;
+  gap: .65rem;
+  margin-top: 1.25rem;
 }
-
 .btn {
-  padding: .5rem .75rem;
-  font-size: .85rem;
-  border-radius: .6rem;
-  border: 1px solid var(--border);
-  background: #fff;
-  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  padding: .65rem .9rem;
+  color: #334155;
+  font-size: .9rem;
+  font-weight: 700;
   text-decoration: none;
-  font-weight: 600;
 }
-
 .btn.primary {
-  background: var(--primary);
-  color: #fff;
-  border-color: transparent;
+  border-color: #0f766e;
+  background: #0f766e;
+  color: #ffffff;
 }
-
 .hint {
-  margin-top: .75rem;
-  font-size: .75rem;
-  color: var(--muted);
-  border-top: 1px dashed var(--border);
-  padding-top: .6rem;
-}
-
-.kbd {
-  font-family: monospace;
-  background: rgba(148,163,184,.15);
-  border: 1px solid rgba(148,163,184,.35);
-  border-radius: .35rem;
-  padding: .1rem .3rem;
+  margin-top: 1rem;
+  border-top: 1px dashed #cbd5e1;
+  padding-top: .85rem;
+  color: #64748b;
+  font-size: .8rem;
 }
 </style>
 </head>
 
 <body>
 <main class="card" role="main">
-  <div class="code">404 • Not Found</div>
+  <div class="code">404 - Page Not Found</div>
   <h1><?= html_escape($heading) ?></h1>
   <p><?= html_escape($message) ?></p>
 
   <div class="actions">
-    <a class="btn primary" href="/">Home</a>
-    <a class="btn" href="javascript:history.back()">Back</a>
+    <a class="btn primary" href="/">Back to Home</a>
+    <a class="btn" href="javascript:history.back()">Go Back</a>
   </div>
 
   <div class="hint">
-    Tip: Press <span class="kbd">Ctrl</span> + <span class="kbd">L</span> to retype the URL.
+    eBarangayHub could not find this page. Check the URL or return to the main portal.
   </div>
 </main>
 </body>

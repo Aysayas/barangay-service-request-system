@@ -1,21 +1,21 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
-    <div class="flex flex-wrap items-start justify-between gap-4">
+<section class="analytics-page">
+    <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
-            <h1 class="page-title">Community Reports</h1>
-            <p class="page-subtitle">Review public community content by category, publish state, featured state, and upcoming events.</p>
+            <h1 class="analytics-title">Community Reports</h1>
+            <p class="analytics-subtitle">Review public community content by category, publish state, featured state, and upcoming events.</p>
         </div>
-        <div class="flex flex-wrap gap-3">
+        <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
             <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
         </div>
     </div>
 
     <?php if (!empty($report_summary['text'])): ?>
-        <section class="surface-card mt-8">
+        <section class="report-summary-card">
             <div class="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <p class="page-kicker">Report Summary</p>
@@ -27,24 +27,24 @@
                     <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
-            <p class="mt-3 text-sm leading-6 text-slate-600"><?= e($report_summary['text']); ?></p>
+            <p class="report-summary-text"><?= e($report_summary['text']); ?></p>
             <?php if (($report_summary['source'] ?? '') === 'fallback' && !empty($report_summary['fallback_reason']) && !in_array($report_summary['fallback_reason'], ['disabled', 'incomplete_config'], true)): ?>
-                <p class="mt-3 text-xs text-zinc-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
+                <p class="mt-3 text-xs text-slate-500">AI summary was unavailable, so eBarangayHub used the local fallback summary.</p>
             <?php endif; ?>
         </section>
     <?php endif; ?>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Total Posts</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['total_posts']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Published</p><p class="mt-2 text-2xl font-bold text-teal-700"><?= e($summary['published_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Unpublished</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['unpublished_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Featured</p><p class="mt-2 text-2xl font-bold text-teal-700"><?= e($summary['featured_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Announcements</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['announcement_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Events</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['event_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Advisories</p><p class="mt-2 text-2xl font-bold text-rose-700"><?= e($summary['advisory_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Programs</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['program_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Resources</p><p class="mt-2 text-2xl font-bold text-zinc-950"><?= e($summary['resource_count']); ?></p></div>
-        <div class="rounded-md border border-zinc-200 bg-white p-5"><p class="text-sm font-medium text-zinc-600">Upcoming Events</p><p class="mt-2 text-2xl font-bold text-amber-700"><?= e($summary['upcoming_event_count']); ?></p></div>
+    <div class="report-metric-grid-wide">
+        <div class="report-metric-card"><p class="metric-label">Total Posts</p><strong><?= e($summary['total_posts']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Published</p><strong class="text-teal-700"><?= e($summary['published_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Unpublished</p><strong class="text-amber-700"><?= e($summary['unpublished_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Featured</p><strong class="text-teal-700"><?= e($summary['featured_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Announcements</p><strong><?= e($summary['announcement_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Events</p><strong class="text-amber-700"><?= e($summary['event_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Advisories</p><strong class="text-rose-700"><?= e($summary['advisory_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Programs</p><strong><?= e($summary['program_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Resources</p><strong><?= e($summary['resource_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Upcoming Events</p><strong class="text-amber-700"><?= e($summary['upcoming_event_count']); ?></strong></div>
     </div>
 
     <form class="filter-card mt-8 grid gap-4 md:grid-cols-6" method="GET" action="<?= site_url('admin/reports/community'); ?>">
@@ -102,15 +102,15 @@
                         <th class="px-4 py-3 font-medium">Created</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-zinc-200">
+                <tbody class="divide-y divide-slate-200">
                     <?php foreach ($rows as $row): ?>
                         <tr>
-                            <td class="px-4 py-3 font-medium text-zinc-950"><?= e($row['title']); ?></td>
+                            <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['title']); ?></td>
                             <td class="px-4 py-3"><span class="status-pill <?= community_category_badge_class($row['category']); ?>"><?= e(community_category_label($row['category'])); ?></span></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= ((int) $row['is_published'] === 1) ? 'Published' : 'Unpublished'; ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= ((int) $row['is_featured'] === 1) ? 'Featured' : 'Not featured'; ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= !empty($row['published_at']) ? e(date('M d, Y', strtotime($row['published_at']))) : 'Not published'; ?></td>
-                            <td class="px-4 py-3 text-zinc-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['is_published'] === 1) ? 'Published' : 'Unpublished'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['is_featured'] === 1) ? 'Featured' : 'Not featured'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= !empty($row['published_at']) ? e(date('M d, Y', strtotime($row['published_at']))) : 'Not published'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
