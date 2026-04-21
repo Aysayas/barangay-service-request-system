@@ -10,6 +10,17 @@ eBarangayHub is a LavaLust-based multi-role barangay web application built for r
 - Main branch-ready project structure
 - Intended for local demo, defense, submission, and guided handoff
 
+## Local Use Focus
+
+This final packaging pass is aimed at:
+
+- local XAMPP use
+- same-Wi-Fi desktop and phone testing
+- classroom demo and defense flow
+- student-friendly handoff to another developer or evaluator
+
+This phase does not prepare the project for Netlify, Vercel, or shared-hosting rewrites.
+
 ## System Overview
 
 The application centralizes common barangay workflows into one server-rendered PHP platform:
@@ -128,6 +139,22 @@ Recommended project location:
 C:\xampp\htdocs\barangay_system_webapp\LavaLust
 ```
 
+## Quick Local Start
+
+If you only need the fastest reliable local setup path, use this order:
+
+1. Copy or clone the project into XAMPP `htdocs`
+2. Start Apache and MySQL in XAMPP
+3. Run `composer install`
+4. Run `npm install`
+5. Import `database/full_database_rebuild.sql`
+6. Copy `.env.example` to `.env`
+7. Update `app/config/database.php` if your MySQL credentials differ from the default local setup
+8. Fill Gmail SMTP and AI values only if you want those optional integrations
+9. Run `npm run build`
+10. Run `npm.cmd run serve`
+11. Open `http://localhost:3000/`
+
 ## Local Installation
 
 ### 1. Place the project inside XAMPP htdocs
@@ -189,7 +216,9 @@ The built-in server uses:
 http://localhost:3000/
 ```
 
-### 7. Test on desktop and mobile on the same network
+## Local Same-Wi-Fi Phone Testing
+
+eBarangayHub is mobile-friendly as a responsive web app. It is not a native mobile app or PWA.
 
 Desktop testing:
 
@@ -232,6 +261,7 @@ Note:
 
 - `npm run serve` uses `localhost:3000`, which is ideal for desktop testing
 - `php -S 0.0.0.0:3000 -t public public/router.php` is more useful when testing from a phone on the same network
+- If the phone still cannot connect, check Windows Firewall and confirm the active network is marked as a private network
 
 ## Database Setup
 
@@ -305,6 +335,21 @@ The app loads `.env` through `app/config/config.php`.
 - If `.env` is missing, the app still runs
 - Gmail SMTP and AI both degrade safely when left disabled or incomplete
 
+### Required vs optional local configuration
+
+Required for the app to run locally:
+
+- `app/config/database.php`
+- `database/full_database_rebuild.sql`
+- `composer install`
+- `npm install`
+- `npm run build`
+
+Optional for extended demo behavior:
+
+- `.env` Gmail SMTP values for live email notifications
+- `.env` AI values for AI-assisted assistant replies and report summaries
+
 ## Gmail SMTP Setup
 
 The app uses Gmail SMTP through PHPMailer.
@@ -360,6 +405,7 @@ Behavior:
 - If `AI_ENABLED=false`, the assistant stays in fallback mode
 - If AI config is incomplete, the app falls back automatically
 - AI failures do not break requests, complaints, reports, or the assistant page
+- If AI is disabled for a final defense, the system still demonstrates assistant fallback mode and fallback report summaries safely
 
 AI log path:
 
@@ -420,15 +466,21 @@ Run local server:
 npm run serve
 ```
 
+Run local server for same-Wi-Fi phone testing:
+
+```bash
+php -S 0.0.0.0:3000 -t public public/router.php
+```
+
 Tailwind dev watch mode:
 
 ```bash
 npm run dev
 ```
 
-## Deployment / Release Readiness Notes
+## Local Transfer / Release Readiness Notes
 
-This phase does not deploy the project automatically, but another machine or server should be prepared with:
+If you need to move the project to another local machine for demo, defense, or handoff, prepare:
 
 - PHP and Apache or another compatible web server
 - MySQL database
@@ -440,17 +492,16 @@ This phase does not deploy the project automatically, but another machine or ser
 - Writable `runtime/` directories
 - Uploaded files copied over if preserving old records
 
-Before a non-local deployment, review:
+Before using it on another local machine, review:
 
 - `app/config/config.php` environment and cookie settings
 - `app/config/database.php` database credentials
 - `app/config/api.php` JWT and token secrets if the API helper will ever be enabled
 - web server document root so it points to the `public/` folder
 
-Production caution notes:
+Local caution notes:
 
-- Set the environment appropriately instead of leaving everything in local debug mode
-- Review local-only secrets and keys in config files before public deployment
+- Review local-only secrets and keys in config files before handing the project to another person
 - Use stronger credentials than the seeded demo accounts
 - Confirm file write permissions for `runtime/`
 - eBarangayHub is a mobile-friendly responsive web app, not a native mobile app or PWA
@@ -497,6 +548,7 @@ Production caution notes:
 - Phone still cannot connect: confirm both devices are on the same Wi-Fi and use the correct IPv4 address from `ipconfig`
 - PowerShell blocks `npm`: use `npm.cmd run serve`
 - App opens on desktop but not on mobile: check Windows Firewall rules for PHP if network access is blocked
+- Connection still blocked: confirm the PC is not using a guest or isolated Wi-Fi mode that prevents device-to-device traffic
 
 ## Suggested Final Demo / Defense Walkthrough
 
@@ -516,6 +568,7 @@ Use this order for a clean live demo:
 12. Open admin reports, charts, and CSV exports
 13. Show the assistant answering in fallback mode or AI-assisted mode
 14. Show admin management pages for services, users, announcements, community, and audit logs
+15. Optional: open the same app on a phone over the same Wi-Fi to show responsive mobile behavior
 
 ## What Is Complete
 
@@ -558,3 +611,17 @@ For another developer or panel member, the fastest reliable setup path is:
 7. run `npm run build`
 8. run `npm run serve`
 9. open `http://localhost:3000/`
+
+## Final Local Packaging Checklist
+
+Before final submission or classroom defense, confirm:
+
+- `database/full_database_rebuild.sql` imports cleanly
+- `composer install` completes without missing dependencies
+- `npm install` and `npm run build` complete successfully
+- `public/assets/css/output.css` exists
+- `runtime/logs/` and `runtime/uploads/` folders are writable
+- `.env` is present if Gmail SMTP or AI will be used
+- `app/config/database.php` matches the local MySQL setup
+- desktop testing works at `http://localhost:3000/`
+- optional same-Wi-Fi phone testing works at `http://YOUR_PC_IP:3000/`

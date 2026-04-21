@@ -37,7 +37,7 @@
                             <td class="px-4 py-3 text-slate-700"><?= e(format_money($service['fee'])); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= ((int) $service['requires_payment'] === 1) ? 'Required' : 'No'; ?></td>
                             <td class="px-4 py-3">
-                                <span class="status-pill <?= ((int) $service['is_active'] === 1) ? 'border-teal-200 bg-teal-50 text-teal-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ((int) $service['is_active'] === 1) ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= ((int) $service['is_active'] === 1) ? 'Active' : 'Disabled'; ?>
                                 </span>
                             </td>

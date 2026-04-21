@@ -34,7 +34,7 @@
                                 <p class="mt-1 text-xs text-slate-600"><?= e($announcement['slug']); ?></p>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="status-pill <?= ((int) $announcement['is_published'] === 1) ? 'border-teal-200 bg-teal-50 text-teal-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ((int) $announcement['is_published'] === 1) ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= ((int) $announcement['is_published'] === 1) ? 'Published' : 'Draft'; ?>
                                 </span>
                             </td>

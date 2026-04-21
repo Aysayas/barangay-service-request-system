@@ -1,0 +1,28 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="480" viewBox="0 0 1800 480" role="img" aria-labelledby="title desc">
+  <title>eBarangayHub primary logo</title>
+  <desc>Primary horizontal logo for eBarangayHub with a civic-tech hub icon, wordmark, and tagline.</desc>
+  <g transform="translate(26 32)">
+    <g transform="translate(18 18)">
+  <circle cx="110" cy="110" r="76" fill="none" stroke="#0D47A1" stroke-width="16" />
+  <path d="M56 104 A54 54 0 0 1 164 104" fill="none" stroke="#0097A7" stroke-width="10" stroke-linecap="round" />
+  <line x1="50" y1="58" x2="79" y2="87" stroke="#0097A7" stroke-width="6" stroke-linecap="round" />
+  <line x1="170" y1="58" x2="141" y2="87" stroke="#0097A7" stroke-width="6" stroke-linecap="round" />
+  <line x1="110" y1="190" x2="110" y2="152" stroke="#0097A7" stroke-width="6" stroke-linecap="round" />
+  <circle cx="46" cy="54" r="12" fill="#0097A7" />
+  <circle cx="174" cy="54" r="12" fill="#43B581" />
+  <circle cx="110" cy="198" r="12" fill="#0D47A1" />
+  <polygon points="74,104 110,79 146,104" fill="#0D47A1" stroke="#263238" stroke-width="5" stroke-linejoin="round" />
+  <rect x="78" y="104" width="64" height="14" rx="4" fill="#EEF2F7" stroke="#263238" stroke-width="5" />
+  <rect x="84" y="122" width="10" height="36" rx="3" fill="#263238" />
+  <rect x="105" y="122" width="10" height="36" rx="3" fill="#263238" />
+  <rect x="126" y="122" width="10" height="36" rx="3" fill="#263238" />
+  <rect x="78" y="160" width="64" height="12" rx="4" fill="#EEF2F7" stroke="#263238" stroke-width="5" />
+  <rect x="107" y="129" width="8" height="29" rx="3" fill="#43B581" />
+  <path d="M62 176 C 82 188, 138 188, 158 176" fill="none" stroke="#0097A7" stroke-width="7" stroke-linecap="round" />
+</g>
+  </g>
+  <text x="352" y="246" font-family="Segoe UI, Arial, sans-serif" font-size="94" font-weight="700">
+    <tspan fill="#0D47A1">eBarangay</tspan><tspan fill="#0097A7">Hub</tspan>
+  </text>
+  <text x="358" y="320" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#263238">Centralized Barangay Services, Reports, and Community Access</text>
+</svg>

@@ -1,11 +1,35 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
+<?php $branding_assets = $branding_assets ?? []; ?>
+<?php $has_primary_logo = !empty($branding_assets['primary']['exists']); ?>
+<?php $has_icon_logo = !empty($branding_assets['icon']['exists']); ?>
     </main>
 
-    <footer class="border-t border-slate-200/80 bg-white/90">
-        <div class="app-shell flex flex-col gap-3 py-6 text-center text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:text-left">
-            <div>
-                <p class="font-semibold text-slate-900">eBarangayHub</p>
-                <p class="mt-1">Centralized Barangay Services, Reports, and Community Access</p>
+    <footer class="site-footer">
+        <div class="app-shell flex flex-col gap-4 py-6 text-center text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:text-left">
+            <div class="footer-brand-lockup">
+                <?php if ($has_primary_logo): ?>
+                    <img
+                        src="<?= e($branding_assets['primary']['url']); ?>"
+                        alt="eBarangayHub"
+                        class="footer-brand-logo"
+                    >
+                <?php elseif ($has_icon_logo): ?>
+                    <img
+                        src="<?= e($branding_assets['icon']['url']); ?>"
+                        alt="eBarangayHub"
+                        class="footer-brand-icon"
+                    >
+                    <div class="footer-brand-copy min-w-0">
+                        <p class="font-semibold text-slate-900">eBarangayHub</p>
+                        <p class="mt-1">Centralized Barangay Services, Reports, and Community Access</p>
+                    </div>
+                <?php else: ?>
+                    <span class="brand-mark">eB</span>
+                    <div class="footer-brand-copy min-w-0">
+                        <p class="font-semibold text-slate-900">eBarangayHub</p>
+                        <p class="mt-1">Centralized Barangay Services, Reports, and Community Access</p>
+                    </div>
+                <?php endif; ?>
             </div>
             <p class="text-xs text-slate-500">Local civic service platform</p>
         </div>

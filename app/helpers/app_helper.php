@@ -115,13 +115,13 @@ if (!function_exists('status_badge_class')) {
     function status_badge_class($status)
     {
         $classes = [
-            'submitted' => 'border border-slate-200 bg-slate-100 text-slate-800',
+            'submitted' => 'border border-blue-200 bg-blue-50 text-blue-900',
             'under_review' => 'border border-amber-200 bg-amber-50 text-amber-900',
             'needs_info' => 'border border-rose-200 bg-rose-50 text-rose-900',
-            'approved' => 'border border-teal-200 bg-teal-50 text-teal-900',
+            'approved' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
             'rejected' => 'border border-rose-200 bg-rose-50 text-rose-900',
             'ready_for_pickup' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'released' => 'border border-teal-200 bg-teal-50 text-teal-900',
+            'released' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
         ];
 
         return $classes[$status] ?? 'border border-slate-200 bg-slate-100 text-slate-800';
@@ -216,8 +216,8 @@ if (!function_exists('payment_status_badge_class')) {
     {
         $classes = [
             'pending_payment' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'payment_submitted' => 'border border-slate-200 bg-slate-100 text-slate-800',
-            'payment_verified' => 'border border-teal-200 bg-teal-50 text-teal-900',
+            'payment_submitted' => 'border border-blue-200 bg-blue-50 text-blue-900',
+            'payment_verified' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
             'payment_rejected' => 'border border-rose-200 bg-rose-50 text-rose-900',
         ];
 
@@ -259,12 +259,12 @@ if (!function_exists('complaint_status_badge_class')) {
     function complaint_status_badge_class($status)
     {
         $classes = [
-            'submitted' => 'border border-slate-200 bg-slate-100 text-slate-800',
+            'submitted' => 'border border-blue-200 bg-blue-50 text-blue-900',
             'under_review' => 'border border-amber-200 bg-amber-50 text-amber-900',
             'needs_info' => 'border border-rose-200 bg-rose-50 text-rose-900',
-            'investigating' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'resolved' => 'border border-teal-200 bg-teal-50 text-teal-900',
-            'closed' => 'border border-teal-200 bg-teal-50 text-teal-900',
+            'investigating' => 'border border-cyan-200 bg-cyan-50 text-cyan-900',
+            'resolved' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
+            'closed' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
             'dismissed' => 'border border-rose-200 bg-rose-50 text-rose-900',
         ];
 
@@ -289,7 +289,7 @@ if (!function_exists('complaint_priority_badge_class')) {
     function complaint_priority_badge_class($priority)
     {
         $classes = [
-            'low' => 'border border-slate-200 bg-slate-100 text-slate-800',
+            'low' => 'border border-blue-200 bg-blue-50 text-blue-900',
             'medium' => 'border border-amber-200 bg-amber-50 text-amber-900',
             'high' => 'border border-rose-200 bg-rose-50 text-rose-900',
         ];
@@ -459,9 +459,9 @@ if (!function_exists('community_category_badge_class')) {
     function community_category_badge_class($category)
     {
         $classes = [
-            'announcement' => 'border border-teal-200 bg-teal-50 text-teal-900',
+            'announcement' => 'border border-blue-200 bg-blue-50 text-blue-900',
             'event' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'program' => 'border border-slate-200 bg-slate-100 text-slate-800',
+            'program' => 'border border-cyan-200 bg-cyan-50 text-cyan-900',
             'advisory' => 'border border-rose-200 bg-rose-50 text-rose-900',
             'resource' => 'border border-slate-200 bg-slate-100 text-slate-800',
         ];

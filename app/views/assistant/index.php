@@ -56,8 +56,8 @@
 
                 <?php if (!empty($question)): ?>
                     <div class="assistant-question-card">
-                        <p class="text-xs font-semibold uppercase tracking-normal text-teal-800">You Asked</p>
-                        <p class="mt-2 text-sm leading-6 text-teal-950"><?= e($question); ?></p>
+                        <p class="text-xs font-semibold uppercase tracking-normal text-blue-800">You Asked</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-900"><?= e($question); ?></p>
                     </div>
                 <?php endif; ?>
 

@@ -24,7 +24,7 @@
                 <?php if (($report_summary['source'] ?? '') === 'fallback'): ?>
                     <span class="status-pill border-slate-200 bg-slate-100 text-slate-700">Fallback</span>
                 <?php else: ?>
-                    <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
+                    <span class="status-pill border-blue-200 bg-blue-50 text-blue-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
             <p class="report-summary-text"><?= e($report_summary['text']); ?></p>

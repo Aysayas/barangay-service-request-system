@@ -2,6 +2,28 @@
 <?php
 $user = auth_user();
 $role = $user['role'] ?? null;
+$branding_directory = ROOT_DIR . 'public' . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'branding' . DIRECTORY_SEPARATOR;
+$branding_assets = [
+    'primary' => [
+        'url' => app_asset('images/branding/logo-primary.png'),
+        'exists' => is_file($branding_directory . 'logo-primary.png'),
+    ],
+    'icon' => [
+        'url' => app_asset('images/branding/logo-icon.png'),
+        'exists' => is_file($branding_directory . 'logo-icon.png'),
+    ],
+    'mono' => [
+        'url' => app_asset('images/branding/logo-mono.png'),
+        'exists' => is_file($branding_directory . 'logo-mono.png'),
+    ],
+    'favicon' => [
+        'url' => app_asset('images/branding/favicon.png'),
+        'exists' => is_file($branding_directory . 'favicon.png'),
+    ],
+];
+$has_primary_logo = !empty($branding_assets['primary']['exists']);
+$has_icon_logo = !empty($branding_assets['icon']['exists']);
+$has_favicon = !empty($branding_assets['favicon']['exists']);
 
 $nav_links = [];
 
@@ -44,16 +66,54 @@ if (!empty($user)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= e($title ?? 'eBarangayHub'); ?></title>
     <link rel="stylesheet" href="<?= app_asset('css/output.css'); ?>">
+    <?php if ($has_favicon): ?>
+        <link rel="icon" type="image/png" href="<?= e($branding_assets['favicon']['url']); ?>">
+    <?php endif; ?>
 </head>
 <body class="min-h-screen text-slate-900">
     <header class="app-header">
         <div class="app-shell flex items-center justify-between gap-4 py-3">
             <a href="<?= site_url('/'); ?>" class="brand-link">
-                <span class="brand-mark">eB</span>
-                <span class="min-w-0">
-                    <span class="block truncate text-base font-bold tracking-normal">eBarangayHub</span>
-                    <span class="hidden text-xs font-medium text-slate-500 sm:block">Centralized Barangay Services</span>
-                </span>
+                <?php if ($has_primary_logo): ?>
+                    <img
+                        src="<?= e($branding_assets['primary']['url']); ?>"
+                        alt="eBarangayHub"
+                        class="brand-primary-logo hidden sm:block"
+                    >
+
+                    <span class="brand-mobile-icon sm:hidden" aria-hidden="true">
+                        <?php if ($has_icon_logo): ?>
+                            <img
+                                src="<?= e($branding_assets['icon']['url']); ?>"
+                                alt=""
+                                class="brand-icon-logo"
+                            >
+                        <?php else: ?>
+                            <span class="brand-mark">eB</span>
+                        <?php endif; ?>
+                    </span>
+                    <span class="sr-only">eBarangayHub</span>
+                <?php elseif ($has_icon_logo): ?>
+                    <span class="brand-compact-lockup">
+                        <img
+                            src="<?= e($branding_assets['icon']['url']); ?>"
+                            alt="eBarangayHub"
+                            class="brand-icon-logo"
+                        >
+                        <span class="brand-compact-copy">
+                            <span class="block truncate text-base font-bold tracking-normal text-slate-950">eBarangayHub</span>
+                            <span class="hidden text-xs font-medium text-slate-500 sm:block">Centralized Barangay Services</span>
+                        </span>
+                    </span>
+                <?php else: ?>
+                    <span class="brand-compact-lockup">
+                        <span class="brand-mark">eB</span>
+                        <span class="brand-compact-copy">
+                            <span class="block truncate text-base font-bold tracking-normal text-slate-950">eBarangayHub</span>
+                            <span class="hidden text-xs font-medium text-slate-500 sm:block">Centralized Barangay Services</span>
+                        </span>
+                    </span>
+                <?php endif; ?>
             </a>
 
             <nav class="desktop-nav" aria-label="Primary navigation">

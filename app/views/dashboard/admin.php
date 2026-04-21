@@ -5,7 +5,7 @@
     <div class="dashboard-hero dashboard-hero-admin">
         <div class="section-heading-row">
             <div>
-                <p class="dashboard-eyebrow text-cyan-700">Admin Management</p>
+                <p class="dashboard-eyebrow text-teal-700">Admin Management</p>
                 <h1 class="dashboard-title">Welcome, <?= e($user['name'] ?? 'Admin'); ?></h1>
                 <p class="dashboard-subtitle">
                     Oversee users, services, requests, complaints, community content, reports, exports, charts, and audit activity from one command center.

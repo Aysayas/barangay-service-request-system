@@ -4,8 +4,20 @@
 <div class="home-page">
 <section class="home-hero">
     <div class="home-hero-inner">
-        <p class="hero-eyebrow">eBarangayHub</p>
-        <h1 class="hero-title">Centralized Barangay Services, Reports, and Community Access</h1>
+        <?php if (!empty($branding_assets['primary']['exists'])): ?>
+            <div class="home-brand-lockup">
+                <img
+                    src="<?= e($branding_assets['primary']['url']); ?>"
+                    alt="eBarangayHub"
+                    class="home-brand-logo"
+                >
+            </div>
+            <p class="hero-eyebrow">Local Civic Service Portal</p>
+            <h1 class="hero-title">A cleaner digital front door for requests, complaints, reports, and community access.</h1>
+        <?php else: ?>
+            <p class="hero-eyebrow">eBarangayHub</p>
+            <h1 class="hero-title">Centralized Barangay Services, Reports, and Community Access</h1>
+        <?php endif; ?>
         <p class="hero-subtitle">
             A polished local service portal for resident requests, complaint tracking, community updates, simulated payments, final documents, reports, and guided assistance.
         </p>
@@ -13,13 +25,13 @@
             Designed for a complete demo flow: residents submit and track, staff process and verify, and admins manage the full barangay service workspace.
         </p>
         <div class="hero-cta-row">
-            <a class="btn-primary bg-white text-teal-800 hover:bg-teal-50" href="<?= site_url('register'); ?>">
+            <a class="hero-btn-primary" href="<?= site_url('register'); ?>">
                 Create Resident Account
             </a>
-            <a class="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white hover:text-teal-800" href="<?= site_url('login'); ?>">
+            <a class="hero-btn-secondary" href="<?= site_url('login'); ?>">
                 Login
             </a>
-            <a class="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white hover:text-teal-800" href="<?= site_url('community'); ?>">
+            <a class="hero-btn-secondary" href="<?= site_url('community'); ?>">
                 View Community
             </a>
         </div>

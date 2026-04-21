@@ -58,7 +58,7 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($row['email']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(ucfirst($row['role'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="status-pill <?= ($row['status'] === 'active') ? 'border-teal-200 bg-teal-50 text-teal-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ($row['status'] === 'active') ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= e(ucfirst($row['status'])); ?>
                                 </span>
                             </td>
