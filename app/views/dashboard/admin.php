@@ -132,7 +132,7 @@
                     <p class="page-kicker">Recent Users</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest account activity</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/users'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('admin/users'); ?>">View all</a>
             </div>
             <div class="data-table-wrap mt-4">
                 <?php if (empty($recent_users)): ?>
@@ -166,7 +166,7 @@
                     <p class="page-kicker">Recent Requests</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest submitted services</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/requests'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('admin/requests'); ?>">View all</a>
             </div>
             <div class="data-table-wrap mt-4">
                 <?php if (empty($recent_requests)): ?>
@@ -192,7 +192,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/requests/' . $request['id']); ?>">
+                                        <a class="inline-action-link" href="<?= site_url('admin/requests/' . $request['id']); ?>">
                                             Open
                                         </a>
                                     </td>
@@ -211,7 +211,7 @@
                 <p class="page-kicker">Recent Complaints</p>
                 <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest resident concern records</h2>
             </div>
-            <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/complaints'); ?>">View all</a>
+            <a class="inline-action-link" href="<?= site_url('admin/complaints'); ?>">View all</a>
         </div>
         <div class="data-table-wrap mt-4">
             <?php if (empty($recent_complaints)): ?>
@@ -239,7 +239,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/complaints/' . $complaint['id']); ?>">
+                                    <a class="inline-action-link" href="<?= site_url('admin/complaints/' . $complaint['id']); ?>">
                                         Open
                                     </a>
                                 </td>

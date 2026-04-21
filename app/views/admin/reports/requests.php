@@ -84,7 +84,7 @@
         <div class="empty-state mt-8">No requests matched the selected filters.</div>
     <?php else: ?>
         <div class="data-table-wrap">
-            <table class="data-table">
+            <table class="data-table report-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Reference</th>

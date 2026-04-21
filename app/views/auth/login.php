@@ -62,7 +62,7 @@
 
         <p class="mt-5 text-center text-sm text-slate-600">
             Need a resident account?
-            <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('register'); ?>">Register</a>
+            <a class="inline-action-link" href="<?= site_url('register'); ?>">Register</a>
         </p>
     </div>
 </section>

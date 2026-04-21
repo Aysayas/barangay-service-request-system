@@ -7,7 +7,7 @@
             <p class="workflow-kicker">Community</p>
             <h1 class="workflow-title max-w-3xl"><?= e($post['title']); ?></h1>
             <div class="mt-4 flex flex-wrap items-center gap-3 text-sm">
-                <span class="rounded-md px-2 py-1 font-medium <?= community_category_badge_class($post['category']); ?>">
+                <span class="status-pill <?= community_category_badge_class($post['category']); ?>">
                     <?= e(community_category_label($post['category'])); ?>
                 </span>
                 <?php if (!empty($post['published_at'])): ?>
@@ -68,7 +68,7 @@
                     <ul class="mt-4 divide-y divide-slate-200 text-sm">
                         <?php foreach ($related_posts as $related): ?>
                             <li class="py-3">
-                                <a class="font-semibold text-slate-950 hover:text-teal-700" href="<?= site_url('community/' . $related['slug']); ?>">
+                                <a class="inline-action-link font-semibold text-slate-950 hover:text-teal-700" href="<?= site_url('community/' . $related['slug']); ?>">
                                     <?= e($related['title']); ?>
                                 </a>
                                 <p class="mt-1 text-slate-600"><?= e(date('M d, Y', strtotime($related['published_at'] ?: $related['created_at']))); ?></p>

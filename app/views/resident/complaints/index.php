@@ -16,13 +16,13 @@
     <?php if (empty($complaints)): ?>
         <div class="empty-state-strong mt-8">
             <p class="text-sm text-slate-600">You have not submitted any complaints yet.</p>
-            <a class="mt-4 inline-block font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/complaints/create'); ?>">
+            <a class="mt-4 inline-action-link" href="<?= site_url('resident/complaints/create'); ?>">
                 Submit your first complaint
             </a>
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">
-            <table class="workflow-table">
+            <table class="workflow-table workflow-table-wide">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>
                         <th class="px-4 py-3 font-medium">Reference No.</th>
@@ -41,18 +41,18 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($complaint['subject']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(complaint_category_label($complaint['category'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= complaint_status_badge_class($complaint['status']); ?>">
+                                <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
                                     <?= e(complaint_status_label($complaint['status'])); ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= complaint_priority_badge_class($complaint['priority']); ?>">
+                                <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                                     <?= e(complaint_priority_label($complaint['priority'])); ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y h:i A', strtotime($complaint['created_at']))); ?></td>
                             <td class="px-4 py-3">
-                                <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/complaints/' . $complaint['id']); ?>">
+                                <a class="inline-action-link" href="<?= site_url('resident/complaints/' . $complaint['id']); ?>">
                                     View Details
                                 </a>
                             </td>

@@ -114,7 +114,7 @@
                     <p class="page-kicker">Recent Requests</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest service activity</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/requests'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('resident/requests'); ?>">View all</a>
             </div>
 
             <?php if (empty($recent_requests)): ?>
@@ -145,7 +145,7 @@
                                     </td>
                                     <td><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/requests/' . $request['id']); ?>">View</a>
+                                        <a class="inline-action-link" href="<?= site_url('resident/requests/' . $request['id']); ?>">View</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -161,7 +161,7 @@
                     <p class="page-kicker">Recent Complaints</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest concern updates</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/complaints'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('resident/complaints'); ?>">View all</a>
             </div>
 
             <?php if (empty($recent_complaints)): ?>
@@ -190,7 +190,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/complaints/' . $complaint['id']); ?>">View</a>
+                                        <a class="inline-action-link" href="<?= site_url('resident/complaints/' . $complaint['id']); ?>">View</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

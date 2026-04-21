@@ -32,7 +32,7 @@ $final_document_exists = !empty($final_document['file_path'])
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Current Status</h2>
                 <div class="mt-3">
-                    <span class="rounded-md px-2 py-1 text-sm font-medium <?= status_badge_class($current_status); ?>">
+                    <span class="status-pill <?= status_badge_class($current_status); ?>">
                         <?= e(status_label($current_status)); ?>
                     </span>
                 </div>
@@ -62,7 +62,7 @@ $final_document_exists = !empty($final_document['file_path'])
                             <h2 class="text-lg font-semibold text-slate-950">Simulated Payment</h2>
                             <p class="mt-1 text-sm text-slate-600">Demo only. Do not send real money.</p>
                         </div>
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= payment_status_badge_class($payment_status); ?>">
+                        <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
                             <?= e(payment_status_label($payment_status)); ?>
                         </span>
                     </div>

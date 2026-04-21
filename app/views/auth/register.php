@@ -102,7 +102,7 @@
 
         <p class="mt-5 text-center text-sm text-slate-600">
             Already registered?
-            <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('login'); ?>">Login</a>
+            <a class="inline-action-link" href="<?= site_url('login'); ?>">Login</a>
         </p>
     </div>
 </section>

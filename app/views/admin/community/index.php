@@ -42,13 +42,13 @@
     <?php if (empty($posts)): ?>
         <div class="empty-state-strong mt-8">
             <p class="text-sm text-slate-600">No community posts yet.</p>
-            <a class="mt-4 inline-block font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/community/create'); ?>">
+            <a class="mt-4 inline-action-link" href="<?= site_url('admin/community/create'); ?>">
                 Create the first community post
             </a>
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">
-            <table class="workflow-table">
+            <table class="workflow-table workflow-table-wide">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>
                         <th class="px-4 py-3 font-medium">Title</th>
@@ -67,7 +67,7 @@
                                 <p class="mt-1 text-xs text-slate-600"><?= e($post['slug']); ?></p>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= community_category_badge_class($post['category']); ?>">
+                                <span class="status-pill <?= community_category_badge_class($post['category']); ?>">
                                     <?= e(community_category_label($post['category'])); ?>
                                 </span>
                             </td>

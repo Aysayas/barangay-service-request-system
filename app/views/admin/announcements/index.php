@@ -17,7 +17,7 @@
         </div>
     <?php else: ?>
         <div class="management-table-wrap">
-            <table class="management-table">
+            <table class="management-table management-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Title</th>
@@ -34,7 +34,7 @@
                                 <p class="mt-1 text-xs text-slate-600"><?= e($announcement['slug']); ?></p>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= ((int) $announcement['is_published'] === 1) ? 'bg-teal-50 text-teal-900' : 'bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ((int) $announcement['is_published'] === 1) ? 'border-teal-200 bg-teal-50 text-teal-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= ((int) $announcement['is_published'] === 1) ? 'Published' : 'Draft'; ?>
                                 </span>
                             </td>

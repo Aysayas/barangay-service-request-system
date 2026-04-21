@@ -45,7 +45,7 @@
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">
-            <table class="workflow-table">
+            <table class="workflow-table workflow-table-wide">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>
                         <th class="px-4 py-3 font-medium">Reference No.</th>
@@ -64,13 +64,13 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($request['resident_name']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e($request['service_name']); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= status_badge_class($request['status']); ?>">
+                                <span class="status-pill <?= status_badge_class($request['status']); ?>">
                                     <?= e(status_label($request['status'])); ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3">
                                 <?php if ((int) $request['requires_payment'] === 1): ?>
-                                    <span class="rounded-md px-2 py-1 text-xs font-medium <?= payment_status_badge_class($request['payment_status']); ?>">
+                                    <span class="status-pill <?= payment_status_badge_class($request['payment_status']); ?>">
                                         <?= e(payment_status_label($request['payment_status'])); ?>
                                     </span>
                                 <?php else: ?>
@@ -79,7 +79,7 @@
                             </td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></td>
                             <td class="px-4 py-3">
-                                <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/requests/' . $request['id']); ?>">
+                                <a class="inline-action-link" href="<?= site_url('admin/requests/' . $request['id']); ?>">
                                     Open
                                 </a>
                             </td>

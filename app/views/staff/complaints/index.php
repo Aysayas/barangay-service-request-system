@@ -56,7 +56,7 @@
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">
-            <table class="workflow-table">
+            <table class="workflow-table workflow-table-wide">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>
                         <th class="px-4 py-3 font-medium">Reference No.</th>
@@ -77,18 +77,18 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($complaint['subject']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(complaint_category_label($complaint['category'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= complaint_status_badge_class($complaint['status']); ?>">
+                                <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
                                     <?= e(complaint_status_label($complaint['status'])); ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= complaint_priority_badge_class($complaint['priority']); ?>">
+                                <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                                     <?= e(complaint_priority_label($complaint['priority'])); ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3 text-slate-700"><?= e($complaint['assigned_to_name'] ?: 'Unassigned'); ?></td>
                             <td class="px-4 py-3">
-                                <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">
+                                <a class="inline-action-link" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">
                                     Review
                                 </a>
                             </td>

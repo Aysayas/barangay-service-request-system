@@ -36,7 +36,7 @@
                             <img class="h-40 w-full object-cover" src="<?= site_url('community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
                         <?php endif; ?>
                         <div class="community-card-body">
-                            <span class="rounded-md px-2 py-1 text-xs font-medium <?= community_category_badge_class($post['category']); ?>">
+                            <span class="status-pill <?= community_category_badge_class($post['category']); ?>">
                                 <?= e(community_category_label($post['category'])); ?>
                             </span>
                             <h3 class="mt-3 font-semibold text-slate-950"><?= e($post['title']); ?></h3>
@@ -64,7 +64,7 @@
                         <article class="surface-card-hover p-4 sm:p-5">
                             <div class="flex flex-wrap items-start justify-between gap-3">
                                 <div>
-                                    <span class="rounded-md px-2 py-1 text-xs font-medium <?= community_category_badge_class($post['category']); ?>">
+                                    <span class="status-pill <?= community_category_badge_class($post['category']); ?>">
                                         <?= e(community_category_label($post['category'])); ?>
                                     </span>
                                     <h3 class="mt-3 text-lg font-semibold text-slate-950"><?= e($post['title']); ?></h3>
@@ -100,7 +100,7 @@
                     <ul class="mt-4 divide-y divide-slate-200 text-sm">
                         <?php foreach ($upcoming_events as $event): ?>
                             <li class="py-3">
-                                <a class="font-semibold text-slate-950 hover:text-teal-700" href="<?= site_url('community/' . $event['slug']); ?>">
+                                <a class="inline-action-link font-semibold text-slate-950 hover:text-teal-700" href="<?= site_url('community/' . $event['slug']); ?>">
                                     <?= e($event['title']); ?>
                                 </a>
                                 <p class="mt-1 text-slate-600"><?= e(community_event_schedule($event)); ?></p>
@@ -118,7 +118,7 @@
                     <ul class="mt-4 divide-y divide-slate-200 text-sm">
                         <?php foreach ($resources as $resource): ?>
                             <li class="py-3">
-                                <a class="font-semibold text-slate-950 hover:text-teal-700" href="<?= site_url('community/' . $resource['slug']); ?>">
+                                <a class="inline-action-link font-semibold text-slate-950 hover:text-teal-700" href="<?= site_url('community/' . $resource['slug']); ?>">
                                     <?= e($resource['title']); ?>
                                 </a>
                                 <p class="mt-1 text-slate-600"><?= e(community_category_label($resource['category'])); ?></p>

@@ -41,7 +41,7 @@
         </div>
     <?php else: ?>
         <div class="management-table-wrap">
-            <table class="management-table">
+            <table class="management-table management-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Name</th>
@@ -58,7 +58,7 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($row['email']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(ucfirst($row['role'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= ($row['status'] === 'active') ? 'bg-teal-50 text-teal-900' : 'bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ($row['status'] === 'active') ? 'border-teal-200 bg-teal-50 text-teal-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= e(ucfirst($row['status'])); ?>
                                 </span>
                             </td>

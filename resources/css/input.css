@@ -49,6 +49,46 @@
         @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8;
     }
 
+    .app-shell,
+    .app-main,
+    .app-header,
+    .surface-card,
+    .surface-card-hover,
+    .metric-card,
+    .metric-card-featured,
+    .filter-card,
+    .empty-state,
+    .empty-state-strong,
+    .auth-intro-card,
+    .auth-card,
+    .home-hero,
+    .dashboard-hero,
+    .section-panel,
+    .flow-step,
+    .workflow-header,
+    .workflow-card,
+    .workflow-form-card,
+    .community-hero,
+    .community-card,
+    .article-panel,
+    .analytics-header,
+    .assistant-hero,
+    .assistant-hero-grid,
+    .assistant-panel,
+    .assistant-prompt-card,
+    .assistant-question-card,
+    .assistant-answer-card,
+    .management-header,
+    .management-form,
+    .report-summary-card,
+    .report-metric-card,
+    .report-link-card,
+    .chart-card,
+    .compact-note,
+    .message-card {
+        @apply min-w-0;
+    }
+
     .app-main > * {
         @apply min-w-0;
     }
@@ -58,7 +98,7 @@
     }
 
     .brand-link {
-        @apply flex min-w-0 items-center gap-3 text-left text-slate-950 transition hover:text-teal-800;
+        @apply flex min-w-0 items-center gap-3 overflow-hidden text-left text-slate-950 transition hover:text-teal-800;
     }
 
     .brand-mark {
@@ -67,6 +107,7 @@
 
     .nav-link {
         @apply inline-flex min-h-10 items-center rounded-md px-2.5 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100;
+        overflow-wrap: anywhere;
     }
 
     .role-pill {
@@ -86,11 +127,11 @@
     }
 
     .mobile-menu-card {
-        @apply max-h-[calc(100vh-4.5rem)] overflow-y-auto overscroll-contain rounded-lg border border-slate-200 bg-white p-4 shadow-sm;
+        @apply max-h-[calc(100vh-4.5rem)] overflow-y-auto overscroll-contain rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4;
     }
 
     .mobile-menu-meta {
-        @apply flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3;
+        @apply flex flex-wrap items-start justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3;
     }
 
     .mobile-nav-list {
@@ -99,6 +140,7 @@
 
     .mobile-nav-link {
         @apply flex min-h-11 items-center rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100;
+        overflow-wrap: anywhere;
     }
 
     .page-kicker {
@@ -106,7 +148,7 @@
     }
 
     .page-title {
-        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+        @apply mt-2 text-2xl font-bold leading-tight tracking-normal text-slate-950 sm:text-4xl;
     }
 
     .page-subtitle {
@@ -151,7 +193,8 @@
     }
 
     .data-table {
-        @apply w-full min-w-max text-left text-sm;
+        @apply w-full text-left text-sm;
+        min-width: 48rem;
     }
 
     .data-table thead {
@@ -164,6 +207,7 @@
 
     .data-table td {
         @apply px-3 py-3 text-slate-700 sm:px-4;
+        overflow-wrap: anywhere;
     }
 
     .data-table tbody {
@@ -217,7 +261,7 @@
     }
 
     .status-pill {
-        @apply inline-flex max-w-full items-center whitespace-normal break-words rounded-md border px-2 py-1 text-xs font-semibold shadow-sm;
+        @apply inline-flex max-w-full items-center justify-center whitespace-normal break-words rounded-md border px-2 py-1 text-center text-xs font-semibold leading-5 shadow-sm;
     }
 
     .message-card {
@@ -306,7 +350,7 @@
     }
 
     .hero-title {
-        @apply mt-3 max-w-3xl text-3xl font-bold tracking-normal text-white sm:text-5xl lg:text-6xl;
+        @apply mt-3 max-w-3xl text-3xl font-bold leading-tight tracking-normal text-white sm:text-5xl lg:text-6xl;
     }
 
     .hero-subtitle {
@@ -350,7 +394,7 @@
     }
 
     .dashboard-title {
-        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+        @apply mt-2 text-2xl font-bold leading-tight tracking-normal text-slate-950 sm:text-4xl;
     }
 
     .dashboard-subtitle {
@@ -436,7 +480,7 @@
     }
 
     .workflow-title {
-        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-3xl;
+        @apply mt-2 text-2xl font-bold leading-tight tracking-normal text-slate-950 sm:text-3xl;
     }
 
     .workflow-subtitle {
@@ -484,7 +528,8 @@
     }
 
     .workflow-table {
-        @apply w-full min-w-max text-left text-sm;
+        @apply w-full text-left text-sm;
+        min-width: 48rem;
     }
 
     .workflow-table thead {
@@ -497,6 +542,7 @@
 
     .workflow-table td {
         @apply px-3 py-3 text-slate-700 sm:px-4;
+        overflow-wrap: anywhere;
     }
 
     .workflow-table tbody {
@@ -527,8 +573,14 @@
         @apply rounded-lg border border-slate-200 bg-slate-50 px-4 py-3;
     }
 
+    .workflow-page .workflow-file-list > li,
+    .workflow-page .workflow-file-list > li > * {
+        @apply min-w-0;
+    }
+
     .workflow-page .workflow-file-list p {
         @apply break-words;
+        overflow-wrap: anywhere;
     }
 
     .workflow-page .workflow-file-list a,
@@ -571,7 +623,8 @@
     }
 
     .queue-tabs a {
-        @apply rounded-md border border-slate-200 bg-white px-3 py-2 font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-800;
+        @apply inline-flex min-h-10 max-w-full items-center justify-center rounded-md border border-slate-200 bg-white px-3 py-2 text-center font-medium text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-800;
+        overflow-wrap: anywhere;
     }
 
     .analytics-page,
@@ -595,7 +648,7 @@
     .analytics-title,
     .assistant-title,
     .management-title {
-        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+        @apply mt-2 text-2xl font-bold leading-tight tracking-normal text-slate-950 sm:text-4xl;
     }
 
     .analytics-subtitle,
@@ -701,6 +754,14 @@
         @apply w-full sm:w-auto;
     }
 
+    .assistant-suggestion-list form {
+        @apply min-w-0;
+    }
+
+    .assistant-suggestion-list .chip {
+        @apply w-full sm:w-auto;
+    }
+
     .assistant-prompt-card {
         @apply rounded-lg border border-slate-200 bg-slate-50 p-4;
     }
@@ -719,7 +780,8 @@
     }
 
     .management-table {
-        @apply w-full min-w-max text-left text-sm;
+        @apply w-full text-left text-sm;
+        min-width: 48rem;
     }
 
     .management-table thead {
@@ -732,6 +794,7 @@
 
     .management-table td {
         @apply px-3 py-3 text-slate-700 sm:px-4;
+        overflow-wrap: anywhere;
     }
 
     .management-table tbody {
@@ -766,6 +829,29 @@
 
     .management-checkbox-grid {
         @apply grid gap-3 text-sm text-slate-700 sm:grid-cols-2;
+    }
+
+    .management-checkbox-grid label {
+        @apply min-w-0;
+    }
+
+    .management-checkbox-grid input {
+        @apply shrink-0;
+    }
+
+    .inline-action-link {
+        @apply inline-flex min-h-10 max-w-full items-center justify-center rounded-md px-3 py-2 text-center text-sm font-medium text-teal-700 transition hover:bg-teal-50 hover:text-teal-800 sm:w-auto sm:justify-start sm:px-0 sm:py-0;
+        overflow-wrap: anywhere;
+    }
+
+    .report-table-wide,
+    .management-table-wide,
+    .workflow-table-wide {
+        min-width: 56rem;
+    }
+
+    .audit-table-wide {
+        min-width: 62rem;
     }
 
     .error-page {

@@ -14,6 +14,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             var mobileMenuButton = document.querySelector('[data-mobile-menu-toggle]');
             var mobileMenuPanel = document.querySelector('[data-mobile-menu-panel]');
+            var appHeader = document.querySelector('.app-header');
 
             if (mobileMenuButton && mobileMenuPanel) {
                 var openIcon = mobileMenuButton.querySelector('[data-mobile-menu-open-icon]');
@@ -22,6 +23,7 @@
                 function setMobileMenuState(isOpen) {
                     mobileMenuPanel.classList.toggle('hidden', !isOpen);
                     mobileMenuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                    document.body.classList.toggle('overflow-hidden', isOpen);
 
                     if (openIcon) {
                         openIcon.classList.toggle('hidden', isOpen);
@@ -42,8 +44,20 @@
                     });
                 });
 
+                mobileMenuPanel.querySelectorAll('form').forEach(function (form) {
+                    form.addEventListener('submit', function () {
+                        setMobileMenuState(false);
+                    });
+                });
+
                 document.addEventListener('keydown', function (event) {
                     if (event.key === 'Escape') {
+                        setMobileMenuState(false);
+                    }
+                });
+
+                document.addEventListener('click', function (event) {
+                    if (!mobileMenuPanel.classList.contains('hidden') && appHeader && !appHeader.contains(event.target)) {
                         setMobileMenuState(false);
                     }
                 });

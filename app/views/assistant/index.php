@@ -45,7 +45,7 @@
                     </p>
                 </div>
 
-                <button class="btn-primary" type="submit">Ask Assistant</button>
+                <button class="btn-primary w-full sm:w-auto" type="submit">Ask Assistant</button>
             </form>
 
             <div class="mt-6 space-y-4">

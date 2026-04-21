@@ -157,7 +157,7 @@
                 <p class="page-kicker">Community Highlights</p>
                 <h2 class="mt-2 text-xl font-bold text-slate-950">Featured public information</h2>
             </div>
-            <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('community'); ?>">View all</a>
+            <a class="inline-action-link" href="<?= site_url('community'); ?>">View all</a>
         </div>
 
         <?php if (empty($community_posts)): ?>
@@ -173,7 +173,7 @@
                     </span>
                     <h3 class="mt-3 font-semibold text-slate-950"><?= e($post['title']); ?></h3>
                     <p class="mt-3 text-sm leading-6 text-slate-600"><?= e(community_post_summary($post)); ?></p>
-                    <a class="mt-4 inline-block font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('community/' . $post['slug']); ?>">
+                    <a class="mt-4 inline-action-link" href="<?= site_url('community/' . $post['slug']); ?>">
                         Open
                     </a>
                 </article>

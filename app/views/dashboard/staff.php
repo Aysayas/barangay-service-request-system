@@ -130,7 +130,7 @@
                     <p class="page-kicker">Incoming Requests</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Recently submitted service work</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests'); ?>">View queue</a>
+                <a class="inline-action-link" href="<?= site_url('staff/requests'); ?>">View queue</a>
             </div>
 
             <?php if (empty($recent_requests)): ?>
@@ -163,7 +163,7 @@
                                     </td>
                                     <td><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests/' . $request['id']); ?>">Review</a>
+                                        <a class="inline-action-link" href="<?= site_url('staff/requests/' . $request['id']); ?>">Review</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -179,7 +179,7 @@
                     <p class="page-kicker">Recent Complaints</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Resident concerns needing review</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints'); ?>">View queue</a>
+                <a class="inline-action-link" href="<?= site_url('staff/complaints'); ?>">View queue</a>
             </div>
 
             <?php if (empty($recent_complaints)): ?>
@@ -210,7 +210,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">Review</a>
+                                        <a class="inline-action-link" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">Review</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

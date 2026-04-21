@@ -35,7 +35,7 @@ $has_final_document = !empty($final_document);
                         <h2 class="text-lg font-semibold text-slate-950">Request Details</h2>
                         <p class="mt-1 text-sm text-slate-600">Submitted <?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></p>
                     </div>
-                    <span class="rounded-md px-2 py-1 text-sm font-medium <?= status_badge_class($request['status']); ?>">
+                    <span class="status-pill <?= status_badge_class($request['status']); ?>">
                         <?= e(status_label($request['status'])); ?>
                     </span>
                 </div>
@@ -142,7 +142,7 @@ $has_final_document = !empty($final_document);
                         <p class="mt-1 text-sm text-slate-600">Payment verification is manual for this demo.</p>
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= payment_status_badge_class($payment_status); ?>">
+                        <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
                             <?= e(payment_status_label($payment_status)); ?>
                         </span>
                     <?php endif; ?>

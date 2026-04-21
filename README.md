@@ -177,11 +177,61 @@ npm run build
 npm run serve
 ```
 
+If Windows PowerShell blocks `npm`, use:
+
+```bash
+npm.cmd run serve
+```
+
 The built-in server uses:
 
 ```text
 http://localhost:3000/
 ```
+
+### 7. Test on desktop and mobile on the same network
+
+Desktop testing:
+
+- Open `http://localhost:3000/` in your PC browser
+
+Mobile testing on the same Wi-Fi:
+
+1. Connect your phone and PC to the same local network
+2. In PowerShell, get your PC IP address:
+
+```bash
+ipconfig
+```
+
+3. Look for the active IPv4 address, for example:
+
+```text
+192.168.1.5
+```
+
+4. If you want phone access, run the PHP server so it listens on the network:
+
+```bash
+php -S 0.0.0.0:3000 -t public public/router.php
+```
+
+5. On the phone browser, open:
+
+```text
+http://YOUR_PC_IP:3000
+```
+
+Example:
+
+```text
+http://192.168.1.5:3000
+```
+
+Note:
+
+- `npm run serve` uses `localhost:3000`, which is ideal for desktop testing
+- `php -S 0.0.0.0:3000 -t public public/router.php` is more useful when testing from a phone on the same network
 
 ## Database Setup
 
@@ -403,6 +453,7 @@ Production caution notes:
 - Review local-only secrets and keys in config files before public deployment
 - Use stronger credentials than the seeded demo accounts
 - Confirm file write permissions for `runtime/`
+- eBarangayHub is a mobile-friendly responsive web app, not a native mobile app or PWA
 
 ## Troubleshooting
 
@@ -440,6 +491,13 @@ Production caution notes:
 - File access problems: make sure `runtime/uploads/` subfolders exist and are writable
 - Missing old uploaded files after moving machines: copy the `runtime/uploads/` content from the old project
 
+### Desktop / Mobile Local Testing
+
+- Phone cannot open the app while PC can: use `php -S 0.0.0.0:3000 -t public public/router.php` instead of `npm run serve`
+- Phone still cannot connect: confirm both devices are on the same Wi-Fi and use the correct IPv4 address from `ipconfig`
+- PowerShell blocks `npm`: use `npm.cmd run serve`
+- App opens on desktop but not on mobile: check Windows Firewall rules for PHP if network access is blocked
+
 ## Suggested Final Demo / Defense Walkthrough
 
 Use this order for a clean live demo:
@@ -475,6 +533,7 @@ Final integrated scope includes:
 - Gmail SMTP notifications
 - AI assistant foundation and AI-assisted summaries with fallbacks
 - full responsive and mobile hardening
+- responsive mobile-friendly web experience for phone-sized browsers
 
 ## Known Limitations
 
@@ -484,7 +543,7 @@ Intentional current limitations:
 - email sending depends on valid Gmail SMTP credentials
 - AI is optional and still scoped tightly to the application domain
 - dense admin/report tables still use horizontal scrolling on small screens where that is safer than hiding data
-- this is a responsive web application, not a native mobile app
+- this is a responsive web application, not a native mobile app or PWA
 
 ## Handoff Summary
 

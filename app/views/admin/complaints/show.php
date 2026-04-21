@@ -20,10 +20,10 @@
                         <p class="mt-1 text-sm text-slate-600">Submitted <?= e(date('M d, Y h:i A', strtotime($complaint['created_at']))); ?></p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= complaint_status_badge_class($complaint['status']); ?>">
+                        <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
                             <?= e(complaint_status_label($complaint['status'])); ?>
                         </span>
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= complaint_priority_badge_class($complaint['priority']); ?>">
+                        <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                             <?= e(complaint_priority_label($complaint['priority'])); ?>
                         </span>
                     </div>
