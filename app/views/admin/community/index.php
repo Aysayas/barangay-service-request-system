@@ -15,7 +15,7 @@
         <a class="btn-primary" href="<?= site_url('admin/community/create'); ?>">Create Post</a>
     </div>
 
-    <div class="filter-card mt-6">
+    <div class="filter-card">
         <form class="grid gap-4 md:grid-cols-[0.7fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
             <div>
                 <label class="form-label" for="category">Category</label>
@@ -32,7 +32,7 @@
                 <label class="form-label" for="search">Search</label>
                 <input class="form-input" id="search" type="text" name="search" value="<?= e($search); ?>" placeholder="Title, excerpt, or content">
             </div>
-            <div class="flex items-end gap-3">
+            <div class="workflow-filter-actions">
                 <button class="btn-primary" type="submit">Apply</button>
                 <a class="btn-secondary" href="<?= $base_url; ?>">Reset</a>
             </div>
@@ -47,7 +47,7 @@
             </a>
         </div>
     <?php else: ?>
-        <div class="mt-8 workflow-table-wrap">
+        <div class="workflow-table-wrap">
             <table class="workflow-table">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>
@@ -75,7 +75,7 @@
                             <td class="px-4 py-3 text-slate-700"><?= ((int) $post['is_featured'] === 1) ? 'Yes' : 'No'; ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($post['updated_at']))); ?></td>
                             <td class="px-4 py-3">
-                                <div class="flex flex-wrap gap-2">
+                                <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/community/edit/' . $post['id']); ?>">Edit</a>
                                     <form method="POST" action="<?= site_url('admin/community/toggle/' . $post['id']); ?>">
                                         <?php csrf_field(); ?>

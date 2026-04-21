@@ -5,6 +5,7 @@
 @layer base {
     html {
         font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-text-size-adjust: 100%;
     }
 
     body {
@@ -30,6 +31,13 @@
     td {
         @apply align-top;
     }
+
+    img,
+    video,
+    canvas,
+    svg {
+        max-width: 100%;
+    }
 }
 
 @layer components {
@@ -38,7 +46,11 @@
     }
 
     .app-main {
-        @apply mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8;
+        @apply mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8;
+    }
+
+    .app-main > * {
+        @apply min-w-0;
     }
 
     .app-header {
@@ -46,7 +58,7 @@
     }
 
     .brand-link {
-        @apply flex items-center gap-3 text-left text-slate-950 transition hover:text-teal-800;
+        @apply flex min-w-0 items-center gap-3 text-left text-slate-950 transition hover:text-teal-800;
     }
 
     .brand-mark {
@@ -54,11 +66,39 @@
     }
 
     .nav-link {
-        @apply rounded-md px-2.5 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100;
+        @apply inline-flex min-h-10 items-center rounded-md px-2.5 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100;
     }
 
     .role-pill {
         @apply rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1.5 text-xs font-semibold text-amber-900;
+    }
+
+    .desktop-nav {
+        @apply hidden flex-wrap items-center justify-end gap-1.5 text-sm lg:flex;
+    }
+
+    .mobile-menu-button {
+        @apply inline-flex min-h-11 items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-slate-700 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100 lg:hidden;
+    }
+
+    .mobile-menu-panel {
+        @apply border-t border-slate-200 bg-white/95 shadow-sm backdrop-blur lg:hidden;
+    }
+
+    .mobile-menu-card {
+        @apply max-h-[calc(100vh-4.5rem)] overflow-y-auto overscroll-contain rounded-lg border border-slate-200 bg-white p-4 shadow-sm;
+    }
+
+    .mobile-menu-meta {
+        @apply flex flex-wrap items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3;
+    }
+
+    .mobile-nav-list {
+        @apply mt-3 grid gap-2;
+    }
+
+    .mobile-nav-link {
+        @apply flex min-h-11 items-center rounded-md border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-teal-300 hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100;
     }
 
     .page-kicker {
@@ -66,7 +106,7 @@
     }
 
     .page-title {
-        @apply mt-2 text-3xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-4xl;
     }
 
     .page-subtitle {
@@ -78,15 +118,15 @@
     }
 
     .surface-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .surface-card-hover {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md sm:p-5;
     }
 
     .metric-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .metric-label {
@@ -98,7 +138,7 @@
     }
 
     .filter-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .empty-state {
@@ -106,11 +146,12 @@
     }
 
     .data-table-wrap {
-        @apply overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+        @apply w-full max-w-full overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+        -webkit-overflow-scrolling: touch;
     }
 
     .data-table {
-        @apply w-full text-left text-sm;
+        @apply w-full min-w-max text-left text-sm;
     }
 
     .data-table thead {
@@ -118,11 +159,11 @@
     }
 
     .data-table th {
-        @apply px-4 py-3 text-xs font-semibold uppercase tracking-normal;
+        @apply px-3 py-3 text-xs font-semibold uppercase tracking-normal sm:px-4;
     }
 
     .data-table td {
-        @apply px-4 py-3 text-slate-700;
+        @apply px-3 py-3 text-slate-700 sm:px-4;
     }
 
     .data-table tbody {
@@ -138,7 +179,13 @@
     }
 
     .form-input {
-        @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500;
+        @apply min-h-11 w-full rounded-md border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-950 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-teal-600 focus:ring-2 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-500;
+    }
+
+    @media (max-width: 639px) {
+        .form-input {
+            font-size: 16px;
+        }
     }
 
     input[type="file"].form-input {
@@ -154,27 +201,27 @@
     }
 
     .btn-primary {
-        @apply inline-flex items-center justify-center rounded-md bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-200 disabled:cursor-not-allowed disabled:bg-slate-300;
+        @apply inline-flex min-h-11 items-center justify-center rounded-md bg-teal-700 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-200 disabled:cursor-not-allowed disabled:bg-slate-300;
     }
 
     .btn-secondary {
-        @apply inline-flex items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400;
+        @apply inline-flex min-h-11 items-center justify-center rounded-md border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-teal-500 hover:bg-teal-50 hover:text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-100 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400;
     }
 
     .btn-danger {
-        @apply inline-flex items-center justify-center rounded-md border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-100;
+        @apply inline-flex min-h-11 items-center justify-center rounded-md border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-700 shadow-sm transition hover:bg-rose-50 focus:outline-none focus:ring-2 focus:ring-rose-100;
     }
 
     .chip {
-        @apply rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-800;
+        @apply inline-flex min-h-10 max-w-full items-center justify-center whitespace-normal break-words rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-center text-sm font-medium text-slate-700 transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-800;
     }
 
     .status-pill {
-        @apply rounded-md border px-2 py-1 text-xs font-semibold shadow-sm;
+        @apply inline-flex max-w-full items-center whitespace-normal break-words rounded-md border px-2 py-1 text-xs font-semibold shadow-sm;
     }
 
     .message-card {
-        @apply mb-6 rounded-lg border bg-white px-4 py-3 text-sm shadow-sm;
+        @apply mb-5 break-words rounded-lg border bg-white px-4 py-3 text-sm shadow-sm sm:mb-6;
     }
 
     .message-dot {
@@ -194,7 +241,11 @@
     }
 
     .auth-intro-card {
-        @apply rounded-lg border border-teal-100 bg-teal-950 p-6 text-white shadow-sm;
+        @apply break-words rounded-lg border border-teal-100 bg-teal-950 p-4 text-white shadow-sm sm:p-6;
+    }
+
+    .auth-intro-card h1 {
+        @apply text-2xl sm:text-3xl;
     }
 
     .auth-intro-card p {
@@ -202,11 +253,11 @@
     }
 
     .auth-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-6 shadow-sm;
+        @apply break-words rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-6;
     }
 
     .auth-title {
-        @apply mt-2 text-3xl font-bold tracking-normal text-slate-950;
+        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-3xl;
     }
 
     .auth-subtitle {
@@ -214,7 +265,7 @@
     }
 
     .home-hero {
-        @apply relative overflow-hidden rounded-lg border border-teal-900/20 bg-teal-950 px-6 py-10 text-white shadow-md sm:px-8 sm:py-12 lg:min-h-[480px] lg:px-10 lg:py-14;
+        @apply relative overflow-hidden rounded-lg border border-teal-900/20 bg-teal-950 px-5 py-8 text-white shadow-md sm:px-8 sm:py-12 lg:min-h-[480px] lg:px-10 lg:py-14;
         background-image:
             linear-gradient(90deg, rgba(15, 118, 110, 0.94) 0%, rgba(15, 118, 110, 0.78) 42%, rgba(15, 23, 42, 0.46) 100%),
             url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1800&q=80");
@@ -222,8 +273,32 @@
         background-size: cover;
     }
 
+    @media (max-width: 639px) {
+        .home-hero {
+            background-image:
+                linear-gradient(180deg, rgba(15, 118, 110, 0.96) 0%, rgba(15, 118, 110, 0.90) 54%, rgba(15, 23, 42, 0.70) 100%),
+                url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1800&q=80");
+        }
+    }
+
+    .home-page {
+        @apply space-y-8 sm:space-y-10;
+    }
+
     .home-hero-inner {
         @apply relative z-10 max-w-3xl;
+    }
+
+    .hero-cta-row {
+        @apply mt-7 grid gap-3 sm:flex sm:flex-wrap;
+    }
+
+    .hero-cta-row > a {
+        @apply w-full sm:w-auto;
+    }
+
+    .hero-stat-grid {
+        @apply mt-6 grid max-w-3xl gap-3 sm:mt-8 sm:grid-cols-3;
     }
 
     .hero-eyebrow {
@@ -231,7 +306,7 @@
     }
 
     .hero-title {
-        @apply mt-3 max-w-3xl text-4xl font-bold tracking-normal text-white sm:text-5xl lg:text-6xl;
+        @apply mt-3 max-w-3xl text-3xl font-bold tracking-normal text-white sm:text-5xl lg:text-6xl;
     }
 
     .hero-subtitle {
@@ -251,7 +326,11 @@
     }
 
     .dashboard-hero {
-        @apply rounded-lg border border-slate-200/90 bg-white p-6 shadow-sm sm:p-7;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-7;
+    }
+
+    .dashboard-page {
+        @apply space-y-7 sm:space-y-8;
     }
 
     .dashboard-hero-resident {
@@ -271,7 +350,7 @@
     }
 
     .dashboard-title {
-        @apply mt-2 text-3xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-4xl;
     }
 
     .dashboard-subtitle {
@@ -279,11 +358,11 @@
     }
 
     .dashboard-action-grid {
-        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-4;
+        @apply grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4;
     }
 
     .action-tile {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-md sm:p-5;
     }
 
     .action-tile-label {
@@ -299,11 +378,17 @@
     }
 
     .section-panel {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .section-heading-row {
-        @apply flex flex-wrap items-start justify-between gap-3;
+        @apply flex flex-col items-start justify-between gap-3 sm:flex-row;
+    }
+
+    .section-heading-row > a,
+    .section-heading-row > form,
+    .section-heading-row > button {
+        @apply w-full sm:w-auto;
     }
 
     .dashboard-work-grid {
@@ -327,7 +412,7 @@
     }
 
     .flow-step {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .flow-step-number {
@@ -335,11 +420,15 @@
     }
 
     .workflow-page {
-        @apply space-y-8;
+        @apply space-y-6 sm:space-y-8;
     }
 
     .workflow-header {
-        @apply flex flex-wrap items-start justify-between gap-4 rounded-lg border border-slate-200/90 bg-white p-6 shadow-sm;
+        @apply flex flex-col items-start justify-between gap-4 rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:flex-row sm:p-6;
+    }
+
+    .workflow-header > a {
+        @apply w-full justify-center sm:w-auto;
     }
 
     .workflow-kicker {
@@ -347,7 +436,7 @@
     }
 
     .workflow-title {
-        @apply mt-2 text-3xl font-bold tracking-normal text-slate-950;
+        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-3xl;
     }
 
     .workflow-subtitle {
@@ -355,15 +444,47 @@
     }
 
     .workflow-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
+    }
+
+    .workflow-form-card {
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-6;
+    }
+
+    .workflow-detail-grid {
+        @apply grid gap-5 sm:gap-6;
+    }
+
+    .workflow-card-grid {
+        @apply grid gap-4;
+    }
+
+    .workflow-filter-actions {
+        @apply flex flex-col gap-3 md:items-end lg:flex-row;
+    }
+
+    .mobile-action-row {
+        @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center;
+    }
+
+    .mobile-action-row > * {
+        @apply w-full sm:w-auto;
     }
 
     .workflow-table-wrap {
-        @apply overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+        @apply w-full max-w-full overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .workflow-table-wrap::before,
+    .data-table-wrap::before,
+    .management-table-wrap::before {
+        content: "Swipe sideways to view more columns.";
+        @apply block border-b border-slate-100 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-500 sm:hidden;
     }
 
     .workflow-table {
-        @apply w-full text-left text-sm;
+        @apply w-full min-w-max text-left text-sm;
     }
 
     .workflow-table thead {
@@ -371,11 +492,11 @@
     }
 
     .workflow-table th {
-        @apply px-4 py-3 text-xs font-semibold uppercase tracking-normal;
+        @apply px-3 py-3 text-xs font-semibold uppercase tracking-normal sm:px-4;
     }
 
     .workflow-table td {
-        @apply px-4 py-3 text-slate-700;
+        @apply px-3 py-3 text-slate-700 sm:px-4;
     }
 
     .workflow-table tbody {
@@ -387,7 +508,11 @@
     }
 
     .workflow-page .workflow-actions {
-        @apply flex flex-wrap gap-3;
+        @apply flex w-full flex-wrap gap-3 sm:w-auto;
+    }
+
+    .workflow-page .workflow-actions > * {
+        @apply w-full sm:w-auto;
     }
 
     .workflow-page .workflow-meta-grid {
@@ -402,8 +527,27 @@
         @apply rounded-lg border border-slate-200 bg-slate-50 px-4 py-3;
     }
 
+    .workflow-page .workflow-file-list p {
+        @apply break-words;
+    }
+
+    .workflow-page .workflow-file-list a,
+    .workflow-page .workflow-file-list span {
+        @apply w-full justify-center sm:w-auto;
+    }
+
+    .workflow-page dl dd,
+    .workflow-page .workflow-subtitle,
+    .workflow-page p {
+        @apply break-words;
+    }
+
+    .workflow-page .filter-card form {
+        @apply items-end;
+    }
+
     .community-hero {
-        @apply rounded-lg border border-teal-100 bg-white p-6 shadow-sm;
+        @apply rounded-lg border border-teal-100 bg-white p-4 shadow-sm sm:p-6;
     }
 
     .community-card {
@@ -419,7 +563,7 @@
     }
 
     .article-content {
-        @apply p-6 text-sm leading-7 text-slate-700;
+        @apply p-4 text-sm leading-7 text-slate-700 sm:p-6;
     }
 
     .queue-tabs {
@@ -436,16 +580,22 @@
         @apply space-y-8;
     }
 
+    .analytics-page p,
+    .assistant-page p,
+    .management-page p {
+        @apply break-words;
+    }
+
     .analytics-header,
     .assistant-hero,
     .management-header {
-        @apply flex flex-wrap items-start justify-between gap-4 rounded-lg border border-slate-200/90 bg-white p-6 shadow-sm;
+        @apply flex flex-col items-start justify-between gap-4 rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:flex-row sm:p-6;
     }
 
     .analytics-title,
     .assistant-title,
     .management-title {
-        @apply mt-2 text-3xl font-bold tracking-normal text-slate-950 sm:text-4xl;
+        @apply mt-2 text-2xl font-bold tracking-normal text-slate-950 sm:text-4xl;
     }
 
     .analytics-subtitle,
@@ -456,11 +606,21 @@
 
     .analytics-actions,
     .management-actions {
-        @apply flex flex-wrap gap-3;
+        @apply flex w-full flex-wrap gap-3 sm:w-auto;
+    }
+
+    .analytics-actions > *,
+    .management-actions > * {
+        @apply w-full sm:w-auto;
+    }
+
+    .analytics-header > a,
+    .management-header > a {
+        @apply w-full justify-center sm:w-auto;
     }
 
     .report-summary-card {
-        @apply rounded-lg border border-teal-100 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-teal-100 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .report-summary-text {
@@ -472,11 +632,11 @@
     }
 
     .report-metric-grid-wide {
-        @apply grid gap-4 sm:grid-cols-2 lg:grid-cols-5;
+        @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-5;
     }
 
     .report-metric-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .report-metric-card strong {
@@ -488,11 +648,39 @@
     }
 
     .chart-card {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
     }
 
     .chart-frame {
-        @apply relative mt-4 h-72 rounded-lg border border-slate-100 bg-slate-50 p-3;
+        @apply relative mt-4 h-72 rounded-lg border border-slate-100 bg-slate-50 p-2 sm:h-80 sm:p-3 lg:h-72;
+    }
+
+    .analytics-grid {
+        @apply grid gap-4 md:grid-cols-2;
+    }
+
+    .analytics-chart-grid {
+        @apply grid gap-4 sm:gap-6 lg:grid-cols-2;
+    }
+
+    .report-filter-grid {
+        @apply grid gap-4 sm:grid-cols-2;
+    }
+
+    .report-filter-grid-5 {
+        @apply lg:grid-cols-3 xl:grid-cols-5;
+    }
+
+    .report-filter-grid-6 {
+        @apply lg:grid-cols-3 xl:grid-cols-6;
+    }
+
+    .report-filter-actions {
+        @apply flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:flex-wrap lg:col-span-1 lg:items-end;
+    }
+
+    .report-filter-actions > * {
+        @apply w-full sm:w-auto;
     }
 
     .assistant-mode-card {
@@ -500,11 +688,17 @@
     }
 
     .assistant-hero-grid {
-        @apply grid gap-6 rounded-lg border border-slate-200/90 bg-white p-6 shadow-sm lg:grid-cols-[1.1fr_0.9fr];
+        @apply grid gap-5 rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-6 lg:grid-cols-[1.1fr_0.9fr];
     }
 
     .assistant-panel {
-        @apply rounded-lg border border-slate-200/90 bg-white p-5 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-5;
+    }
+
+    .assistant-question-form button,
+    .assistant-suggestion-list form,
+    .assistant-suggestion-list button {
+        @apply w-full sm:w-auto;
     }
 
     .assistant-prompt-card {
@@ -520,11 +714,12 @@
     }
 
     .management-table-wrap {
-        @apply overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+        @apply w-full max-w-full overflow-x-auto rounded-lg border border-slate-200/90 bg-white shadow-sm;
+        -webkit-overflow-scrolling: touch;
     }
 
     .management-table {
-        @apply w-full text-left text-sm;
+        @apply w-full min-w-max text-left text-sm;
     }
 
     .management-table thead {
@@ -532,11 +727,11 @@
     }
 
     .management-table th {
-        @apply px-4 py-3 text-xs font-semibold uppercase tracking-normal;
+        @apply px-3 py-3 text-xs font-semibold uppercase tracking-normal sm:px-4;
     }
 
     .management-table td {
-        @apply px-4 py-3 text-slate-700;
+        @apply px-3 py-3 text-slate-700 sm:px-4;
     }
 
     .management-table tbody {
@@ -548,7 +743,29 @@
     }
 
     .management-form {
-        @apply rounded-lg border border-slate-200/90 bg-white p-6 shadow-sm;
+        @apply rounded-lg border border-slate-200/90 bg-white p-4 shadow-sm sm:p-6;
+    }
+
+    .management-page .filter-card form {
+        @apply items-end;
+    }
+
+    .management-filter-actions,
+    .management-row-actions,
+    .management-form-actions {
+        @apply flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center;
+    }
+
+    .management-filter-actions > *,
+    .management-row-actions > *,
+    .management-row-actions form,
+    .management-row-actions button,
+    .management-form-actions > * {
+        @apply w-full sm:w-auto;
+    }
+
+    .management-checkbox-grid {
+        @apply grid gap-3 text-sm text-slate-700 sm:grid-cols-2;
     }
 
     .error-page {

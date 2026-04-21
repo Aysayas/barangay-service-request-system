@@ -66,6 +66,12 @@
             font-weight: 700;
             text-decoration: none;
         }
+        @media (max-width: 480px) {
+            body { align-items: start; padding: .75rem; }
+            .card { padding: 1rem; }
+            .actions { flex-direction: column; }
+            .btn { width: 100%; min-height: 44px; }
+        }
     </style>
 </head>
 <body>

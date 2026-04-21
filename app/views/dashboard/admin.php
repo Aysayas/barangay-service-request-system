@@ -1,7 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
+<section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-admin">
         <div class="section-heading-row">
             <div>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="mt-6">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Management Shortcuts</p>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Executive Snapshot</p>
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div class="metric-card-featured">
             <p class="metric-label">Total Users</p>
             <p class="metric-value"><?= e($user_counts['total_users'] ?? 0); ?></p>
@@ -125,7 +125,7 @@
         </div>
     </div>
 
-    <div class="dashboard-work-grid mt-8">
+    <div class="dashboard-work-grid">
         <section class="section-panel">
             <div class="section-heading-row">
                 <div>
@@ -205,7 +205,7 @@
         </section>
     </div>
 
-    <section class="section-panel mt-8">
+    <section class="section-panel">
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Recent Complaints</p>

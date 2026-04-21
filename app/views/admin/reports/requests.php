@@ -47,7 +47,7 @@
         <div class="report-metric-card"><p class="metric-label">Most Requested</p><strong class="text-base"><?= e($summary['most_requested_service']); ?></strong><p class="mt-1 text-xs text-slate-600"><?= e($summary['most_requested_service_total']); ?> request(s)</p></div>
     </div>
 
-    <form class="filter-card mt-8 grid gap-4 md:grid-cols-5" method="GET" action="<?= site_url('admin/reports/requests'); ?>">
+    <form class="filter-card report-filter-grid report-filter-grid-5" method="GET" action="<?= site_url('admin/reports/requests'); ?>">
         <div>
             <label class="form-label" for="from_date">From</label>
             <input class="form-input" id="from_date" type="date" name="from_date" value="<?= e($filters['from_date']); ?>">
@@ -74,7 +74,7 @@
                 <?php endforeach; ?>
             </select>
         </div>
-        <div class="flex items-end gap-3">
+        <div class="report-filter-actions">
             <button class="btn-primary" type="submit">Apply</button>
             <a class="btn-secondary" href="<?= site_url('admin/reports/requests'); ?>">Reset</a>
         </div>
@@ -83,7 +83,7 @@
     <?php if (empty($rows)): ?>
         <div class="empty-state mt-8">No requests matched the selected filters.</div>
     <?php else: ?>
-        <div class="data-table-wrap mt-8">
+        <div class="data-table-wrap">
             <table class="data-table">
                 <thead>
                     <tr>

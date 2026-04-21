@@ -28,7 +28,7 @@
                 <label class="form-label" for="search">Search</label>
                 <input class="form-input" id="search" type="text" name="search" value="<?= e($search); ?>" placeholder="Name or email">
             </div>
-            <div class="flex items-end gap-3">
+            <div class="management-filter-actions">
                 <button class="btn-primary" type="submit">Apply</button>
                 <a class="btn-secondary" href="<?= $base_url; ?>">Reset</a>
             </div>
@@ -63,7 +63,7 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                <div class="flex flex-wrap gap-2">
+                                <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/users/edit/' . $row['id']); ?>">Edit</a>
                                     <form method="POST" action="<?= site_url('admin/users/toggle/' . $row['id']); ?>">
                                         <?php csrf_field(); ?>

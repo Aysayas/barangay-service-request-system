@@ -1,6 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
+<div class="home-page">
 <section class="home-hero">
     <div class="home-hero-inner">
         <p class="hero-eyebrow">eBarangayHub</p>
@@ -11,7 +12,7 @@
         <p class="hero-support">
             Designed for a complete demo flow: residents submit and track, staff process and verify, and admins manage the full barangay service workspace.
         </p>
-        <div class="mt-7 flex flex-wrap gap-3">
+        <div class="hero-cta-row">
             <a class="btn-primary bg-white text-teal-800 hover:bg-teal-50" href="<?= site_url('register'); ?>">
                 Create Resident Account
             </a>
@@ -22,7 +23,7 @@
                 View Community
             </a>
         </div>
-        <div class="mt-8 hidden max-w-3xl gap-3 sm:grid sm:grid-cols-3">
+        <div class="hero-stat-grid">
             <div class="hero-stat">
                 <strong>Requests</strong>
                 Services, requirements, payments, and final documents
@@ -39,7 +40,7 @@
     </div>
 </section>
 
-<section class="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+<section class="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
     <div class="section-panel">
         <p class="page-kicker">Quick Start</p>
         <h2 class="mt-2 text-2xl font-bold text-slate-950">Start with the right workspace</h2>
@@ -83,7 +84,7 @@
     </div>
 </section>
 
-<section class="mt-10">
+<section>
     <div class="section-heading-row">
         <div>
             <p class="page-kicker">Platform Flow</p>
@@ -109,7 +110,7 @@
     </div>
 </section>
 
-<section class="section-panel mt-10">
+<section class="section-panel">
     <div class="section-heading-row">
         <div>
             <p class="page-kicker">Community</p>
@@ -122,7 +123,7 @@
     </div>
 </section>
 
-<section class="mt-10 grid gap-6 lg:grid-cols-2">
+<section class="grid gap-6 lg:grid-cols-2">
     <div>
         <div class="section-heading-row">
             <div>
@@ -181,5 +182,6 @@
         <?php endif; ?>
     </div>
 </section>
+</div>
 
 <?php require APP_DIR . 'views/layouts/footer.php'; ?>

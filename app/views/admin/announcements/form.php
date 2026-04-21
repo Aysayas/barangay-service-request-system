@@ -31,11 +31,15 @@ $action = $is_edit ? site_url('admin/announcements/update/' . $announcement['id'
             <label class="form-label" for="body">Content</label>
             <textarea class="form-input min-h-48" id="body" name="body" required><?= e($data['body'] ?? ''); ?></textarea>
         </div>
-        <label class="flex items-center gap-3 text-sm text-slate-700">
-            <input type="checkbox" name="is_published" value="1" <?= ((int) ($data['is_published'] ?? 0) === 1) ? 'checked' : ''; ?>>
-            Published
-        </label>
-        <button class="btn-primary" type="submit"><?= $is_edit ? 'Save Changes' : 'Create Announcement'; ?></button>
+        <div class="management-checkbox-grid">
+            <label class="flex items-center gap-3">
+                <input type="checkbox" name="is_published" value="1" <?= ((int) ($data['is_published'] ?? 0) === 1) ? 'checked' : ''; ?>>
+                Published
+            </label>
+        </div>
+        <div class="management-form-actions">
+            <button class="btn-primary" type="submit"><?= $is_edit ? 'Save Changes' : 'Create Announcement'; ?></button>
+        </div>
     </form>
 </section>
 

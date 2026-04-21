@@ -58,6 +58,7 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filePath, $lineNum);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Database Error</title>
     <style nonce="<?= defined('CSP_NONCE') ? CSP_NONCE : '' ?>">
         * { box-sizing: border-box; }
@@ -105,6 +106,7 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filePath, $lineNum);
             font-size: 0.95rem;
             white-space: pre-wrap;
             overflow-x: auto;
+            word-break: break-word;
         }
 
         .trace-entry {
@@ -139,10 +141,12 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filePath, $lineNum);
             padding: 1rem;
             margin-top: 1rem;
             border-radius: 6px;
+            overflow-x: auto;
         }
 
         table {
             width: 100%;
+            min-width: 520px;
             border-collapse: collapse;
             margin-top: 0.5rem;
         }
@@ -199,6 +203,16 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filePath, $lineNum);
             border-left: 4px solid #f92672;
             color: #ffffff;
             font-weight: bold;
+        }
+
+        @media (max-width: 640px) {
+            body { padding: .75rem; }
+            .container { padding: 1rem; }
+            .title { font-size: 1.35rem; }
+            .section { margin-bottom: 1.25rem; }
+            .env-section { padding: .75rem; }
+            .code-preview { font-size: 12px; padding: .75rem; }
+            table { min-width: 480px; }
         }
     </style>
 </head>
@@ -294,5 +308,6 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filePath, $lineNum);
     <div class="footer">
         LavaLust Framework – <?php echo date('Y'); ?> | PHP <?php echo phpversion(); ?>
     </div>
+</div>
 </body>
 </html>

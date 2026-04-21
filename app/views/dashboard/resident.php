@@ -1,7 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
+<section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-resident">
         <div class="section-heading-row">
             <div>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="dashboard-action-grid mt-6">
+    <div class="dashboard-action-grid">
         <a class="action-tile" href="<?= site_url('resident/services'); ?>">
             <span class="action-tile-label">Browse Services</span>
             <span class="action-tile-text block">Choose a barangay service and submit the required details.</span>
@@ -49,7 +49,7 @@
         </a>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Request Snapshot</p>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Complaint Snapshot</p>
@@ -107,7 +107,7 @@
         </div>
     </div>
 
-    <div class="dashboard-work-grid mt-8">
+    <div class="dashboard-work-grid">
         <section class="section-panel">
             <div class="section-heading-row">
                 <div>

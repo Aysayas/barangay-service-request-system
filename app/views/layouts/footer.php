@@ -2,7 +2,7 @@
     </main>
 
     <footer class="border-t border-slate-200/80 bg-white/90">
-        <div class="app-shell flex flex-col gap-2 py-6 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+        <div class="app-shell flex flex-col gap-3 py-6 text-center text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:text-left">
             <div>
                 <p class="font-semibold text-slate-900">eBarangayHub</p>
                 <p class="mt-1">Centralized Barangay Services, Reports, and Community Access</p>
@@ -12,6 +12,49 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            var mobileMenuButton = document.querySelector('[data-mobile-menu-toggle]');
+            var mobileMenuPanel = document.querySelector('[data-mobile-menu-panel]');
+
+            if (mobileMenuButton && mobileMenuPanel) {
+                var openIcon = mobileMenuButton.querySelector('[data-mobile-menu-open-icon]');
+                var closeIcon = mobileMenuButton.querySelector('[data-mobile-menu-close-icon]');
+
+                function setMobileMenuState(isOpen) {
+                    mobileMenuPanel.classList.toggle('hidden', !isOpen);
+                    mobileMenuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+
+                    if (openIcon) {
+                        openIcon.classList.toggle('hidden', isOpen);
+                    }
+
+                    if (closeIcon) {
+                        closeIcon.classList.toggle('hidden', !isOpen);
+                    }
+                }
+
+                mobileMenuButton.addEventListener('click', function () {
+                    setMobileMenuState(mobileMenuPanel.classList.contains('hidden'));
+                });
+
+                mobileMenuPanel.querySelectorAll('a').forEach(function (link) {
+                    link.addEventListener('click', function () {
+                        setMobileMenuState(false);
+                    });
+                });
+
+                document.addEventListener('keydown', function (event) {
+                    if (event.key === 'Escape') {
+                        setMobileMenuState(false);
+                    }
+                });
+
+                window.addEventListener('resize', function () {
+                    if (window.innerWidth >= 1024) {
+                        setMobileMenuState(false);
+                    }
+                });
+            }
+
             document.querySelectorAll('[data-caps-lock-input]').forEach(function (input) {
                 var warningKey = input.getAttribute('data-caps-lock-input');
                 var warning = document.querySelector('[data-caps-lock-warning="' + warningKey + '"]');

@@ -23,7 +23,7 @@
                 <label class="form-label" for="action">Action</label>
                 <input class="form-input" id="action" type="text" name="action" value="<?= e($action); ?>" placeholder="created_service">
             </div>
-            <div class="flex items-end gap-3">
+            <div class="management-filter-actions">
                 <button class="btn-primary" type="submit">Apply</button>
                 <a class="btn-secondary" href="<?= $base_url; ?>">Reset</a>
             </div>

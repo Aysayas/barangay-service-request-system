@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="analytics-grid">
         <a class="report-link-card" href="<?= site_url('admin/reports/requests'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Request Reports</h2>
             <p class="mt-2 text-sm leading-6 text-slate-600">Filter service requests by date, service, and status. Includes payment and final document availability.</p>
@@ -83,7 +83,7 @@
             </p>
         </div>
 
-        <div class="mt-5 grid gap-6 lg:grid-cols-2">
+        <div class="analytics-chart-grid mt-5">
             <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Requests by Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Current service request workload by workflow state.</p>

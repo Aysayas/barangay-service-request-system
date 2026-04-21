@@ -18,10 +18,10 @@
         <a class="btn-secondary" href="<?= site_url('community'); ?>">Back to Community</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_0.35fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[1fr_0.35fr]">
         <article class="article-panel">
             <?php if (!empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
-                <img class="h-72 w-full rounded-t-md object-cover" src="<?= site_url('community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
+                <img class="h-48 w-full rounded-t-md object-cover sm:h-72" src="<?= site_url('community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
             <?php endif; ?>
 
             <div class="article-content">
@@ -32,7 +32,7 @@
                 <div class="mt-5 whitespace-pre-line text-sm leading-7 text-slate-700"><?= e($post['content']); ?></div>
 
                 <?php if (!empty($post['resource_link'])): ?>
-                    <a class="mt-6 inline-flex rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= e($post['resource_link']); ?>" target="_blank" rel="noopener">
+                    <a class="mt-6 inline-flex w-full justify-center rounded-md bg-teal-700 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-800 sm:w-auto" href="<?= e($post['resource_link']); ?>" target="_blank" rel="noopener">
                         Open Resource Link
                     </a>
                 <?php endif; ?>

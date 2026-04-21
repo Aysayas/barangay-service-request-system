@@ -18,10 +18,10 @@
             No active services are available right now.
         </div>
     <?php else: ?>
-        <div class="mt-8 grid gap-4 md:grid-cols-2">
+        <div class="workflow-card-grid sm:grid-cols-2">
             <?php foreach ($services as $service): ?>
                 <article class="workflow-card">
-                    <div class="flex items-start justify-between gap-4">
+                    <div class="flex flex-col items-start gap-3 sm:flex-row sm:justify-between">
                         <h2 class="text-lg font-semibold text-slate-950"><?= e($service['name']); ?></h2>
                         <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-800">
                             <?= ((int) $service['requires_payment'] === 1) ? 'Payment Later' : 'No Payment'; ?>
@@ -35,7 +35,7 @@
                         <p class="mt-1 text-sm leading-6 text-slate-600"><?= e($service['requirements_text']); ?></p>
                     </div>
 
-                    <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+                    <div class="mobile-action-row mt-5 sm:justify-between">
                         <p class="text-sm font-semibold text-slate-950"><?= e(format_money($service['fee'])); ?></p>
                         <a class="btn-primary" href="<?= site_url('resident/requests/create/' . $service['id']); ?>">Request Now</a>
                     </div>

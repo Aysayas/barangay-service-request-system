@@ -15,7 +15,7 @@
         <a class="btn-secondary" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
     </div>
 
-    <div class="filter-card mt-6">
+    <div class="filter-card">
         <form class="grid gap-4 md:grid-cols-[0.7fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
             <div>
                 <label class="form-label" for="status">Status</label>
@@ -32,7 +32,7 @@
                 <label class="form-label" for="search">Search</label>
                 <input class="form-input" id="search" type="text" name="search" value="<?= e($search); ?>" placeholder="Reference, subject, complainant, or category">
             </div>
-            <div class="flex items-end gap-3">
+            <div class="workflow-filter-actions">
                 <button class="btn-primary" type="submit">Apply</button>
                 <a class="btn-secondary" href="<?= $base_url; ?>">Reset</a>
             </div>
@@ -44,7 +44,7 @@
             No complaints matched your filters.
         </div>
     <?php else: ?>
-        <div class="mt-8 workflow-table-wrap">
+        <div class="workflow-table-wrap">
             <table class="workflow-table">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>

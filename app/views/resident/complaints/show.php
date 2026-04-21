@@ -16,7 +16,7 @@ $main_flow = ['submitted', 'under_review', 'needs_info', 'investigating', 'resol
         <a class="btn-secondary" href="<?= site_url('resident/complaints'); ?>">Back to Complaints</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[0.9fr_1.1fr]">
         <div class="space-y-6">
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Current Status</h2>

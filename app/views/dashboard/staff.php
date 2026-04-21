@@ -1,7 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
+<section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-staff">
         <div class="section-heading-row">
             <div>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="dashboard-action-grid mt-6">
+    <div class="dashboard-action-grid">
         <a class="action-tile" href="<?= site_url('staff/requests'); ?>">
             <span class="action-tile-label">Request Queue</span>
             <span class="action-tile-text block">Review requirements, payment state, notes, and final document readiness.</span>
@@ -49,7 +49,7 @@
         </a>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Request Operations</p>
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div class="metric-card-featured">
             <p class="metric-label">Total Requests</p>
             <p class="metric-value"><?= e($counts['total_requests'] ?? 0); ?></p>
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Complaint Operations</p>
@@ -123,7 +123,7 @@
         </div>
     </div>
 
-    <div class="dashboard-work-grid mt-8">
+    <div class="dashboard-work-grid">
         <section class="section-panel">
             <div class="section-heading-row">
                 <div>

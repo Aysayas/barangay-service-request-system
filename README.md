@@ -2,65 +2,182 @@
 
 Centralized Barangay Services, Reports, and Community Access
 
-eBarangayHub is a LavaLust-based barangay web application for handling resident services, complaints, community information, reports, simulated payments, and final document release.
+eBarangayHub is a LavaLust-based multi-role barangay web application built for resident services, staff processing, admin management, complaints, community information, reporting, CSV exports, charts, Gmail SMTP notifications, and a scoped AI-assisted help experience with safe fallbacks.
 
-## Stack
+## Release Status
 
-- PHP framework: LavaLust
-- Local server: XAMPP
-- Database: MySQL via XAMPP/phpMyAdmin
-- Frontend styling: Tailwind CSS
-- Rendering style: server-rendered PHP views
+- Final integrated build after V5
+- Main branch-ready project structure
+- Intended for local demo, defense, submission, and guided handoff
+
+## System Overview
+
+The application centralizes common barangay workflows into one server-rendered PHP platform:
+
+- Residents can register, log in, request services, upload supporting files, submit payment proof for paid services, file complaints, and download final documents when released.
+- Staff can review request queues, inspect uploads, verify payments, update statuses, add notes, and process complaints.
+- Admins can manage services, users, announcements, community content, complaints, audit logs, reports, exports, and charts.
+- The assistant can answer eBarangayHub-specific questions through a rule-based fallback and optional server-side AI integration.
 
 ## Core Modules
 
-- Resident registration, login, logout, and role-based dashboards
-- Resident service request submission with protected attachments
-- Staff request queue, status updates, notes, and payment review
-- Admin service, user, announcement, community, audit log, and report management
-- Protected final document upload and controlled resident download
-- Simulated payment workflow for paid services
-- Complaint submission, tracking, evidence review, and staff processing
-- Public community section for updates, events, advisories, programs, and resources
-- Admin reports with filtered tables, CSV exports, and chart dashboard
-- Virtual help assistant with a rule-based fallback and optional server-side AI foundation
-- Optional Gmail SMTP email notifications for important workflow events
+### Resident
 
-## Local Setup
+- Resident registration and login
+- Resident dashboard
+- Service browsing
+- Request creation with file uploads
+- Request history and detail pages
+- Payment proof submission for paid services
+- Final document visibility and controlled download
+- Complaint submission, evidence upload, and tracking
 
-1. Place the project in your XAMPP `htdocs` folder.
-2. Start Apache and MySQL from XAMPP.
-3. Install PHP mail dependencies:
+### Staff
+
+- Staff dashboard
+- Request queue, search, and filters
+- Request detail review
+- Status updates and notes
+- Payment proof review
+- Final document upload and replacement
+- Complaint queue and complaint review workflow
+
+### Admin
+
+- Admin dashboard
+- Service management
+- User management
+- Announcement management
+- Community management
+- Complaint oversight
+- Audit log review
+- Report summaries, filters, CSV exports, and charts
+
+### Public / Shared
+
+- Homepage
+- Public community pages
+- Assistant page
+- Shared layouts, flash messages, and role-aware navigation
+
+## Tech Stack
+
+- PHP framework: LavaLust
+- PHP dependencies: PHPMailer via Composer
+- Database: MySQL
+- Local stack: XAMPP + phpMyAdmin
+- Styling: Tailwind CSS
+- Charts: local Chart.js asset
+- Rendering style: server-rendered PHP views
+- AI integration style: optional server-side AI calls with safe local fallback
+
+## Project Structure Overview
+
+High-level structure:
+
+```text
+app/
+  config/          Core config, env loading, database config, middleware map
+  controllers/     Resident, staff, admin, assistant, and public controllers
+  helpers/         Shared helper functions and display utilities
+  libraries/       Assistant, AI, notifications, and other reusable services
+  middlewares/     Auth, guest, and role-based route guards
+  models/          Database access and reporting models
+  views/           Public, resident, staff, admin, auth, and error views
+
+database/
+  full_database_rebuild.sql
+  phase_01_auth.sql
+  phase_02_resident_requests.sql
+  phase_03_staff_processing.sql
+  phase_04_admin_management.sql
+  phase_05_final_documents.sql
+  phase_06_simulated_payments.sql
+  phase_07_complaints.sql
+  phase_08_community_section.sql
+
+public/
+  assets/css/output.css   Compiled Tailwind CSS
+  assets/js/chart.umd.js  Local Chart.js asset
+  router.php              Local PHP server router
+
+resources/
+  css/input.css           Tailwind source styles
+
+runtime/
+  logs/                   Notification and AI logs
+  session/                Session security/runtime files
+  uploads/                Resident requests, payment proofs, complaints,
+                          final documents, and community uploads
+```
+
+## Requirements
+
+Minimum local requirements:
+
+- Windows with XAMPP installed
+- PHP compatible with the current LavaLust project setup
+- Apache and MySQL running from XAMPP
+- phpMyAdmin available
+- Composer installed
+- Node.js and npm installed
+
+Recommended project location:
+
+```text
+C:\xampp\htdocs\barangay_system_webapp\LavaLust
+```
+
+## Local Installation
+
+### 1. Place the project inside XAMPP htdocs
+
+Example:
+
+```text
+C:\xampp\htdocs\barangay_system_webapp\LavaLust
+```
+
+### 2. Start XAMPP services
+
+Start these in XAMPP Control Panel:
+
+- Apache
+- MySQL
+
+### 3. Install PHP dependencies
+
+From the project root:
 
 ```bash
 composer install
 ```
 
-If Composer is not installed globally on Windows, install Composer first or use a local `composer.phar`, then run:
+If Composer is not installed globally on Windows:
 
 ```bash
 php composer.phar install
 ```
 
-4. Install frontend dependencies:
+### 4. Install frontend dependencies
 
 ```bash
 npm install
 ```
 
-5. Build Tailwind output:
+### 5. Build Tailwind CSS
 
 ```bash
 npm run build
 ```
 
-6. Start the local server:
+### 6. Start the local application server
 
 ```bash
 npm run serve
 ```
 
-7. Open:
+The built-in server uses:
 
 ```text
 http://localhost:3000/
@@ -68,38 +185,81 @@ http://localhost:3000/
 
 ## Database Setup
 
-For a fresh local rebuild, import this file in phpMyAdmin:
+### Preferred setup: full rebuild
+
+Use the complete rebuild file for a fresh local environment:
 
 ```text
 database/full_database_rebuild.sql
 ```
 
-For phase-by-phase setup, import the files in numeric order:
+Default database name in the current config:
 
 ```text
-phase_01_auth.sql
-phase_02_resident_requests.sql
-phase_03_staff_processing.sql
-phase_04_admin_management.sql
-phase_05_final_documents.sql
-phase_06_simulated_payments.sql
-phase_07_complaints.sql
-phase_08_community_section.sql
+barangay_service_request_system
 ```
 
-Some later phases may be code-only and may not need SQL.
+The database connection is currently configured in:
 
-## Demo Accounts
+```text
+app/config/database.php
+```
 
-After importing the database seed data:
+This project does not currently read MySQL credentials from `.env`. If you use a different MySQL username, password, host, port, or database name, update `app/config/database.php`.
 
-- Admin: `admin@barangay.local` / `password123`
-- Staff: `staff@barangay.local` / `password123`
-- Resident: create a new resident account from the Register page
+### phpMyAdmin import steps
 
-## Email Notifications
+1. Open `http://localhost/phpmyadmin`
+2. Create a database named `barangay_service_request_system`
+3. Open that database
+4. Go to the **Import** tab
+5. Choose:
 
-Email notifications use Gmail SMTP through PHPMailer. Copy `.env.example` to `.env`, then set your Gmail account and Google App Password:
+```text
+database/full_database_rebuild.sql
+```
+
+6. Run the import and wait for success
+
+### Optional phase-by-phase SQL order
+
+Only use this if you specifically need a phased setup:
+
+```text
+database/phase_01_auth.sql
+database/phase_02_resident_requests.sql
+database/phase_03_staff_processing.sql
+database/phase_04_admin_management.sql
+database/phase_05_final_documents.sql
+database/phase_06_simulated_payments.sql
+database/phase_07_complaints.sql
+database/phase_08_community_section.sql
+```
+
+Later phases after these were mostly code, design, AI, reporting, export, and responsiveness work, so they do not add separate SQL files here.
+
+## Environment Setup
+
+Copy the template file:
+
+```text
+.env.example -> .env
+```
+
+The app loads `.env` through `app/config/config.php`.
+
+### Important note
+
+- `.env` is gitignored
+- Keep real credentials out of GitHub
+- If `.env` is missing, the app still runs
+- Gmail SMTP and AI both degrade safely when left disabled or incomplete
+
+## Gmail SMTP Setup
+
+The app uses Gmail SMTP through PHPMailer.
+
+Minimum mail fields in `.env`:
 
 ```text
 MAIL_DRIVER=smtp
@@ -112,17 +272,23 @@ MAIL_FROM_EMAIL=your_gmail_address@gmail.com
 MAIL_FROM_NAME=eBarangayHub Notifications
 ```
 
-Use a Google App Password, not your normal Gmail password. Remove spaces from the App Password before placing it in `.env`.
+Notes:
 
-Email activity is logged here:
+- Use a Google App Password, not your normal Gmail password
+- The app continues working if these values are blank
+- When mail is not configured, notifications are skipped instead of breaking the main workflow
+
+Notification log path:
 
 ```text
 runtime/logs/notifications.log
 ```
 
-## AI Assistant Foundation
+## AI Setup
 
-The assistant works without a real AI key because the rule-based fallback remains active. To prepare real AI testing, add these optional values to `.env`:
+AI is optional. The assistant and report summaries still work with fallback behavior when AI is disabled or incomplete.
+
+Recommended default local setup:
 
 ```text
 AI_ENABLED=false
@@ -139,37 +305,197 @@ AI_MAX_ASSISTANT_CHARS=1200
 AI_MAX_REPORT_SUMMARY_CHARS=700
 ```
 
-Keep `AI_ENABLED=false` for normal local demos. When AI is enabled and configured, the server calls the configured provider from PHP only and uses AI as the primary answer path. If AI is disabled, missing, unsupported, times out, out of scope, or fails output checks, the assistant automatically falls back to the existing rule-based answers.
+Behavior:
 
-`AI_ASSISTANT_ENABLED=true` controls whether the assistant may use the AI provider. `AI_REPORT_SUMMARIES_ENABLED=true` controls admin report summaries. Report summaries use compact metrics that PHP already computed, not raw tables or uploaded files. If AI is disabled or fails, the report pages still show deterministic local fallback summaries.
+- If `AI_ENABLED=false`, the assistant stays in fallback mode
+- If AI config is incomplete, the app falls back automatically
+- AI failures do not break requests, complaints, reports, or the assistant page
 
-`AI_LOG_VERBOSE=false` keeps AI logs quieter during normal local demos. The max character settings keep assistant replies and report summaries concise before they reach the UI.
-
-AI activity is logged here:
+AI log path:
 
 ```text
 runtime/logs/ai.log
 ```
 
-V3 currently uses AI for assistant answers and admin report summaries. It does not add chat history, uploaded-file retrieval, embeddings, autonomous actions, or AI-generated analysis over private files.
+## Demo / Test Accounts
 
-## Maintenance Notes
+After importing `database/full_database_rebuild.sql`:
 
-- `.env` is intentionally gitignored. Keep Gmail credentials out of GitHub.
-- Keep AI API keys in `.env` only. Never place them in views, JavaScript, or committed files.
-- `vendor/` is intentionally gitignored. Run `composer install` after cloning.
-- `node_modules/` is intentionally gitignored. Run `npm install` after cloning.
-- `public/assets/js/chart.umd.js` is a local Chart.js asset for offline demos.
-- `public/assets/css/output.css` is generated from `resources/css/input.css`.
+- Admin: `admin@barangay.local` / `password123`
+- Staff: `staff@barangay.local` / `password123`
+- Resident: create one from the register page
 
-## Quick Troubleshooting
+These are intended for local demo and defense use only.
 
-- Blank page or route issue: restart the local server with `npm run serve`.
-- Missing database table: import `database/full_database_rebuild.sql` into phpMyAdmin.
-- Tailwind styles missing: run `npm run build`.
-- Email not received: check `runtime/logs/notifications.log`.
-- Email log says SMTP config is incomplete: fill `MAIL_USERNAME`, `MAIL_PASSWORD`, and `MAIL_FROM_EMAIL` in `.env`.
-- Email log says SMTP send failed: confirm Gmail 2-Step Verification is enabled and the App Password is correct.
-- Assistant stays in fallback mode: this is expected when `AI_ENABLED=false` or AI config is incomplete.
-- AI not responding: check `runtime/logs/ai.log`, then confirm `AI_ENABLED`, `AI_PROVIDER`, `AI_API_KEY`, and `AI_MODEL`.
-- Charts not showing: confirm `public/assets/js/chart.umd.js` exists.
+## Runtime and Upload Notes
+
+Runtime content is not fully tracked in Git and must be writable on the target machine.
+
+Important runtime areas:
+
+```text
+runtime/logs/
+runtime/session/
+runtime/uploads/resident_requests/
+runtime/uploads/payment_proofs/
+runtime/uploads/complaints/
+runtime/uploads/final_documents/
+runtime/uploads/community/
+```
+
+Notes:
+
+- Existing uploads only move with the project if you copy the `runtime/uploads/` content
+- A fresh deployment can start with empty upload folders
+- The web server must be able to write to these runtime directories
+
+## Useful Commands
+
+Install dependencies:
+
+```bash
+composer install
+npm install
+```
+
+Build CSS:
+
+```bash
+npm run build
+```
+
+Run local server:
+
+```bash
+npm run serve
+```
+
+Tailwind dev watch mode:
+
+```bash
+npm run dev
+```
+
+## Deployment / Release Readiness Notes
+
+This phase does not deploy the project automatically, but another machine or server should be prepared with:
+
+- PHP and Apache or another compatible web server
+- MySQL database
+- Composer dependencies installed
+- Node dependencies installed at least once for CSS build
+- A valid `public/assets/css/output.css`
+- A configured `app/config/database.php`
+- A copied `.env` file if Gmail SMTP or AI will be used
+- Writable `runtime/` directories
+- Uploaded files copied over if preserving old records
+
+Before a non-local deployment, review:
+
+- `app/config/config.php` environment and cookie settings
+- `app/config/database.php` database credentials
+- `app/config/api.php` JWT and token secrets if the API helper will ever be enabled
+- web server document root so it points to the `public/` folder
+
+Production caution notes:
+
+- Set the environment appropriately instead of leaving everything in local debug mode
+- Review local-only secrets and keys in config files before public deployment
+- Use stronger credentials than the seeded demo accounts
+- Confirm file write permissions for `runtime/`
+
+## Troubleshooting
+
+### XAMPP / MySQL
+
+- Apache or MySQL not starting: restart XAMPP as administrator and check port conflicts
+- Database connection failing: verify `app/config/database.php`
+- Missing tables or columns: re-import `database/full_database_rebuild.sql`
+
+### Composer / PHP
+
+- PHPMailer missing: run `composer install`
+- Duplicate `mysqli` or `openssl` warnings during local CLI checks: review local PHP/XAMPP extension loading; these warnings do not automatically mean the app code is broken
+
+### Tailwind / Frontend
+
+- Styling missing: run `npm install` and `npm run build`
+- Local CSS not updating while working: run `npm run dev`
+- Charts not showing: confirm `public/assets/js/chart.umd.js` exists
+
+### Email
+
+- No email received: check `runtime/logs/notifications.log`
+- SMTP config incomplete: fill `MAIL_USERNAME`, `MAIL_PASSWORD`, and `MAIL_FROM_EMAIL`
+- Gmail still not sending: verify 2-Step Verification and use a Google App Password
+
+### AI
+
+- Assistant stays in fallback mode: expected when AI is disabled or incomplete
+- AI summaries not appearing: check `runtime/logs/ai.log` and review `.env`
+- If AI is left disabled, the app still works through local fallbacks
+
+### Uploads / Runtime
+
+- File access problems: make sure `runtime/uploads/` subfolders exist and are writable
+- Missing old uploaded files after moving machines: copy the `runtime/uploads/` content from the old project
+
+## Suggested Final Demo / Defense Walkthrough
+
+Use this order for a clean live demo:
+
+1. Register a resident account or log in as an existing resident
+2. Open the resident dashboard
+3. Create a service request with an attachment
+4. Submit payment proof for a paid service if needed
+5. Log in as staff
+6. Review the request queue, inspect attachments, and verify or reject payment
+7. Approve the request and upload the final document
+8. Return to the resident account and download the final document
+9. Submit a complaint with evidence
+10. Log in as staff or admin and process the complaint
+11. Open the public community section
+12. Open admin reports, charts, and CSV exports
+13. Show the assistant answering in fallback mode or AI-assisted mode
+14. Show admin management pages for services, users, announcements, community, and audit logs
+
+## What Is Complete
+
+Final integrated scope includes:
+
+- multi-role auth and dashboards
+- resident request workflow
+- payment proof workflow
+- final document workflow
+- complaints module
+- community module
+- admin management tools
+- audit logging
+- reports, CSV exports, and charts
+- Gmail SMTP notifications
+- AI assistant foundation and AI-assisted summaries with fallbacks
+- full responsive and mobile hardening
+
+## Known Limitations
+
+Intentional current limitations:
+
+- payment flow is simulated, not connected to a live gateway
+- email sending depends on valid Gmail SMTP credentials
+- AI is optional and still scoped tightly to the application domain
+- dense admin/report tables still use horizontal scrolling on small screens where that is safer than hiding data
+- this is a responsive web application, not a native mobile app
+
+## Handoff Summary
+
+For another developer or panel member, the fastest reliable setup path is:
+
+1. clone or copy the project into XAMPP `htdocs`
+2. run `composer install`
+3. run `npm install`
+4. import `database/full_database_rebuild.sql`
+5. copy `.env.example` to `.env`
+6. fill Gmail SMTP and AI values only if needed
+7. run `npm run build`
+8. run `npm run serve`
+9. open `http://localhost:3000/`

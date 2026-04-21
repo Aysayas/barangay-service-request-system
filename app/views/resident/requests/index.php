@@ -21,7 +21,7 @@
             </a>
         </div>
     <?php else: ?>
-        <div class="mt-8 workflow-table-wrap">
+        <div class="workflow-table-wrap">
             <table class="workflow-table">
                 <thead class="bg-slate-100 text-slate-700">
                     <tr>

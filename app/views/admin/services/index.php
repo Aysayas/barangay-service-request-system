@@ -42,7 +42,7 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                <div class="flex flex-wrap gap-2">
+                                <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/services/edit/' . $service['id']); ?>">Edit</a>
                                     <form method="POST" action="<?= site_url('admin/services/toggle/' . $service['id']); ?>">
                                         <?php csrf_field(); ?>

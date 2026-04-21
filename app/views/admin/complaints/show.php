@@ -11,7 +11,7 @@
         <a class="btn-secondary" href="<?= site_url('admin/complaints'); ?>">Back to Complaints</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[1fr_0.9fr]">
         <div class="space-y-6">
             <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">

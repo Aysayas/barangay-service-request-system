@@ -16,7 +16,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
         <a class="btn-secondary" href="<?= site_url('admin/requests'); ?>">Back to Requests</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[1fr_0.9fr]">
         <div class="space-y-6">
             <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
@@ -125,7 +125,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                             && safe_storage_path($payment['proof_file_path'], 'runtime/uploads/payment_proofs') !== null;
                     ?>
                     <?php if (!empty($payment['proof_file_path']) && $payment_proof_exists): ?>
-                        <a class="mt-4 inline-flex rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 hover:border-teal-600 hover:text-teal-700" target="_blank" href="<?= site_url('admin/requests/payment-proof/' . $payment['id']); ?>">
+                        <a class="mt-4 inline-flex w-full justify-center rounded-md border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-800 hover:border-teal-600 hover:text-teal-700 sm:w-auto" target="_blank" href="<?= site_url('admin/requests/payment-proof/' . $payment['id']); ?>">
                             Open Payment Proof
                         </a>
                     <?php elseif (!empty($payment['proof_file_path'])): ?>
@@ -154,7 +154,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                             by <?= e($final_document['uploaded_by_name']); ?>
                         </p>
                         <?php if ($final_document_exists): ?>
-                            <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('admin/requests/final-document/' . $request['id']); ?>">
+                            <a class="mt-3 inline-flex w-full justify-center rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800 sm:w-auto" href="<?= site_url('admin/requests/final-document/' . $request['id']); ?>">
                                 Download Final Document
                             </a>
                         <?php else: ?>
