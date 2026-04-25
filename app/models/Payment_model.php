@@ -51,6 +51,17 @@ class Payment_model extends Model
         ];
     }
 
+    public function awaiting_review_count()
+    {
+        $sql = "SELECT COUNT(*) AS total
+                FROM payments
+                WHERE payment_status = 'payment_submitted'";
+
+        $row = $this->db->raw($sql)->fetch(PDO::FETCH_ASSOC);
+
+        return (int) ($row['total'] ?? 0);
+    }
+
     public function find_for_request($request_id)
     {
         $sql = "SELECT p.*,

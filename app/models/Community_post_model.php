@@ -88,6 +88,17 @@ class Community_post_model extends Model
         return $this->db->raw($sql, $params)->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function published_count()
+    {
+        $sql = "SELECT COUNT(*) AS total
+                FROM community_posts
+                WHERE is_published = 1";
+
+        $row = $this->db->raw($sql)->fetch(PDO::FETCH_ASSOC);
+
+        return (int) ($row['total'] ?? 0);
+    }
+
     public function featured($limit = 3)
     {
         $sql = "SELECT *

@@ -111,6 +111,38 @@ class Service_request_model extends Model
         ];
     }
 
+    public function resident_next_action_counts($user_id)
+    {
+        $sql = "SELECT
+                    SUM(CASE
+                        WHEN sr.status NOT IN ('released', 'rejected') THEN 1 ELSE 0
+                    END) AS active_request_count,
+                    SUM(CASE
+                        WHEN s.requires_payment = 1
+                             AND COALESCE(p.payment_status, 'pending_payment') IN ('pending_payment', 'payment_rejected')
+                             AND sr.status NOT IN ('released', 'rejected')
+                        THEN 1 ELSE 0
+                    END) AS pending_payment_proof_count,
+                    SUM(CASE
+                        WHEN rfd.id IS NOT NULL
+                             AND sr.status IN ('approved', 'ready_for_pickup', 'released')
+                        THEN 1 ELSE 0
+                    END) AS ready_document_count
+                FROM service_requests sr
+                INNER JOIN services s ON s.id = sr.service_id
+                LEFT JOIN payments p ON p.request_id = sr.id
+                LEFT JOIN request_final_documents rfd ON rfd.request_id = sr.id
+                WHERE sr.user_id = ?";
+
+        $row = $this->db->raw($sql, [(int) $user_id])->fetch(PDO::FETCH_ASSOC);
+
+        return [
+            'active_request_count' => (int) ($row['active_request_count'] ?? 0),
+            'pending_payment_proof_count' => (int) ($row['pending_payment_proof_count'] ?? 0),
+            'ready_document_count' => (int) ($row['ready_document_count'] ?? 0),
+        ];
+    }
+
     public function staff_counts()
     {
         $sql = "SELECT
@@ -141,10 +173,16 @@ class Service_request_model extends Model
     public function recent_for_staff($limit = 6)
     {
         $sql = "SELECT sr.*, s.name AS service_name,
+                       s.requires_payment,
+                       CASE
+                           WHEN s.requires_payment = 1 THEN COALESCE(p.payment_status, 'pending_payment')
+                           ELSE NULL
+                       END AS payment_status,
                        CONCAT(u.first_name, ' ', u.last_name) AS resident_name
                 FROM service_requests sr
                 INNER JOIN services s ON s.id = sr.service_id
                 INNER JOIN users u ON u.id = sr.user_id
+                LEFT JOIN payments p ON p.request_id = sr.id
                 ORDER BY sr.created_at DESC
                 LIMIT " . (int) $limit;
 

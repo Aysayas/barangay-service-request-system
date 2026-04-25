@@ -40,6 +40,17 @@ class Audit_log_model extends Model
         return $this->db->raw($sql, [$target_type, (int) $target_id])->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function recent_for_dashboard($limit = 5)
+    {
+        $sql = "SELECT al.*, CONCAT(u.first_name, ' ', u.last_name) AS user_name
+                FROM audit_logs al
+                LEFT JOIN users u ON u.id = al.user_id
+                ORDER BY al.created_at DESC
+                LIMIT " . (int) $limit;
+
+        return $this->db->raw($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function list_for_admin($search = '', $action = '')
     {
         $params = [];

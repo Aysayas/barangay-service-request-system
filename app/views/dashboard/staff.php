@@ -1,5 +1,10 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
+<?php
+$payment_review_count = (int) ($payment_review_count ?? 0);
+$complaints_awaiting_action = (int) (($complaint_counts['submitted_count'] ?? 0) + ($complaint_counts['under_review_count'] ?? 0) + ($complaint_counts['needs_info_count'] ?? 0) + ($complaint_counts['investigating_count'] ?? 0));
+$document_flow_count = (int) (($counts['approved_count'] ?? 0) + ($counts['ready_for_pickup_count'] ?? 0));
+?>
 
 <section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-staff">
@@ -8,27 +13,62 @@
                 <p class="dashboard-eyebrow text-amber-700">Staff Operations</p>
                 <h1 class="dashboard-title">Welcome, <?= e($user['name'] ?? 'Staff'); ?></h1>
                 <p class="dashboard-subtitle">
-                    Review incoming service requests, verify payment proofs, process complaints, and keep resident workflows moving.
+                    Start with new requests, review submitted payment proof, update active complaints, and release final documents when records are ready.
                 </p>
             </div>
             <a class="btn-primary" href="<?= site_url('staff/requests'); ?>">Open Request Queue</a>
         </div>
 
-        <div class="mini-stat-grid mt-6">
+        <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <div class="mini-stat">
                 <p class="mini-stat-label">Submitted Requests</p>
                 <p class="mini-stat-value text-amber-700"><?= e($counts['submitted_count'] ?? 0); ?></p>
             </div>
             <div class="mini-stat">
-                <p class="mini-stat-label">Needs Info</p>
-                <p class="mini-stat-value text-rose-700"><?= e($counts['needs_info_count'] ?? 0); ?></p>
+                <p class="mini-stat-label">Payment Proof Review</p>
+                <p class="mini-stat-value text-amber-700"><?= e($payment_review_count); ?></p>
             </div>
             <div class="mini-stat">
-                <p class="mini-stat-label">Investigating Complaints</p>
-                <p class="mini-stat-value text-amber-700"><?= e($complaint_counts['investigating_count'] ?? 0); ?></p>
+                <p class="mini-stat-label">Complaint Actions</p>
+                <p class="mini-stat-value text-amber-700"><?= e($complaints_awaiting_action); ?></p>
+            </div>
+            <div class="mini-stat">
+                <p class="mini-stat-label">Document Flow</p>
+                <p class="mini-stat-value text-teal-700"><?= e($document_flow_count); ?></p>
             </div>
         </div>
     </div>
+
+    <section class="section-panel">
+        <div class="section-heading-row">
+            <div>
+                <p class="page-kicker">Today's Priority</p>
+                <h2 class="mt-2 text-xl font-bold text-slate-950">Next work to review</h2>
+            </div>
+        </div>
+        <div class="dashboard-action-grid mt-4">
+            <a class="action-tile" href="<?= site_url('staff/requests') . '?status=submitted'; ?>">
+                <span class="action-tile-label">New Requests</span>
+                <span class="metric-value block text-amber-700"><?= e($counts['submitted_count'] ?? 0); ?></span>
+                <span class="action-tile-text block">Open newly submitted service requests for first review.</span>
+            </a>
+            <a class="action-tile" href="<?= site_url('staff/requests'); ?>">
+                <span class="action-tile-label">Payment Proofs Awaiting Review</span>
+                <span class="metric-value block text-amber-700"><?= e($payment_review_count); ?></span>
+                <span class="action-tile-text block">Check submitted proof and record the verification decision.</span>
+            </a>
+            <a class="action-tile" href="<?= site_url('staff/complaints') . '?status=submitted'; ?>">
+                <span class="action-tile-label">Complaints Awaiting Action</span>
+                <span class="metric-value block text-amber-700"><?= e($complaints_awaiting_action); ?></span>
+                <span class="action-tile-text block">Review resident concerns that need staff handling.</span>
+            </a>
+            <a class="action-tile" href="<?= site_url('staff/requests') . '?status=approved'; ?>">
+                <span class="action-tile-label">Final Document Flow</span>
+                <span class="metric-value block text-teal-700"><?= e($document_flow_count); ?></span>
+                <span class="action-tile-text block">Upload, replace, or release final documents for ready records.</span>
+            </a>
+        </div>
+    </section>
 
     <div class="dashboard-action-grid">
         <a class="action-tile" href="<?= site_url('staff/requests'); ?>">
@@ -146,6 +186,7 @@
                                 <th>Resident</th>
                                 <th>Service</th>
                                 <th>Status</th>
+                                <th>Payment</th>
                                 <th>Date</th>
                                 <th>Action</th>
                             </tr>
@@ -160,6 +201,15 @@
                                         <span class="status-pill <?= status_badge_class($request['status']); ?>">
                                             <?= e(status_label($request['status'])); ?>
                                         </span>
+                                    </td>
+                                    <td>
+                                        <?php if ((int) ($request['requires_payment'] ?? 0) === 1): ?>
+                                            <span class="status-pill <?= payment_status_badge_class($request['payment_status']); ?>">
+                                                <?= e(payment_status_label($request['payment_status'])); ?>
+                                            </span>
+                                        <?php else: ?>
+                                            <span class="status-pill badge-neutral">Not Required</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
                                     <td>
