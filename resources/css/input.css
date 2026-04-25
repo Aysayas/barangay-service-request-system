@@ -412,12 +412,48 @@
         @apply inline-flex max-w-full items-center justify-center whitespace-normal break-words rounded-md border px-2 py-1 text-center text-xs font-semibold leading-5 shadow-sm;
     }
 
+    .badge-neutral {
+        @apply border border-slate-200 bg-slate-100 text-slate-800;
+    }
+
+    .badge-info {
+        @apply border border-blue-200 bg-blue-50 text-blue-900;
+    }
+
+    .badge-success {
+        @apply border border-emerald-200 bg-emerald-50 text-emerald-900;
+    }
+
+    .badge-warning {
+        @apply border border-amber-200 bg-amber-50 text-amber-900;
+    }
+
+    .badge-danger {
+        @apply border border-rose-200 bg-rose-50 text-rose-900;
+    }
+
     .message-card {
         @apply mb-5 break-words rounded-lg border bg-white px-4 py-3 text-sm shadow-sm sm:mb-6;
     }
 
     .message-dot {
         @apply mt-1 h-2.5 w-2.5 shrink-0 rounded-full;
+    }
+
+    .alert-success {
+        @apply rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm leading-6 text-emerald-950;
+    }
+
+    .alert-warning {
+        @apply rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-6 text-amber-950;
+    }
+
+    .alert-danger {
+        @apply rounded-lg border border-rose-200 bg-rose-50 px-4 py-3 text-sm leading-6 text-rose-950;
+    }
+
+    .alert-info {
+        @apply rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-950;
     }
 
     .compact-note {

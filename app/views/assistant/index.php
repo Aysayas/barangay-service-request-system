@@ -7,7 +7,7 @@
             <p class="page-kicker">Virtual Help Assistant</p>
             <h1 class="assistant-title">Virtual Help Assistant</h1>
             <p class="assistant-subtitle">
-                Ask about services, requirements, request statuses, simulated payments, complaints, reports, community updates, and final documents.
+                Ask about services, requirements, request statuses, payment proof, complaints, reports, community updates, and final documents.
             </p>
             <p class="assistant-mode-card">
                 Current mode: <span class="font-semibold text-slate-950"><?= e($assistant_mode_label); ?></span>.
@@ -92,7 +92,7 @@
                                 <p class="font-semibold text-slate-950"><?= e($service['name']); ?></p>
                                 <p class="mt-1 text-sm text-slate-600">
                                     <?= e(format_money($service['fee'])); ?> -
-                                    <?= ((int) $service['requires_payment'] === 1) ? 'Simulated payment required' : 'No payment required'; ?>
+                                    <?= ((int) $service['requires_payment'] === 1) ? 'Payment proof required' : 'No payment required'; ?>
                                 </p>
                             </li>
                         <?php endforeach; ?>
@@ -105,7 +105,7 @@
                 <ul class="mt-4 space-y-3 text-sm text-slate-600">
                     <li>Services and requirements</li>
                     <li>Request tracking and status meanings</li>
-                    <li>Simulated payment steps</li>
+                    <li>Payment proof steps</li>
                     <li>Complaint filing and complaint statuses</li>
                     <li>Final document download rules</li>
                     <li>Community updates, reports, and navigation help</li>

@@ -63,7 +63,7 @@
         </a>
         <a class="report-link-card" href="<?= site_url('admin/reports/payments'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Payment Reports</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Track simulated payment records, expected amounts, verified amounts, and payment review status.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Track payment proof records, expected amounts, verified amounts, and payment review status.</p>
         </a>
         <a class="report-link-card" href="<?= site_url('admin/reports/complaints'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Complaint Reports</h2>
@@ -113,7 +113,7 @@
 
             <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Payments by Status</h3>
-                <p class="mt-1 text-sm text-slate-600">Simulated payment records by review state.</p>
+                <p class="mt-1 text-sm text-slate-600">Payment proof records by review state.</p>
                 <div class="chart-frame">
                     <canvas id="paymentStatusChart"></canvas>
                     <p id="paymentStatusChartEmpty" class="compact-note hidden">No payment data yet.</p>

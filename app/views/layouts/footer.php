@@ -31,7 +31,7 @@
                     </div>
                 <?php endif; ?>
             </div>
-            <p class="text-xs text-slate-500">Local civic service platform</p>
+            <p class="text-xs text-slate-500">Official barangay service workspace</p>
         </div>
     </footer>
     <script>

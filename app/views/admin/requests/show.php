@@ -88,7 +88,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
             <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-950">Simulated Payment</h2>
+                        <h2 class="text-lg font-semibold text-slate-950">Payment Review</h2>
                         <p class="mt-1 text-sm text-slate-600">Admin visibility only. Staff handles verification.</p>
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>

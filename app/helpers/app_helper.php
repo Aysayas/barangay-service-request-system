@@ -115,16 +115,16 @@ if (!function_exists('status_badge_class')) {
     function status_badge_class($status)
     {
         $classes = [
-            'submitted' => 'border border-blue-200 bg-blue-50 text-blue-900',
-            'under_review' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'needs_info' => 'border border-rose-200 bg-rose-50 text-rose-900',
-            'approved' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
-            'rejected' => 'border border-rose-200 bg-rose-50 text-rose-900',
-            'ready_for_pickup' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'released' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
+            'submitted' => 'badge-info',
+            'under_review' => 'badge-warning',
+            'needs_info' => 'badge-danger',
+            'approved' => 'badge-success',
+            'rejected' => 'badge-danger',
+            'ready_for_pickup' => 'badge-warning',
+            'released' => 'badge-success',
         ];
 
-        return $classes[$status] ?? 'border border-slate-200 bg-slate-100 text-slate-800';
+        return $classes[$status] ?? 'badge-neutral';
     }
 }
 
@@ -186,7 +186,7 @@ if (!function_exists('final_document_block_reason')) {
     function final_document_block_reason(array $request, $payment = null)
     {
         if ((int) ($request['requires_payment'] ?? 0) === 1 && (empty($payment) || ($payment['payment_status'] ?? '') !== 'payment_verified')) {
-            return 'Verify the simulated payment before uploading the final document.';
+            return 'Verify the payment proof before uploading the final document.';
         }
 
         if (!final_document_download_allowed($request['status'] ?? '')) {
@@ -215,13 +215,13 @@ if (!function_exists('payment_status_badge_class')) {
     function payment_status_badge_class($status)
     {
         $classes = [
-            'pending_payment' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'payment_submitted' => 'border border-blue-200 bg-blue-50 text-blue-900',
-            'payment_verified' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
-            'payment_rejected' => 'border border-rose-200 bg-rose-50 text-rose-900',
+            'pending_payment' => 'badge-warning',
+            'payment_submitted' => 'badge-info',
+            'payment_verified' => 'badge-success',
+            'payment_rejected' => 'badge-danger',
         ];
 
-        return $classes[$status] ?? 'border border-slate-200 bg-slate-100 text-slate-800';
+        return $classes[$status] ?? 'badge-neutral';
     }
 }
 
@@ -259,16 +259,16 @@ if (!function_exists('complaint_status_badge_class')) {
     function complaint_status_badge_class($status)
     {
         $classes = [
-            'submitted' => 'border border-blue-200 bg-blue-50 text-blue-900',
-            'under_review' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'needs_info' => 'border border-rose-200 bg-rose-50 text-rose-900',
+            'submitted' => 'badge-info',
+            'under_review' => 'badge-warning',
+            'needs_info' => 'badge-danger',
             'investigating' => 'border border-cyan-200 bg-cyan-50 text-cyan-900',
-            'resolved' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
-            'closed' => 'border border-emerald-200 bg-emerald-50 text-emerald-900',
-            'dismissed' => 'border border-rose-200 bg-rose-50 text-rose-900',
+            'resolved' => 'badge-success',
+            'closed' => 'badge-success',
+            'dismissed' => 'badge-danger',
         ];
 
-        return $classes[$status] ?? 'border border-slate-200 bg-slate-100 text-slate-800';
+        return $classes[$status] ?? 'badge-neutral';
     }
 }
 
@@ -289,12 +289,12 @@ if (!function_exists('complaint_priority_badge_class')) {
     function complaint_priority_badge_class($priority)
     {
         $classes = [
-            'low' => 'border border-blue-200 bg-blue-50 text-blue-900',
-            'medium' => 'border border-amber-200 bg-amber-50 text-amber-900',
-            'high' => 'border border-rose-200 bg-rose-50 text-rose-900',
+            'low' => 'badge-info',
+            'medium' => 'badge-warning',
+            'high' => 'badge-danger',
         ];
 
-        return $classes[$priority] ?? 'border border-slate-200 bg-slate-100 text-slate-800';
+        return $classes[$priority] ?? 'badge-neutral';
     }
 }
 
@@ -459,14 +459,14 @@ if (!function_exists('community_category_badge_class')) {
     function community_category_badge_class($category)
     {
         $classes = [
-            'announcement' => 'border border-blue-200 bg-blue-50 text-blue-900',
-            'event' => 'border border-amber-200 bg-amber-50 text-amber-900',
+            'announcement' => 'badge-info',
+            'event' => 'badge-warning',
             'program' => 'border border-cyan-200 bg-cyan-50 text-cyan-900',
-            'advisory' => 'border border-rose-200 bg-rose-50 text-rose-900',
-            'resource' => 'border border-slate-200 bg-slate-100 text-slate-800',
+            'advisory' => 'badge-danger',
+            'resource' => 'badge-neutral',
         ];
 
-        return $classes[$category] ?? 'border border-slate-200 bg-slate-100 text-slate-800';
+        return $classes[$category] ?? 'badge-neutral';
     }
 }
 

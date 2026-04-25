@@ -138,8 +138,8 @@ $has_final_document = !empty($final_document);
             <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-950">Simulated Payment</h2>
-                        <p class="mt-1 text-sm text-slate-600">Payment verification is manual for this demo.</p>
+                        <h2 class="text-lg font-semibold text-slate-950">Payment Review</h2>
+                        <p class="mt-1 text-sm text-slate-600">Review the submitted payment proof and record the verification decision.</p>
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>
                         <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
@@ -220,7 +220,7 @@ $has_final_document = !empty($final_document);
                         <?php endif; ?>
                     <?php else: ?>
                         <p class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
-                            Waiting for the resident to submit simulated payment details and proof.
+                            Waiting for the resident to submit payment details and proof.
                         </p>
                     <?php endif; ?>
                 <?php endif; ?>

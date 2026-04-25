@@ -6,7 +6,7 @@
         <div>
             <p class="page-kicker">Admin Reports</p>
             <h1 class="analytics-title">Payment Reports</h1>
-            <p class="analytics-subtitle">Track simulated payment records, verification status, and payment amounts.</p>
+            <p class="analytics-subtitle">Track payment proof records, verification status, and payment amounts.</p>
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>

@@ -59,8 +59,8 @@ $final_document_exists = !empty($final_document['file_path'])
                 <section id="payment" class="workflow-card">
                     <div class="flex flex-wrap items-start justify-between gap-3">
                         <div>
-                            <h2 class="text-lg font-semibold text-slate-950">Simulated Payment</h2>
-                            <p class="mt-1 text-sm text-slate-600">Demo only. Do not send real money.</p>
+                            <h2 class="text-lg font-semibold text-slate-950">Payment Proof</h2>
+                            <p class="mt-1 text-sm text-slate-600">Upload proof only after following the payment instructions provided by the barangay office.</p>
                         </div>
                         <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
                             <?= e(payment_status_label($payment_status)); ?>
@@ -97,14 +97,14 @@ $final_document_exists = !empty($final_document['file_path'])
 
                     <?php if ($payment_status === 'payment_verified'): ?>
                         <p class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
-                            Your simulated payment has been verified by barangay staff.
+                            Your payment proof has been verified by barangay staff.
                         </p>
                     <?php else: ?>
                         <form class="mt-5 space-y-4" method="POST" enctype="multipart/form-data" action="<?= site_url('resident/requests/payment/store/' . $request['id']); ?>">
                             <?php csrf_field(); ?>
 
                             <div>
-                                <label class="form-label" for="payment_method">Simulated Payment Method</label>
+                                <label class="form-label" for="payment_method">Payment Method</label>
                                 <select class="form-input" id="payment_method" name="payment_method" required>
                                     <option value="">Choose method</option>
                                     <?php foreach ($payment_methods as $method_value => $method_label): ?>
@@ -130,7 +130,7 @@ $final_document_exists = !empty($final_document['file_path'])
                             </div>
 
                             <button class="btn-primary w-full" type="submit">
-                                <?= in_array($payment_status, ['payment_submitted', 'payment_rejected'], true) ? 'Resubmit Simulated Payment' : 'Submit Simulated Payment'; ?>
+                                <?= in_array($payment_status, ['payment_submitted', 'payment_rejected'], true) ? 'Resubmit Payment Proof' : 'Submit Payment Proof'; ?>
                             </button>
                         </form>
                     <?php endif; ?>

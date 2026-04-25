@@ -7,19 +7,19 @@ $errors = $session->flashdata('errors') ?: [];
 ?>
 
 <?php if (!empty($success)): ?>
-    <div class="message-card border-teal-200 text-teal-950" role="status">
+    <div class="message-card alert-success" role="status">
         <div class="flex gap-3">
-            <span class="message-dot bg-teal-600"></span>
+            <span class="message-dot bg-emerald-600"></span>
             <div class="min-w-0">
                 <p class="font-semibold">Success</p>
-                <p class="mt-1 text-teal-900"><?= e($success); ?></p>
+                <p class="mt-1 text-emerald-900"><?= e($success); ?></p>
             </div>
         </div>
     </div>
 <?php endif; ?>
 
 <?php if (!empty($error)): ?>
-    <div class="message-card border-rose-200 text-rose-950" role="alert">
+    <div class="message-card alert-danger" role="alert">
         <div class="flex gap-3">
             <span class="message-dot bg-rose-600"></span>
             <div class="min-w-0">
@@ -31,7 +31,7 @@ $errors = $session->flashdata('errors') ?: [];
 <?php endif; ?>
 
 <?php if (!empty($errors)): ?>
-    <div class="message-card border-rose-200 text-rose-950" role="alert">
+    <div class="message-card alert-danger" role="alert">
         <div class="flex gap-3">
             <span class="message-dot bg-rose-600"></span>
             <div class="min-w-0">

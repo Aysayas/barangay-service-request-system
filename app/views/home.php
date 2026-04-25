@@ -19,10 +19,10 @@
             <h1 class="hero-title">Centralized Barangay Services, Reports, and Community Access</h1>
         <?php endif; ?>
         <p class="hero-subtitle">
-            A polished local service portal for resident requests, complaint tracking, community updates, simulated payments, final documents, reports, and guided assistance.
+            A polished local service portal for resident requests, complaint tracking, community updates, payment proof review, final documents, reports, and guided assistance.
         </p>
         <p class="hero-support">
-            Designed for a complete demo flow: residents submit and track, staff process and verify, and admins manage the full barangay service workspace.
+            Residents submit and track requests, staff process and verify records, and administrators oversee the full barangay service workspace.
         </p>
         <div class="hero-cta-row">
             <a class="hero-btn-primary" href="<?= site_url('register'); ?>">
@@ -74,23 +74,23 @@
     <div class="section-panel">
         <div class="section-heading-row">
             <div>
-                <p class="page-kicker">Demo Access</p>
-                <h2 class="mt-2 text-2xl font-bold text-slate-950">Ready for presentation walkthroughs</h2>
+                <p class="page-kicker">Service Access</p>
+                <h2 class="mt-2 text-2xl font-bold text-slate-950">Choose the right access path</h2>
             </div>
             <a class="btn-secondary" href="<?= site_url('login'); ?>">Open Login</a>
         </div>
         <dl class="mt-5 grid gap-4 text-sm sm:grid-cols-3">
             <div>
                 <dt class="font-semibold text-slate-950">Resident</dt>
-                <dd class="mt-1 text-slate-600">Register from the public form.</dd>
+                <dd class="mt-1 text-slate-600">Create an account or log in to manage requests and complaints.</dd>
             </div>
             <div>
                 <dt class="font-semibold text-slate-950">Staff</dt>
-                <dd class="mt-1 text-slate-600">staff@barangay.local<br>password123</dd>
+                <dd class="mt-1 text-slate-600">Authorized staff can review queues, payment proof, and final documents.</dd>
             </div>
             <div>
                 <dt class="font-semibold text-slate-950">Admin</dt>
-                <dd class="mt-1 text-slate-600">admin@barangay.local<br>password123</dd>
+                <dd class="mt-1 text-slate-600">Authorized administrators can manage services, reports, users, and records.</dd>
             </div>
         </dl>
     </div>
@@ -112,7 +112,7 @@
         <div class="flow-step">
             <span class="flow-step-number">2</span>
             <h3 class="mt-4 font-semibold text-slate-950">Staff processes</h3>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Review queues, verify simulated payments, update statuses, and upload final documents.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Review queues, verify payment proof, update statuses, and upload final documents.</p>
         </div>
         <div class="flow-step">
             <span class="flow-step-number">3</span>
