@@ -1,11 +1,11 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
+<section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-admin">
         <div class="section-heading-row">
             <div>
-                <p class="dashboard-eyebrow text-cyan-700">Admin Management</p>
+                <p class="dashboard-eyebrow text-teal-700">Admin Management</p>
                 <h1 class="dashboard-title">Welcome, <?= e($user['name'] ?? 'Admin'); ?></h1>
                 <p class="dashboard-subtitle">
                     Oversee users, services, requests, complaints, community content, reports, exports, charts, and audit activity from one command center.
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="mt-6">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Management Shortcuts</p>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Executive Snapshot</p>
@@ -82,7 +82,7 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div class="metric-card-featured">
             <p class="metric-label">Total Users</p>
             <p class="metric-value"><?= e($user_counts['total_users'] ?? 0); ?></p>
@@ -125,14 +125,14 @@
         </div>
     </div>
 
-    <div class="dashboard-work-grid mt-8">
+    <div class="dashboard-work-grid">
         <section class="section-panel">
             <div class="section-heading-row">
                 <div>
                     <p class="page-kicker">Recent Users</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest account activity</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/users'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('admin/users'); ?>">View all</a>
             </div>
             <div class="data-table-wrap mt-4">
                 <?php if (empty($recent_users)): ?>
@@ -166,7 +166,7 @@
                     <p class="page-kicker">Recent Requests</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest submitted services</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/requests'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('admin/requests'); ?>">View all</a>
             </div>
             <div class="data-table-wrap mt-4">
                 <?php if (empty($recent_requests)): ?>
@@ -192,7 +192,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/requests/' . $request['id']); ?>">
+                                        <a class="inline-action-link" href="<?= site_url('admin/requests/' . $request['id']); ?>">
                                             Open
                                         </a>
                                     </td>
@@ -205,13 +205,13 @@
         </section>
     </div>
 
-    <section class="section-panel mt-8">
+    <section class="section-panel">
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Recent Complaints</p>
                 <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest resident concern records</h2>
             </div>
-            <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/complaints'); ?>">View all</a>
+            <a class="inline-action-link" href="<?= site_url('admin/complaints'); ?>">View all</a>
         </div>
         <div class="data-table-wrap mt-4">
             <?php if (empty($recent_complaints)): ?>
@@ -239,7 +239,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('admin/complaints/' . $complaint['id']); ?>">
+                                    <a class="inline-action-link" href="<?= site_url('admin/complaints/' . $complaint['id']); ?>">
                                         Open
                                     </a>
                                 </td>

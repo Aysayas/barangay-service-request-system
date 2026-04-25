@@ -17,7 +17,7 @@
 
         <div class="assistant-panel">
             <h2 class="section-title">Try These Questions</h2>
-            <div class="mt-4 flex flex-wrap gap-2">
+            <div class="assistant-suggestion-list mt-4 flex flex-wrap gap-2">
                 <?php foreach ($suggestions as $suggestion): ?>
                     <form method="POST" action="<?= site_url('assistant/ask'); ?>">
                         <?php csrf_field(); ?>
@@ -31,10 +31,10 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-6 lg:grid-cols-[1fr_0.8fr]">
+    <div class="grid gap-5 sm:gap-6 lg:grid-cols-[1fr_0.8fr]">
         <section class="assistant-panel">
             <h2 class="section-title">Ask A Question</h2>
-            <form class="mt-5 space-y-4" method="POST" action="<?= site_url('assistant/ask'); ?>">
+            <form class="assistant-question-form mt-5 space-y-4" method="POST" action="<?= site_url('assistant/ask'); ?>">
                 <?php csrf_field(); ?>
 
                 <div>
@@ -45,7 +45,7 @@
                     </p>
                 </div>
 
-                <button class="btn-primary" type="submit">Ask Assistant</button>
+                <button class="btn-primary w-full sm:w-auto" type="submit">Ask Assistant</button>
             </form>
 
             <div class="mt-6 space-y-4">
@@ -56,8 +56,8 @@
 
                 <?php if (!empty($question)): ?>
                     <div class="assistant-question-card">
-                        <p class="text-xs font-semibold uppercase tracking-normal text-teal-800">You Asked</p>
-                        <p class="mt-2 text-sm leading-6 text-teal-950"><?= e($question); ?></p>
+                        <p class="text-xs font-semibold uppercase tracking-normal text-blue-800">You Asked</p>
+                        <p class="mt-2 text-sm leading-6 text-slate-900"><?= e($question); ?></p>
                     </div>
                 <?php endif; ?>
 

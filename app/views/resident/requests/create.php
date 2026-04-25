@@ -16,13 +16,13 @@ $selected_id = (int) ($old['service_id'] ?? ($selected_service['id'] ?? 0));
     </div>
 
     <?php if (!empty($selected_service)): ?>
-        <div class="mt-6 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-900">
+        <div class="rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-900">
             <p class="font-semibold"><?= e($selected_service['name']); ?> requirements</p>
             <p class="mt-1 leading-6"><?= e($selected_service['requirements_text']); ?></p>
         </div>
     <?php endif; ?>
 
-    <form class="workflow-card mt-6 space-y-5 p-6" method="POST" action="<?= site_url('resident/requests/store'); ?>" enctype="multipart/form-data">
+    <form class="workflow-form-card space-y-5" method="POST" action="<?= site_url('resident/requests/store'); ?>" enctype="multipart/form-data">
         <?php csrf_field(); ?>
 
         <div>
@@ -57,7 +57,7 @@ $selected_id = (int) ($old['service_id'] ?? ($selected_service['id'] ?? 0));
             </p>
         </div>
 
-        <div class="flex flex-wrap gap-3">
+        <div class="mobile-action-row">
             <button class="btn-primary" type="submit">Submit Request</button>
             <a class="btn-secondary" href="<?= site_url('resident/requests'); ?>">Cancel</a>
         </div>

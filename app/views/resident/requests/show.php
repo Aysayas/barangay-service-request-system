@@ -27,12 +27,12 @@ $final_document_exists = !empty($final_document['file_path'])
         <a class="btn-secondary" href="<?= site_url('resident/requests'); ?>">Back to Requests</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[0.9fr_1.1fr]">
         <div class="space-y-6">
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Current Status</h2>
                 <div class="mt-3">
-                    <span class="rounded-md px-2 py-1 text-sm font-medium <?= status_badge_class($current_status); ?>">
+                    <span class="status-pill <?= status_badge_class($current_status); ?>">
                         <?= e(status_label($current_status)); ?>
                     </span>
                 </div>
@@ -62,7 +62,7 @@ $final_document_exists = !empty($final_document['file_path'])
                             <h2 class="text-lg font-semibold text-slate-950">Simulated Payment</h2>
                             <p class="mt-1 text-sm text-slate-600">Demo only. Do not send real money.</p>
                         </div>
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= payment_status_badge_class($payment_status); ?>">
+                        <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
                             <?= e(payment_status_label($payment_status)); ?>
                         </span>
                     </div>
@@ -146,7 +146,7 @@ $final_document_exists = !empty($final_document['file_path'])
                             <?= e($final_document['original_name']); ?> -
                             <?= e(format_file_size($final_document['file_size'])); ?>
                         </p>
-                        <a class="mt-3 inline-flex rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800" href="<?= site_url('resident/requests/download-final-document/' . $request['id']); ?>">
+                        <a class="mt-3 inline-flex w-full justify-center rounded-md bg-teal-700 px-3 py-2 text-sm font-semibold text-white hover:bg-teal-800 sm:w-auto" href="<?= site_url('resident/requests/download-final-document/' . $request['id']); ?>">
                             Download Final Document
                         </a>
                     </div>

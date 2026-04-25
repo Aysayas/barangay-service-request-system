@@ -1,28 +1,41 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
+<div class="home-page">
 <section class="home-hero">
     <div class="home-hero-inner">
-        <p class="hero-eyebrow">eBarangayHub</p>
-        <h1 class="hero-title">Centralized Barangay Services, Reports, and Community Access</h1>
+        <?php if (!empty($branding_assets['primary']['exists'])): ?>
+            <div class="home-brand-lockup">
+                <img
+                    src="<?= e($branding_assets['primary']['url']); ?>"
+                    alt="eBarangayHub"
+                    class="home-brand-logo"
+                >
+            </div>
+            <p class="hero-eyebrow">Local Civic Service Portal</p>
+            <h1 class="hero-title">A cleaner digital front door for requests, complaints, reports, and community access.</h1>
+        <?php else: ?>
+            <p class="hero-eyebrow">eBarangayHub</p>
+            <h1 class="hero-title">Centralized Barangay Services, Reports, and Community Access</h1>
+        <?php endif; ?>
         <p class="hero-subtitle">
             A polished local service portal for resident requests, complaint tracking, community updates, simulated payments, final documents, reports, and guided assistance.
         </p>
         <p class="hero-support">
             Designed for a complete demo flow: residents submit and track, staff process and verify, and admins manage the full barangay service workspace.
         </p>
-        <div class="mt-7 flex flex-wrap gap-3">
-            <a class="btn-primary bg-white text-teal-800 hover:bg-teal-50" href="<?= site_url('register'); ?>">
+        <div class="hero-cta-row">
+            <a class="hero-btn-primary" href="<?= site_url('register'); ?>">
                 Create Resident Account
             </a>
-            <a class="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white hover:text-teal-800" href="<?= site_url('login'); ?>">
+            <a class="hero-btn-secondary" href="<?= site_url('login'); ?>">
                 Login
             </a>
-            <a class="btn-secondary border-white/40 bg-white/10 text-white hover:bg-white hover:text-teal-800" href="<?= site_url('community'); ?>">
+            <a class="hero-btn-secondary" href="<?= site_url('community'); ?>">
                 View Community
             </a>
         </div>
-        <div class="mt-8 hidden max-w-3xl gap-3 sm:grid sm:grid-cols-3">
+        <div class="hero-stat-grid">
             <div class="hero-stat">
                 <strong>Requests</strong>
                 Services, requirements, payments, and final documents
@@ -39,7 +52,7 @@
     </div>
 </section>
 
-<section class="mt-6 grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
+<section class="grid gap-4 lg:grid-cols-[0.95fr_1.05fr]">
     <div class="section-panel">
         <p class="page-kicker">Quick Start</p>
         <h2 class="mt-2 text-2xl font-bold text-slate-950">Start with the right workspace</h2>
@@ -83,7 +96,7 @@
     </div>
 </section>
 
-<section class="mt-10">
+<section>
     <div class="section-heading-row">
         <div>
             <p class="page-kicker">Platform Flow</p>
@@ -109,7 +122,7 @@
     </div>
 </section>
 
-<section class="section-panel mt-10">
+<section class="section-panel">
     <div class="section-heading-row">
         <div>
             <p class="page-kicker">Community</p>
@@ -122,7 +135,7 @@
     </div>
 </section>
 
-<section class="mt-10 grid gap-6 lg:grid-cols-2">
+<section class="grid gap-6 lg:grid-cols-2">
     <div>
         <div class="section-heading-row">
             <div>
@@ -156,7 +169,7 @@
                 <p class="page-kicker">Community Highlights</p>
                 <h2 class="mt-2 text-xl font-bold text-slate-950">Featured public information</h2>
             </div>
-            <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('community'); ?>">View all</a>
+            <a class="inline-action-link" href="<?= site_url('community'); ?>">View all</a>
         </div>
 
         <?php if (empty($community_posts)): ?>
@@ -172,7 +185,7 @@
                     </span>
                     <h3 class="mt-3 font-semibold text-slate-950"><?= e($post['title']); ?></h3>
                     <p class="mt-3 text-sm leading-6 text-slate-600"><?= e(community_post_summary($post)); ?></p>
-                    <a class="mt-4 inline-block font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('community/' . $post['slug']); ?>">
+                    <a class="mt-4 inline-action-link" href="<?= site_url('community/' . $post['slug']); ?>">
                         Open
                     </a>
                 </article>
@@ -181,5 +194,6 @@
         <?php endif; ?>
     </div>
 </section>
+</div>
 
 <?php require APP_DIR . 'views/layouts/footer.php'; ?>

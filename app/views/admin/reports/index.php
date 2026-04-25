@@ -27,7 +27,7 @@
                 <?php if (($report_summary['source'] ?? '') === 'fallback'): ?>
                     <span class="status-pill border-slate-200 bg-slate-100 text-slate-700">Fallback</span>
                 <?php else: ?>
-                    <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
+                    <span class="status-pill border-blue-200 bg-blue-50 text-blue-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
             <p class="report-summary-text"><?= e($report_summary['text']); ?></p>
@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2">
+    <div class="analytics-grid">
         <a class="report-link-card" href="<?= site_url('admin/reports/requests'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Request Reports</h2>
             <p class="mt-2 text-sm leading-6 text-slate-600">Filter service requests by date, service, and status. Includes payment and final document availability.</p>
@@ -83,7 +83,7 @@
             </p>
         </div>
 
-        <div class="mt-5 grid gap-6 lg:grid-cols-2">
+        <div class="analytics-chart-grid mt-5">
             <div class="chart-card">
                 <h3 class="text-lg font-semibold text-slate-950">Requests by Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Current service request workload by workflow state.</p>
@@ -164,18 +164,18 @@
     (function () {
         var charts = <?= $charts_json ?: '{}'; ?>;
         var palette = [
-            '#0f766e',
-            '#f59e0b',
-            '#e11d48',
-            '#3f3f46',
-            '#0284c7',
-            '#16a34a',
-            '#4d7c0f',
-            '#dc2626',
-            '#64748b',
-            '#0891b2',
-            '#ca8a04',
-            '#be123c'
+            '#0D47A1',
+            '#0097A7',
+            '#43B581',
+            '#F59E0B',
+            '#E11D48',
+            '#263238',
+            '#1D4ED8',
+            '#0F766E',
+            '#65A30D',
+            '#C2410C',
+            '#0369A1',
+            '#64748B'
         ];
 
         function hasValues(chartData) {

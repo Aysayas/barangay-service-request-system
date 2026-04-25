@@ -13,7 +13,7 @@
         <a class="btn-secondary" href="<?= site_url('staff/complaints'); ?>">Back to Complaints</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[1.1fr_0.9fr]">
         <div class="space-y-6">
             <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
@@ -22,10 +22,10 @@
                         <p class="mt-1 text-sm text-slate-600">Submitted <?= e(date('M d, Y h:i A', strtotime($complaint['created_at']))); ?></p>
                     </div>
                     <div class="flex flex-wrap gap-2">
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= complaint_status_badge_class($complaint['status']); ?>">
+                        <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
                             <?= e(complaint_status_label($complaint['status'])); ?>
                         </span>
-                        <span class="rounded-md px-2 py-1 text-sm font-medium <?= complaint_priority_badge_class($complaint['priority']); ?>">
+                        <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                             <?= e(complaint_priority_label($complaint['priority'])); ?>
                         </span>
                     </div>

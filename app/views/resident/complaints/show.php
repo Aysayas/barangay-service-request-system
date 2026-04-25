@@ -16,15 +16,15 @@ $main_flow = ['submitted', 'under_review', 'needs_info', 'investigating', 'resol
         <a class="btn-secondary" href="<?= site_url('resident/complaints'); ?>">Back to Complaints</a>
     </div>
 
-    <div class="mt-6 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="workflow-detail-grid lg:grid-cols-[0.9fr_1.1fr]">
         <div class="space-y-6">
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Current Status</h2>
                 <div class="mt-3 flex flex-wrap gap-2">
-                    <span class="rounded-md px-2 py-1 text-sm font-medium <?= complaint_status_badge_class($current_status); ?>">
+                    <span class="status-pill <?= complaint_status_badge_class($current_status); ?>">
                         <?= e(complaint_status_label($current_status)); ?>
                     </span>
-                    <span class="rounded-md px-2 py-1 text-sm font-medium <?= complaint_priority_badge_class($complaint['priority']); ?>">
+                    <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                         <?= e(complaint_priority_label($complaint['priority'])); ?> Priority
                     </span>
                 </div>

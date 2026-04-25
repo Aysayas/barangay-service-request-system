@@ -3,17 +3,27 @@
 
 <section class="auth-page">
     <aside class="auth-intro-card">
-        <p class="text-sm font-semibold uppercase tracking-normal">Resident Access</p>
-        <h1 class="mt-3 text-3xl font-bold tracking-normal">Start with an eBarangayHub account</h1>
+        <?php if (!empty($branding_assets['mono']['exists'])): ?>
+            <div class="auth-brand-lockup">
+                <img
+                    src="<?= e($branding_assets['mono']['url']); ?>"
+                    alt="eBarangayHub"
+                    class="auth-brand-logo"
+                >
+            </div>
+        <?php else: ?>
+            <p class="text-sm font-semibold uppercase tracking-normal">Resident Access</p>
+        <?php endif; ?>
+        <h1 class="mt-3 text-3xl font-bold tracking-normal">Create a resident account and manage barangay services online.</h1>
         <p class="mt-4 text-sm leading-6">Use one resident profile for service requests, payment proof submissions, complaints, final documents, and community information.</p>
         <div class="mt-6 space-y-3 text-sm">
-            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+            <div class="auth-feature-card">
                 <strong class="block text-white">Keep your email active</strong>
-                <span class="mt-1 block text-teal-50">Notifications use the email address you register here.</span>
+                <span class="mt-1 block text-slate-100">Notifications use the email address you register here.</span>
             </div>
-            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+            <div class="auth-feature-card">
                 <strong class="block text-white">Use accurate details</strong>
-                <span class="mt-1 block text-teal-50">Barangay staff rely on these details when processing requests.</span>
+                <span class="mt-1 block text-slate-100">Barangay staff rely on these details when processing requests.</span>
             </div>
         </div>
     </aside>
@@ -102,7 +112,7 @@
 
         <p class="mt-5 text-center text-sm text-slate-600">
             Already registered?
-            <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('login'); ?>">Login</a>
+            <a class="inline-action-link" href="<?= site_url('login'); ?>">Login</a>
         </p>
     </div>
 </section>

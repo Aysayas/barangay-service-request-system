@@ -24,7 +24,7 @@
                 <?php if (($report_summary['source'] ?? '') === 'fallback'): ?>
                     <span class="status-pill border-slate-200 bg-slate-100 text-slate-700">Fallback</span>
                 <?php else: ?>
-                    <span class="status-pill border-teal-200 bg-teal-50 text-teal-800">AI-Assisted</span>
+                    <span class="status-pill border-blue-200 bg-blue-50 text-blue-800">AI-Assisted</span>
                 <?php endif; ?>
             </div>
             <p class="report-summary-text"><?= e($report_summary['text']); ?></p>
@@ -47,7 +47,7 @@
         <div class="report-metric-card"><p class="metric-label">Upcoming Events</p><strong class="text-amber-700"><?= e($summary['upcoming_event_count']); ?></strong></div>
     </div>
 
-    <form class="filter-card mt-8 grid gap-4 md:grid-cols-6" method="GET" action="<?= site_url('admin/reports/community'); ?>">
+    <form class="filter-card report-filter-grid report-filter-grid-6" method="GET" action="<?= site_url('admin/reports/community'); ?>">
         <div>
             <label class="form-label" for="from_date">From</label>
             <input class="form-input" id="from_date" type="date" name="from_date" value="<?= e($filters['from_date']); ?>">
@@ -81,7 +81,7 @@
                 <option value="0" <?= ($filters['is_featured'] === '0') ? 'selected' : ''; ?>>Not Featured</option>
             </select>
         </div>
-        <div class="flex items-end gap-3">
+        <div class="report-filter-actions">
             <button class="btn-primary" type="submit">Apply</button>
             <a class="btn-secondary" href="<?= site_url('admin/reports/community'); ?>">Reset</a>
         </div>
@@ -90,8 +90,8 @@
     <?php if (empty($rows)): ?>
         <div class="empty-state mt-8">No community posts matched the selected filters.</div>
     <?php else: ?>
-        <div class="data-table-wrap mt-8">
-            <table class="data-table">
+        <div class="data-table-wrap">
+            <table class="data-table report-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Title</th>

@@ -52,6 +52,7 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filepath, $line);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PHP Error</title>
     <style nonce="<?= defined('CSP_NONCE') ? CSP_NONCE : '' ?>">
         * { box-sizing: border-box; }
@@ -91,6 +92,8 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filepath, $line);
             font-family: 'Fira Code', monospace;
             font-size: 0.95rem;
             white-space: pre-wrap;
+            overflow-x: auto;
+            word-break: break-word;
         }
 
         .code-preview {
@@ -137,9 +140,10 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filepath, $line);
             border: 1px solid #e5e7eb;
             padding: 1rem;
             border-radius: 6px;
+            overflow-x: auto;
         }
 
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; min-width: 520px; border-collapse: collapse; }
         td {
             padding: 0.3rem 0.5rem;
             border-bottom: 1px solid #e5e7eb;
@@ -148,6 +152,16 @@ list($codeExcerpt, $excerptStart) = get_code_excerpt($filepath, $line);
             font-size: 0.9rem;
         }
         td:first-child { font-weight: bold; width: 25%; color: #6b7280; }
+
+        @media (max-width: 640px) {
+            body { padding: .75rem; }
+            .container { padding: 1rem; }
+            .title { font-size: 1.35rem; }
+            .section { margin-bottom: 1.25rem; }
+            .env-section { padding: .75rem; }
+            .code-preview { font-size: 12px; padding: .75rem; }
+            table { min-width: 480px; }
+        }
     </style>
 </head>
 <body>

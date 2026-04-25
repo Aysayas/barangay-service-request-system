@@ -1,7 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
+<section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-staff">
         <div class="section-heading-row">
             <div>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="dashboard-action-grid mt-6">
+    <div class="dashboard-action-grid">
         <a class="action-tile" href="<?= site_url('staff/requests'); ?>">
             <span class="action-tile-label">Request Queue</span>
             <span class="action-tile-text block">Review requirements, payment state, notes, and final document readiness.</span>
@@ -49,7 +49,7 @@
         </a>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Request Operations</p>
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div class="metric-card-featured">
             <p class="metric-label">Total Requests</p>
             <p class="metric-value"><?= e($counts['total_requests'] ?? 0); ?></p>
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Complaint Operations</p>
@@ -123,14 +123,14 @@
         </div>
     </div>
 
-    <div class="dashboard-work-grid mt-8">
+    <div class="dashboard-work-grid">
         <section class="section-panel">
             <div class="section-heading-row">
                 <div>
                     <p class="page-kicker">Incoming Requests</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Recently submitted service work</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests'); ?>">View queue</a>
+                <a class="inline-action-link" href="<?= site_url('staff/requests'); ?>">View queue</a>
             </div>
 
             <?php if (empty($recent_requests)): ?>
@@ -163,7 +163,7 @@
                                     </td>
                                     <td><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/requests/' . $request['id']); ?>">Review</a>
+                                        <a class="inline-action-link" href="<?= site_url('staff/requests/' . $request['id']); ?>">Review</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -179,7 +179,7 @@
                     <p class="page-kicker">Recent Complaints</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Resident concerns needing review</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints'); ?>">View queue</a>
+                <a class="inline-action-link" href="<?= site_url('staff/complaints'); ?>">View queue</a>
             </div>
 
             <?php if (empty($recent_complaints)): ?>
@@ -210,7 +210,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">Review</a>
+                                        <a class="inline-action-link" href="<?= site_url('staff/complaints/' . $complaint['id']); ?>">Review</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

@@ -17,7 +17,7 @@
         </div>
     <?php else: ?>
         <div class="management-table-wrap">
-            <table class="management-table">
+            <table class="management-table management-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Title</th>
@@ -34,7 +34,7 @@
                                 <p class="mt-1 text-xs text-slate-600"><?= e($announcement['slug']); ?></p>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= ((int) $announcement['is_published'] === 1) ? 'bg-teal-50 text-teal-900' : 'bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ((int) $announcement['is_published'] === 1) ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= ((int) $announcement['is_published'] === 1) ? 'Published' : 'Draft'; ?>
                                 </span>
                             </td>
@@ -42,7 +42,7 @@
                                 <?= !empty($announcement['published_at']) ? e(date('M d, Y', strtotime($announcement['published_at']))) : 'Not published'; ?>
                             </td>
                             <td class="px-4 py-3">
-                                <div class="flex flex-wrap gap-2">
+                                <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/announcements/edit/' . $announcement['id']); ?>">Edit</a>
                                     <form method="POST" action="<?= site_url('admin/announcements/toggle/' . $announcement['id']); ?>">
                                         <?php csrf_field(); ?>

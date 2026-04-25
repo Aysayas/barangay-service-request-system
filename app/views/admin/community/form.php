@@ -18,7 +18,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
         <a class="btn-secondary" href="<?= site_url('admin/community'); ?>">Back to Community</a>
     </div>
 
-    <form class="workflow-card mt-6 space-y-5 p-6" method="POST" enctype="multipart/form-data" action="<?= $action; ?>">
+    <form class="workflow-form-card space-y-5" method="POST" enctype="multipart/form-data" action="<?= $action; ?>">
         <?php csrf_field(); ?>
 
         <div class="grid gap-5 sm:grid-cols-2">
@@ -89,7 +89,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             <?php if ($is_edit && !empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
                 <div class="mt-4 rounded-md border border-slate-200 bg-white p-3">
                     <p class="text-sm font-medium text-slate-800">Current image</p>
-                    <img class="mt-3 h-40 w-full rounded-md object-cover" src="<?= site_url('admin/community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
+                    <img class="mt-3 h-36 w-full rounded-md object-cover sm:h-40" src="<?= site_url('admin/community/image/' . $post['id']); ?>" alt="<?= e($post['title']); ?>">
                     <p class="mt-2 text-xs text-slate-600">Uploading a new image replaces this image.</p>
                 </div>
             <?php elseif ($is_edit && !empty($post['image_path'])): ?>
@@ -99,7 +99,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             <?php endif; ?>
         </div>
 
-        <div class="flex flex-wrap gap-5 text-sm text-slate-700">
+        <div class="management-checkbox-grid">
             <label class="flex items-center gap-3">
                 <input type="checkbox" name="is_published" value="1" <?= ((int) ($data['is_published'] ?? 0) === 1) ? 'checked' : ''; ?>>
                 Published
@@ -110,7 +110,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             </label>
         </div>
 
-        <div class="flex flex-wrap gap-3">
+        <div class="management-form-actions">
             <button class="btn-primary" type="submit"><?= $is_edit ? 'Save Changes' : 'Create Post'; ?></button>
             <a class="btn-secondary" href="<?= site_url('admin/community'); ?>">Cancel</a>
         </div>

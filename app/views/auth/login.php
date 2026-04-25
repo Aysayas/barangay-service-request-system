@@ -3,21 +3,31 @@
 
 <section class="auth-page">
     <aside class="auth-intro-card">
-        <p class="text-sm font-semibold uppercase tracking-normal">eBarangayHub</p>
-        <h1 class="mt-3 text-3xl font-bold tracking-normal">Centralized Barangay Services, Reports, and Community Access</h1>
+        <?php if (!empty($branding_assets['mono']['exists'])): ?>
+            <div class="auth-brand-lockup">
+                <img
+                    src="<?= e($branding_assets['mono']['url']); ?>"
+                    alt="eBarangayHub"
+                    class="auth-brand-logo"
+                >
+            </div>
+        <?php else: ?>
+            <p class="text-sm font-semibold uppercase tracking-normal">eBarangayHub</p>
+        <?php endif; ?>
+        <h1 class="mt-3 text-3xl font-bold tracking-normal">Secure local access for residents, staff, and administrators.</h1>
         <p class="mt-4 text-sm leading-6">Log in to continue your requests, complaints, payments, documents, reports, and community work from one secure local portal.</p>
         <div class="mt-6 grid gap-3 text-sm sm:grid-cols-3 lg:grid-cols-1">
-            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+            <div class="auth-feature-card">
                 <strong class="block text-white">Residents</strong>
-                <span class="mt-1 block text-teal-50">Submit and track requests.</span>
+                <span class="mt-1 block text-slate-100">Submit and track requests.</span>
             </div>
-            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+            <div class="auth-feature-card">
                 <strong class="block text-white">Staff</strong>
-                <span class="mt-1 block text-teal-50">Process service workflows.</span>
+                <span class="mt-1 block text-slate-100">Process service workflows.</span>
             </div>
-            <div class="rounded-lg border border-white/15 bg-white/10 p-3">
+            <div class="auth-feature-card">
                 <strong class="block text-white">Admins</strong>
-                <span class="mt-1 block text-teal-50">Manage records and reports.</span>
+                <span class="mt-1 block text-slate-100">Manage records and reports.</span>
             </div>
         </div>
     </aside>
@@ -62,7 +72,7 @@
 
         <p class="mt-5 text-center text-sm text-slate-600">
             Need a resident account?
-            <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('register'); ?>">Register</a>
+            <a class="inline-action-link" href="<?= site_url('register'); ?>">Register</a>
         </p>
     </div>
 </section>

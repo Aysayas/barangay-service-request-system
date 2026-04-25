@@ -23,7 +23,7 @@
                 <label class="form-label" for="action">Action</label>
                 <input class="form-input" id="action" type="text" name="action" value="<?= e($action); ?>" placeholder="created_service">
             </div>
-            <div class="flex items-end gap-3">
+            <div class="management-filter-actions">
                 <button class="btn-primary" type="submit">Apply</button>
                 <a class="btn-secondary" href="<?= $base_url; ?>">Reset</a>
             </div>
@@ -36,7 +36,7 @@
         </div>
     <?php else: ?>
         <div class="management-table-wrap">
-            <table class="management-table">
+            <table class="management-table audit-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">User</th>
@@ -51,7 +51,7 @@
                         <tr>
                             <td class="px-4 py-3 text-slate-700"><?= e($log['user_name'] ?: 'System'); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-800">
+                                <span class="status-pill border-slate-200 bg-slate-100 text-slate-800">
                                     <?= e(audit_action_label($log['action'])); ?>
                                 </span>
                             </td>

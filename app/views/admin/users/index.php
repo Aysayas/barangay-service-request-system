@@ -28,7 +28,7 @@
                 <label class="form-label" for="search">Search</label>
                 <input class="form-input" id="search" type="text" name="search" value="<?= e($search); ?>" placeholder="Name or email">
             </div>
-            <div class="flex items-end gap-3">
+            <div class="management-filter-actions">
                 <button class="btn-primary" type="submit">Apply</button>
                 <a class="btn-secondary" href="<?= $base_url; ?>">Reset</a>
             </div>
@@ -41,7 +41,7 @@
         </div>
     <?php else: ?>
         <div class="management-table-wrap">
-            <table class="management-table">
+            <table class="management-table management-table-wide">
                 <thead>
                     <tr>
                         <th class="px-4 py-3 font-medium">Name</th>
@@ -58,12 +58,12 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($row['email']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(ucfirst($row['role'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="rounded-md px-2 py-1 text-xs font-medium <?= ($row['status'] === 'active') ? 'bg-teal-50 text-teal-900' : 'bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ($row['status'] === 'active') ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
                                     <?= e(ucfirst($row['status'])); ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3">
-                                <div class="flex flex-wrap gap-2">
+                                <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/users/edit/' . $row['id']); ?>">Edit</a>
                                     <form method="POST" action="<?= site_url('admin/users/toggle/' . $row['id']); ?>">
                                         <?php csrf_field(); ?>

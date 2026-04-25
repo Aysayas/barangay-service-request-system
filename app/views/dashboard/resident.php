@@ -1,7 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<section>
+<section class="dashboard-page">
     <div class="dashboard-hero dashboard-hero-resident">
         <div class="section-heading-row">
             <div>
@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <div class="dashboard-action-grid mt-6">
+    <div class="dashboard-action-grid">
         <a class="action-tile" href="<?= site_url('resident/services'); ?>">
             <span class="action-tile-label">Browse Services</span>
             <span class="action-tile-text block">Choose a barangay service and submit the required details.</span>
@@ -49,7 +49,7 @@
         </a>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Request Snapshot</p>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="mt-8">
+    <div>
         <div class="section-heading-row">
             <div>
                 <p class="page-kicker">Complaint Snapshot</p>
@@ -107,14 +107,14 @@
         </div>
     </div>
 
-    <div class="dashboard-work-grid mt-8">
+    <div class="dashboard-work-grid">
         <section class="section-panel">
             <div class="section-heading-row">
                 <div>
                     <p class="page-kicker">Recent Requests</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest service activity</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/requests'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('resident/requests'); ?>">View all</a>
             </div>
 
             <?php if (empty($recent_requests)): ?>
@@ -145,7 +145,7 @@
                                     </td>
                                     <td><?= e(date('M d, Y', strtotime($request['created_at']))); ?></td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/requests/' . $request['id']); ?>">View</a>
+                                        <a class="inline-action-link" href="<?= site_url('resident/requests/' . $request['id']); ?>">View</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -161,7 +161,7 @@
                     <p class="page-kicker">Recent Complaints</p>
                     <h2 class="mt-2 text-lg font-semibold text-slate-950">Latest concern updates</h2>
                 </div>
-                <a class="text-sm font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/complaints'); ?>">View all</a>
+                <a class="inline-action-link" href="<?= site_url('resident/complaints'); ?>">View all</a>
             </div>
 
             <?php if (empty($recent_complaints)): ?>
@@ -190,7 +190,7 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <a class="font-medium text-teal-700 hover:text-teal-800" href="<?= site_url('resident/complaints/' . $complaint['id']); ?>">View</a>
+                                        <a class="inline-action-link" href="<?= site_url('resident/complaints/' . $complaint['id']); ?>">View</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

@@ -77,7 +77,7 @@ $role_options = $is_edit ? ['resident', 'staff', 'admin'] : ['staff', 'admin'];
                 Caps Lock is on. Passwords are case-sensitive.
             </p>
         </div>
-        <div class="sm:col-span-2">
+        <div class="management-form-actions sm:col-span-2">
             <button class="btn-primary" type="submit"><?= $is_edit ? 'Save Changes' : 'Create Account'; ?></button>
         </div>
     </form>

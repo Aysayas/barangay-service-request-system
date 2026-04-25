@@ -10,7 +10,7 @@ $errors = $session->flashdata('errors') ?: [];
     <div class="message-card border-teal-200 text-teal-950" role="status">
         <div class="flex gap-3">
             <span class="message-dot bg-teal-600"></span>
-            <div>
+            <div class="min-w-0">
                 <p class="font-semibold">Success</p>
                 <p class="mt-1 text-teal-900"><?= e($success); ?></p>
             </div>
@@ -22,7 +22,7 @@ $errors = $session->flashdata('errors') ?: [];
     <div class="message-card border-rose-200 text-rose-950" role="alert">
         <div class="flex gap-3">
             <span class="message-dot bg-rose-600"></span>
-            <div>
+            <div class="min-w-0">
                 <p class="font-semibold">Action needed</p>
                 <p class="mt-1 text-rose-900"><?= e($error); ?></p>
             </div>
@@ -34,7 +34,7 @@ $errors = $session->flashdata('errors') ?: [];
     <div class="message-card border-rose-200 text-rose-950" role="alert">
         <div class="flex gap-3">
             <span class="message-dot bg-rose-600"></span>
-            <div>
+            <div class="min-w-0">
                 <p class="font-semibold">Please check the following</p>
                 <ul class="mt-2 list-disc space-y-1 pl-5 text-rose-900">
                     <?php foreach ($errors as $message): ?>
