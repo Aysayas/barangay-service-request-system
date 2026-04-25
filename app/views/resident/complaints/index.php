@@ -15,10 +15,14 @@
 
     <?php if (empty($complaints)): ?>
         <div class="empty-state-strong mt-8">
-            <p class="text-sm text-slate-600">You have not submitted any complaints yet.</p>
-            <a class="mt-4 inline-action-link" href="<?= site_url('resident/complaints/create'); ?>">
-                Submit your first complaint
-            </a>
+            <h2 class="text-lg font-semibold text-slate-950">No complaints submitted yet.</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">
+                Barangay concerns you submit will appear here with their review status, priority, and staff updates.
+            </p>
+            <div class="mt-5 flex flex-wrap justify-center gap-3">
+                <a class="btn-primary" href="<?= site_url('resident/complaints/create'); ?>">Submit Complaint</a>
+                <a class="btn-secondary" href="<?= site_url('resident/dashboard'); ?>">Back to Dashboard</a>
+            </div>
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">

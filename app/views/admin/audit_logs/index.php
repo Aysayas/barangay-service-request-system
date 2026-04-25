@@ -1,7 +1,10 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<?php $base_url = site_url('admin/audit-logs'); ?>
+<?php
+$base_url = site_url('admin/audit-logs');
+$has_filters = ($search !== '') || ($action !== '');
+?>
 
 <section class="management-page">
     <div class="management-header">
@@ -32,7 +35,22 @@
 
     <?php if (empty($logs)): ?>
         <div class="empty-state-strong mt-8">
-            No audit logs matched your filters.
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No audit activity matches the current filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Try a different user, action, target, or description, then apply the filters again.
+                </p>
+                <div class="mt-5 flex flex-wrap justify-center gap-3">
+                    <a class="btn-secondary" href="<?= $base_url; ?>">Reset Filters</a>
+                    <a class="btn-secondary" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
+                </div>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No audit activity has been recorded yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Important staff and admin actions will appear here once system activity begins.
+                </p>
+                <a class="btn-secondary mt-5" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
+            <?php endif; ?>
         </div>
     <?php else: ?>
         <div class="management-table-wrap">

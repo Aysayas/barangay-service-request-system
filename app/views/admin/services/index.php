@@ -13,7 +13,11 @@
 
     <?php if (empty($services)): ?>
         <div class="empty-state-strong mt-8">
-            No services yet. Create the first service to let residents submit requests.
+            <h2 class="text-lg font-semibold text-slate-950">No resident services have been configured yet.</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">
+                Create the first barangay service so residents can submit requests with the right requirements and fees.
+            </p>
+            <a class="btn-primary mt-5" href="<?= site_url('admin/services/create'); ?>">Create First Service</a>
         </div>
     <?php else: ?>
         <div class="management-table-wrap">

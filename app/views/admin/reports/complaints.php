@@ -94,7 +94,16 @@
     </form>
 
     <?php if (empty($rows)): ?>
-        <div class="empty-state mt-8">No complaints matched the selected filters.</div>
+        <div class="empty-state mt-8">
+            <h2 class="text-lg font-semibold text-slate-950">No complaint report data matches the selected filters.</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">
+                Adjust the date range, category, priority, or status, then apply the filters again.
+            </p>
+            <div class="mt-5 flex flex-wrap justify-center gap-3">
+                <a class="btn-secondary" href="<?= site_url('admin/reports/complaints'); ?>">Reset Filters</a>
+                <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
+            </div>
+        </div>
     <?php else: ?>
         <div class="data-table-wrap">
             <table class="data-table report-table-wide">

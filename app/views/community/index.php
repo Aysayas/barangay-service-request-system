@@ -1,7 +1,10 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<?php $base_url = site_url('community'); ?>
+<?php
+$base_url = site_url('community');
+$has_category_filter = ($current_category !== 'all');
+?>
 
 <section class="workflow-page">
     <div class="workflow-header">
@@ -56,7 +59,18 @@
             <h2 class="text-xl font-bold text-slate-950">Latest Updates</h2>
             <?php if (empty($posts)): ?>
                 <div class="empty-state-strong mt-4">
-                    No published community posts are available yet.
+                    <?php if ($has_category_filter): ?>
+                        <h3 class="text-lg font-semibold text-slate-950">No updates are available in this category.</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">
+                            Try viewing all community updates or checking back after new barangay information is published.
+                        </p>
+                        <a class="btn-secondary mt-5" href="<?= $base_url; ?>">View All Updates</a>
+                    <?php else: ?>
+                        <h3 class="text-lg font-semibold text-slate-950">No community updates are available right now.</h3>
+                        <p class="mt-2 text-sm leading-6 text-slate-600">
+                            Barangay announcements, events, advisories, programs, and resources will appear here when published.
+                        </p>
+                    <?php endif; ?>
                 </div>
             <?php else: ?>
                 <div class="mt-4 space-y-4">
@@ -95,7 +109,9 @@
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Upcoming Events</h2>
                 <?php if (empty($upcoming_events)): ?>
-                    <p class="mt-3 text-sm text-slate-600">No upcoming events have been posted yet.</p>
+                    <div class="compact-note mt-3 text-sm">
+                        No upcoming events have been posted yet. New schedules and barangay activities will appear here once published.
+                    </div>
                 <?php else: ?>
                     <ul class="mt-4 divide-y divide-slate-200 text-sm">
                         <?php foreach ($upcoming_events as $event): ?>
@@ -113,7 +129,9 @@
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Resources and Advisories</h2>
                 <?php if (empty($resources)): ?>
-                    <p class="mt-3 text-sm text-slate-600">No resources or advisories have been posted yet.</p>
+                    <div class="compact-note mt-3 text-sm">
+                        No resources or advisories have been posted yet. Helpful public information will appear here once available.
+                    </div>
                 <?php else: ?>
                     <ul class="mt-4 divide-y divide-slate-200 text-sm">
                         <?php foreach ($resources as $resource): ?>

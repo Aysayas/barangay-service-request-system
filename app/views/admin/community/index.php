@@ -1,7 +1,10 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<?php $base_url = site_url('admin/community'); ?>
+<?php
+$base_url = site_url('admin/community');
+$has_filters = ($current_category !== 'all') || ($search !== '');
+?>
 
 <section class="workflow-page">
     <div class="workflow-header">
@@ -41,10 +44,22 @@
 
     <?php if (empty($posts)): ?>
         <div class="empty-state-strong mt-8">
-            <p class="text-sm text-slate-600">No community posts yet.</p>
-            <a class="mt-4 inline-action-link" href="<?= site_url('admin/community/create'); ?>">
-                Create the first community post
-            </a>
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No community posts match the current filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Try another category, search with different words, or reset the filters.
+                </p>
+                <div class="mt-5 flex flex-wrap justify-center gap-3">
+                    <a class="btn-secondary" href="<?= $base_url; ?>">Reset Filters</a>
+                    <a class="btn-primary" href="<?= site_url('admin/community/create'); ?>">Create Post</a>
+                </div>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No community posts have been created yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Create public updates, events, advisories, programs, or resources for residents.
+                </p>
+                <a class="btn-primary mt-5" href="<?= site_url('admin/community/create'); ?>">Create First Post</a>
+            <?php endif; ?>
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">

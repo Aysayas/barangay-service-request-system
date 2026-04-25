@@ -1,7 +1,10 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<?php $base_url = site_url('admin/users'); ?>
+<?php
+$base_url = site_url('admin/users');
+$has_filters = ($current_role !== 'all') || ($search !== '');
+?>
 
 <section class="management-page">
     <div class="management-header">
@@ -37,7 +40,19 @@
 
     <?php if (empty($users)): ?>
         <div class="empty-state-strong mt-8">
-            No users matched your filters.
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No users match the current filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Try another role, search by a different name or email, or reset the filters.
+                </p>
+                <a class="btn-secondary mt-5" href="<?= $base_url; ?>">Reset Filters</a>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No user records are available yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Resident registrations and staff/admin accounts will appear here once they are created.
+                </p>
+                <a class="btn-primary mt-5" href="<?= site_url('admin/users/create'); ?>">Create Staff/Admin</a>
+            <?php endif; ?>
         </div>
     <?php else: ?>
         <div class="management-table-wrap">

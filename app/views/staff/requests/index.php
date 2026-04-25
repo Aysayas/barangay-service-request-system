@@ -1,7 +1,10 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<?php $base_url = site_url('staff/requests'); ?>
+<?php
+$base_url = site_url('staff/requests');
+$has_filters = ($current_status !== 'all') || ($search !== '');
+?>
 
 <section class="workflow-page">
     <div class="workflow-header">
@@ -52,7 +55,22 @@
 
     <?php if (empty($requests)): ?>
         <div class="empty-state-strong mt-8">
-            No requests matched your filters.
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No requests match the current filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Try a different status, search by another reference or resident name, or reset the queue filters.
+                </p>
+                <div class="mt-5 flex flex-wrap justify-center gap-3">
+                    <a class="btn-secondary" href="<?= $base_url; ?>">Reset Filters</a>
+                    <a class="btn-secondary" href="<?= site_url('staff/dashboard'); ?>">Back to Dashboard</a>
+                </div>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No resident requests are in the queue.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    New service requests will appear here once residents submit them.
+                </p>
+                <a class="btn-secondary mt-5" href="<?= site_url('staff/dashboard'); ?>">Back to Dashboard</a>
+            <?php endif; ?>
         </div>
     <?php else: ?>
         <div class="workflow-table-wrap">

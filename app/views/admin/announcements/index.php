@@ -13,7 +13,11 @@
 
     <?php if (empty($announcements)): ?>
         <div class="empty-state-strong mt-8">
-            No announcements yet. Create one to show updates on the homepage.
+            <h2 class="text-lg font-semibold text-slate-950">No announcements have been created yet.</h2>
+            <p class="mt-2 text-sm leading-6 text-slate-600">
+                Publish barangay announcements to keep residents informed about services, schedules, and office reminders.
+            </p>
+            <a class="btn-primary mt-5" href="<?= site_url('admin/announcements/create'); ?>">Create Announcement</a>
         </div>
     <?php else: ?>
         <div class="management-table-wrap">
