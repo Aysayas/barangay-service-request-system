@@ -3,7 +3,7 @@
 
 <?php
 $current_status = $complaint['status'];
-$main_flow = ['submitted', 'under_review', 'needs_info', 'investigating', 'resolved', 'closed'];
+$complaint_timeline = complaint_timeline_steps($current_status);
 ?>
 
 <section class="workflow-page">
@@ -22,7 +22,7 @@ $main_flow = ['submitted', 'under_review', 'needs_info', 'investigating', 'resol
                 <h2 class="text-lg font-semibold text-slate-950">Current Status</h2>
                 <div class="mt-3 flex flex-wrap gap-2">
                     <span class="status-pill <?= complaint_status_badge_class($current_status); ?>">
-                        <?= e(complaint_status_label($current_status)); ?>
+                        <?= e(complaint_status_display_label($current_status)); ?>
                     </span>
                     <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                         <?= e(complaint_priority_label($complaint['priority'])); ?> Priority
@@ -30,20 +30,20 @@ $main_flow = ['submitted', 'under_review', 'needs_info', 'investigating', 'resol
                 </div>
 
                 <ol class="mt-5 space-y-3 text-sm">
-                    <?php foreach ($main_flow as $status): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md <?= ($status === $current_status) ? 'bg-teal-700' : 'bg-slate-300'; ?>"></span>
-                            <span class="<?= ($status === $current_status) ? 'font-semibold text-slate-950' : 'text-slate-600'; ?>">
-                                <?= e(complaint_status_label($status)); ?>
-                            </span>
+                    <?php foreach ($complaint_timeline as $step): ?>
+                        <li class="rounded-md border p-4 <?= e($step['card_class']); ?>">
+                            <div class="flex items-start gap-3">
+                                <span class="mt-1 h-3 w-3 shrink-0 rounded-md <?= e($step['dot_class']); ?>"></span>
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="font-semibold <?= e($step['label_class']); ?>"><?= e($step['label']); ?></span>
+                                        <span class="status-pill <?= e($step['pill_class']); ?>"><?= e($step['state_label']); ?></span>
+                                    </div>
+                                    <p class="mt-1 leading-6 <?= e($step['description_class']); ?>"><?= e($step['description']); ?></p>
+                                </div>
+                            </div>
                         </li>
                     <?php endforeach; ?>
-                    <?php if ($current_status === 'dismissed'): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md bg-rose-700"></span>
-                            <span class="font-semibold text-rose-900">Dismissed</span>
-                        </li>
-                    <?php endif; ?>
                 </ol>
             </section>
 

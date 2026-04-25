@@ -4,6 +4,13 @@
 $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'] : 'pending_payment';
 $can_upload_final_document = final_document_upload_allowed($request, $payment);
 $final_document_block_reason = final_document_block_reason($request, $payment);
+$final_document_exists = !empty($final_document['file_path'])
+    && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
+$request_timeline = request_timeline_steps(
+    $request['status'],
+    ((int) $request['requires_payment'] === 1) ? $payment_status : null,
+    $final_document_exists
+);
 ?>
 
 <section class="workflow-page">
@@ -25,7 +32,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                         <p class="mt-1 text-sm text-slate-600">Submitted <?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></p>
                     </div>
                     <span class="status-pill <?= status_badge_class($request['status']); ?>">
-                        <?= e(status_label($request['status'])); ?>
+                        <?= e(request_status_display_label($request['status'])); ?>
                     </span>
                 </div>
 
@@ -64,6 +71,27 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
             </section>
 
             <section class="workflow-card">
+                <h2 class="text-lg font-semibold text-slate-950">Request Timeline</h2>
+                <p class="mt-1 text-sm text-slate-600">Read-only overview of request progress, payment proof review, and final document release.</p>
+                <ol class="mt-4 space-y-3 text-sm">
+                    <?php foreach ($request_timeline as $step): ?>
+                        <li class="rounded-md border p-4 <?= e($step['card_class']); ?>">
+                            <div class="flex items-start gap-3">
+                                <span class="mt-1 h-3 w-3 shrink-0 rounded-md <?= e($step['dot_class']); ?>"></span>
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="font-semibold <?= e($step['label_class']); ?>"><?= e($step['label']); ?></span>
+                                        <span class="status-pill <?= e($step['pill_class']); ?>"><?= e($step['state_label']); ?></span>
+                                    </div>
+                                    <p class="mt-1 leading-6 <?= e($step['description_class']); ?>"><?= e($step['description']); ?></p>
+                                </div>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                </ol>
+            </section>
+
+            <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Submitted Attachments</h2>
 
                 <?php if (empty($attachments)): ?>
@@ -93,7 +121,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>
                         <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
-                            <?= e(payment_status_label($payment_status)); ?>
+                            <?= e(payment_status_display_label($payment_status)); ?>
                         </span>
                     <?php endif; ?>
                 </div>
@@ -141,10 +169,6 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Final Document</h2>
 
-                <?php
-                    $final_document_exists = !empty($final_document['file_path'])
-                        && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
-                ?>
                 <?php if (!empty($final_document)): ?>
                     <div class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
                         <p class="font-medium"><?= e($final_document['original_name']); ?></p>
@@ -176,7 +200,7 @@ $final_document_block_reason = final_document_block_reason($request, $payment);
                             <input class="form-input" id="final_document" type="file" name="final_document" accept=".pdf,.doc,.docx" required>
                             <p class="mt-2 text-xs text-slate-600">
                                 Allowed types: PDF, DOC, DOCX. Maximum size: <?= e($max_upload_mb); ?>MB.
-                                Uploading a new file replaces the current final document.
+                                Upload the approved final document only. Uploading a new file replaces the current final document.
                             </p>
                         </div>
 

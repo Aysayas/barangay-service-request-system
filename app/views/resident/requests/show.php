@@ -2,19 +2,15 @@
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
 <?php
-$statuses = [
-    'submitted',
-    'under_review',
-    'needs_info',
-    'approved',
-    'ready_for_pickup',
-    'released',
-];
-
 $current_status = $request['status'];
 $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'] : 'pending_payment';
 $final_document_exists = !empty($final_document['file_path'])
     && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
+$request_timeline = request_timeline_steps(
+    $current_status,
+    ((int) $request['requires_payment'] === 1) ? $payment_status : null,
+    $final_document_exists
+);
 ?>
 
 <section class="workflow-page">
@@ -33,25 +29,25 @@ $final_document_exists = !empty($final_document['file_path'])
                 <h2 class="text-lg font-semibold text-slate-950">Current Status</h2>
                 <div class="mt-3">
                     <span class="status-pill <?= status_badge_class($current_status); ?>">
-                        <?= e(status_label($current_status)); ?>
+                        <?= e(request_status_display_label($current_status)); ?>
                     </span>
                 </div>
 
                 <ol class="mt-5 space-y-3 text-sm">
-                    <?php foreach ($statuses as $status): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md <?= ($status === $current_status) ? 'bg-teal-700' : 'bg-slate-300'; ?>"></span>
-                            <span class="<?= ($status === $current_status) ? 'font-semibold text-slate-950' : 'text-slate-600'; ?>">
-                                <?= e(status_label($status)); ?>
-                            </span>
+                    <?php foreach ($request_timeline as $step): ?>
+                        <li class="rounded-md border p-4 <?= e($step['card_class']); ?>">
+                            <div class="flex items-start gap-3">
+                                <span class="mt-1 h-3 w-3 shrink-0 rounded-md <?= e($step['dot_class']); ?>"></span>
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="font-semibold <?= e($step['label_class']); ?>"><?= e($step['label']); ?></span>
+                                        <span class="status-pill <?= e($step['pill_class']); ?>"><?= e($step['state_label']); ?></span>
+                                    </div>
+                                    <p class="mt-1 leading-6 <?= e($step['description_class']); ?>"><?= e($step['description']); ?></p>
+                                </div>
+                            </div>
                         </li>
                     <?php endforeach; ?>
-                    <?php if ($current_status === 'rejected'): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md bg-rose-700"></span>
-                            <span class="font-semibold text-rose-900">Rejected</span>
-                        </li>
-                    <?php endif; ?>
                 </ol>
             </section>
 
@@ -63,7 +59,7 @@ $final_document_exists = !empty($final_document['file_path'])
                             <p class="mt-1 text-sm text-slate-600">Upload proof only after following the payment instructions provided by the barangay office. Use the exact reference shown on your receipt, transaction, or acknowledgement record.</p>
                         </div>
                         <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
-                            <?= e(payment_status_label($payment_status)); ?>
+                            <?= e(payment_status_display_label($payment_status)); ?>
                         </span>
                     </div>
 
@@ -113,6 +109,7 @@ $final_document_exists = !empty($final_document['file_path'])
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
+                                <p class="mt-2 text-xs text-slate-600">Choose the method that matches the proof you will upload.</p>
                             </div>
 
                             <div>
@@ -162,12 +159,12 @@ $final_document_exists = !empty($final_document['file_path'])
                     <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
                         <p class="font-medium">Final document uploaded</p>
                         <p class="mt-1">
-                            Download becomes available when the request is approved, ready for pickup, or released.
+                            Download becomes available when the request is approved, ready for release, or completed.
                         </p>
                     </div>
                 <?php else: ?>
                     <p class="mt-3 text-sm text-slate-600">
-                        No final document is available yet. This will appear after staff approval and release.
+                        No final document is available yet. It will appear here when barangay staff uploads the approved file and the request reaches a downloadable status.
                     </p>
                 <?php endif; ?>
             </section>
@@ -192,7 +189,7 @@ $final_document_exists = !empty($final_document['file_path'])
                     <div>
                         <dt class="font-medium text-slate-800">Payment</dt>
                         <dd class="mt-1 text-slate-600">
-                            <?= ((int) $request['requires_payment'] === 1) ? e(payment_status_label($payment_status)) : 'Not required'; ?>
+                            <?= ((int) $request['requires_payment'] === 1) ? e(payment_status_display_label($payment_status)) : 'Not required'; ?>
                         </dd>
                     </div>
                 </dl>

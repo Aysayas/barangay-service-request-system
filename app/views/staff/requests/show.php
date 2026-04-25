@@ -2,19 +2,17 @@
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
 <?php
-$status_flow = [
-    'submitted',
-    'under_review',
-    'needs_info',
-    'approved',
-    'ready_for_pickup',
-    'released',
-];
-
 $payment_status = !empty($payment['payment_status']) ? $payment['payment_status'] : 'pending_payment';
 $can_upload_final_document = final_document_upload_allowed($request, $payment);
 $final_document_block_reason = final_document_block_reason($request, $payment);
 $has_final_document = !empty($final_document);
+$final_document_exists = !empty($final_document['file_path'])
+    && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
+$request_timeline = request_timeline_steps(
+    $request['status'],
+    ((int) $request['requires_payment'] === 1) ? $payment_status : null,
+    $final_document_exists
+);
 ?>
 
 <section class="workflow-page">
@@ -36,7 +34,7 @@ $has_final_document = !empty($final_document);
                         <p class="mt-1 text-sm text-slate-600">Submitted <?= e(date('M d, Y h:i A', strtotime($request['created_at']))); ?></p>
                     </div>
                     <span class="status-pill <?= status_badge_class($request['status']); ?>">
-                        <?= e(status_label($request['status'])); ?>
+                        <?= e(request_status_display_label($request['status'])); ?>
                     </span>
                 </div>
 
@@ -143,7 +141,7 @@ $has_final_document = !empty($final_document);
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>
                         <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
-                            <?= e(payment_status_label($payment_status)); ?>
+                            <?= e(payment_status_display_label($payment_status)); ?>
                         </span>
                     <?php endif; ?>
                 </div>
@@ -203,7 +201,7 @@ $has_final_document = !empty($final_document);
                                 <select class="form-input" id="payment_status" name="payment_status" required>
                                     <?php foreach ($payment_review_statuses as $review_status): ?>
                                         <option value="<?= e($review_status); ?>" <?= ($payment_status === $review_status) ? 'selected' : ''; ?>>
-                                            <?= e(payment_status_label($review_status)); ?>
+                                            <?= e(payment_status_display_label($review_status)); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -229,10 +227,6 @@ $has_final_document = !empty($final_document);
             <section class="workflow-card">
                 <h2 class="text-lg font-semibold text-slate-950">Final Document</h2>
 
-                <?php
-                    $final_document_exists = !empty($final_document['file_path'])
-                        && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null;
-                ?>
                 <?php if (!empty($final_document)): ?>
                     <div class="mt-4 rounded-md border border-teal-200 bg-teal-50 p-4 text-sm text-teal-950">
                         <p class="font-medium"><?= e($final_document['original_name']); ?></p>
@@ -297,12 +291,12 @@ $has_final_document = !empty($final_document);
                                     $disabled = $status !== $request['status'] && ($blocked_by_transition || $blocked_by_payment || $blocked_by_document);
                                 ?>
                                 <option value="<?= e($status); ?>" <?= ($request['status'] === $status) ? 'selected' : ''; ?> <?= $disabled ? 'disabled' : ''; ?>>
-                                    <?= e(status_label($status)); ?>
+                                    <?= e(request_status_display_label($status)); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                         <p class="mt-2 text-xs text-slate-600">
-                            Paid requests need verified payment proof before approval. Ready for Pickup and Released also require an uploaded final document.
+                            Paid requests need verified payment proof before approval. Ready for Release and Completed statuses also require an uploaded final document.
                         </p>
                     </div>
 
@@ -317,22 +311,23 @@ $has_final_document = !empty($final_document);
             </section>
 
             <section class="workflow-card">
-                <h2 class="text-lg font-semibold text-slate-950">Status Direction</h2>
+                <h2 class="text-lg font-semibold text-slate-950">Request Timeline</h2>
+                <p class="mt-1 text-sm text-slate-600">Read-only timeline based on the request status, payment proof review, and final document availability.</p>
                 <ol class="mt-4 space-y-3 text-sm">
-                    <?php foreach ($status_flow as $status): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md <?= ($status === $request['status']) ? 'bg-teal-700' : 'bg-slate-300'; ?>"></span>
-                            <span class="<?= ($status === $request['status']) ? 'font-semibold text-slate-950' : 'text-slate-600'; ?>">
-                                <?= e(status_label($status)); ?>
-                            </span>
+                    <?php foreach ($request_timeline as $step): ?>
+                        <li class="rounded-md border p-4 <?= e($step['card_class']); ?>">
+                            <div class="flex items-start gap-3">
+                                <span class="mt-1 h-3 w-3 shrink-0 rounded-md <?= e($step['dot_class']); ?>"></span>
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="font-semibold <?= e($step['label_class']); ?>"><?= e($step['label']); ?></span>
+                                        <span class="status-pill <?= e($step['pill_class']); ?>"><?= e($step['state_label']); ?></span>
+                                    </div>
+                                    <p class="mt-1 leading-6 <?= e($step['description_class']); ?>"><?= e($step['description']); ?></p>
+                                </div>
+                            </div>
                         </li>
                     <?php endforeach; ?>
-                    <?php if ($request['status'] === 'rejected'): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md bg-rose-700"></span>
-                            <span class="font-semibold text-rose-900">Rejected</span>
-                        </li>
-                    <?php endif; ?>
                 </ol>
             </section>
 

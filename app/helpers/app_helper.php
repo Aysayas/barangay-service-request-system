@@ -111,6 +111,23 @@ if (!function_exists('status_label')) {
     }
 }
 
+if (!function_exists('request_status_display_label')) {
+    function request_status_display_label($status)
+    {
+        $labels = [
+            'submitted' => 'Submitted',
+            'under_review' => 'Under Review',
+            'needs_info' => 'Needs Information',
+            'approved' => 'Approved / Processing',
+            'rejected' => 'Rejected',
+            'ready_for_pickup' => 'Ready for Release',
+            'released' => 'Completed',
+        ];
+
+        return $labels[$status] ?? status_label($status);
+    }
+}
+
 if (!function_exists('status_badge_class')) {
     function status_badge_class($status)
     {
@@ -190,7 +207,7 @@ if (!function_exists('final_document_block_reason')) {
         }
 
         if (!final_document_download_allowed($request['status'] ?? '')) {
-            return 'Move the request to Approved, Ready for Pickup, or Released before uploading the final document.';
+            return 'Move the request to Approved / Processing, Ready for Release, or Completed before uploading the final document.';
         }
 
         return '';
@@ -211,6 +228,20 @@ if (!function_exists('payment_status_label')) {
     }
 }
 
+if (!function_exists('payment_status_display_label')) {
+    function payment_status_display_label($status)
+    {
+        $labels = [
+            'pending_payment' => 'Payment Proof Needed',
+            'payment_submitted' => 'Payment Proof Submitted',
+            'payment_verified' => 'Payment Verified',
+            'payment_rejected' => 'Payment Needs Correction',
+        ];
+
+        return $labels[$status] ?? 'Not Required';
+    }
+}
+
 if (!function_exists('payment_status_badge_class')) {
     function payment_status_badge_class($status)
     {
@@ -222,6 +253,179 @@ if (!function_exists('payment_status_badge_class')) {
         ];
 
         return $classes[$status] ?? 'badge-neutral';
+    }
+}
+
+if (!function_exists('timeline_step_payload')) {
+    function timeline_step_payload($label, $description, $state)
+    {
+        $styles = [
+            'complete' => [
+                'state_label' => 'Complete',
+                'card_class' => 'border-teal-200 bg-teal-50',
+                'dot_class' => 'bg-teal-700',
+                'label_class' => 'text-teal-950',
+                'description_class' => 'text-teal-800',
+                'pill_class' => 'badge-success',
+            ],
+            'current' => [
+                'state_label' => 'Current',
+                'card_class' => 'border-blue-200 bg-blue-50',
+                'dot_class' => 'bg-blue-700',
+                'label_class' => 'text-blue-950',
+                'description_class' => 'text-blue-800',
+                'pill_class' => 'badge-info',
+            ],
+            'attention' => [
+                'state_label' => 'Action Needed',
+                'card_class' => 'border-amber-200 bg-amber-50',
+                'dot_class' => 'bg-amber-600',
+                'label_class' => 'text-amber-950',
+                'description_class' => 'text-amber-800',
+                'pill_class' => 'badge-warning',
+            ],
+            'blocked' => [
+                'state_label' => 'Stopped',
+                'card_class' => 'border-rose-200 bg-rose-50',
+                'dot_class' => 'bg-rose-700',
+                'label_class' => 'text-rose-950',
+                'description_class' => 'text-rose-800',
+                'pill_class' => 'badge-danger',
+            ],
+            'skipped' => [
+                'state_label' => 'Not Required',
+                'card_class' => 'border-slate-200 bg-slate-50',
+                'dot_class' => 'bg-slate-400',
+                'label_class' => 'text-slate-800',
+                'description_class' => 'text-slate-600',
+                'pill_class' => 'badge-neutral',
+            ],
+            'pending' => [
+                'state_label' => 'Pending',
+                'card_class' => 'border-slate-200 bg-white',
+                'dot_class' => 'bg-slate-300',
+                'label_class' => 'text-slate-800',
+                'description_class' => 'text-slate-600',
+                'pill_class' => 'badge-neutral',
+            ],
+        ];
+
+        $style = $styles[$state] ?? $styles['pending'];
+
+        return array_merge([
+            'label' => $label,
+            'description' => $description,
+            'state' => $state,
+        ], $style);
+    }
+}
+
+if (!function_exists('request_timeline_steps')) {
+    function request_timeline_steps($requestStatus, $paymentStatus = null, $hasFinalDocument = false)
+    {
+        $requestStatus = (string) $requestStatus;
+        $paymentStatus = $paymentStatus === null ? null : (string) $paymentStatus;
+        $hasFinalDocument = (bool) $hasFinalDocument;
+        $isRejected = $requestStatus === 'rejected';
+
+        $submittedState = $requestStatus === 'submitted' ? 'current' : 'complete';
+
+        if ($requestStatus === 'submitted') {
+            $reviewState = 'pending';
+            $reviewDescription = 'Staff review begins after the request is received in the queue.';
+        } elseif ($requestStatus === 'needs_info') {
+            $reviewState = 'attention';
+            $reviewDescription = 'Staff needs additional information before the request can continue.';
+        } elseif ($isRejected) {
+            $reviewState = 'blocked';
+            $reviewDescription = 'The request was rejected after review. Check staff notes for details.';
+        } elseif ($requestStatus === 'under_review') {
+            $reviewState = 'current';
+            $reviewDescription = 'Barangay staff is checking the request details and submitted requirements.';
+        } else {
+            $reviewState = 'complete';
+            $reviewDescription = 'The request review step has been completed.';
+        }
+
+        if ($paymentStatus === null) {
+            $paymentState = 'skipped';
+            $paymentDescription = 'This service does not require payment proof review.';
+        } elseif ($paymentStatus === 'pending_payment') {
+            $paymentState = $isRejected ? 'blocked' : 'attention';
+            $paymentDescription = $isRejected
+                ? 'Payment proof review stopped because the request was rejected.'
+                : 'Payment proof is needed before staff can verify this paid request.';
+        } elseif ($paymentStatus === 'payment_submitted') {
+            $paymentState = $isRejected ? 'blocked' : 'current';
+            $paymentDescription = $isRejected
+                ? 'Payment proof was submitted, but the request is no longer active.'
+                : 'Payment proof has been submitted and is waiting for staff review.';
+        } elseif ($paymentStatus === 'payment_verified') {
+            $paymentState = 'complete';
+            $paymentDescription = 'Payment proof has been verified by barangay staff.';
+        } elseif ($paymentStatus === 'payment_rejected') {
+            $paymentState = $isRejected ? 'blocked' : 'attention';
+            $paymentDescription = $isRejected
+                ? 'Payment proof correction stopped because the request was rejected.'
+                : 'Payment proof needs correction or resubmission before the request can continue.';
+        } else {
+            $paymentState = 'pending';
+            $paymentDescription = 'Payment proof status will appear here when available.';
+        }
+
+        if ($isRejected) {
+            $processingState = 'blocked';
+            $processingDescription = 'Processing stopped because this request was rejected.';
+        } elseif (in_array($requestStatus, ['approved'], true)) {
+            $processingState = 'current';
+            $processingDescription = 'The request is approved and staff can prepare the final document.';
+        } elseif (in_array($requestStatus, ['ready_for_pickup', 'released'], true)) {
+            $processingState = 'complete';
+            $processingDescription = 'Processing is complete and the request moved to release.';
+        } else {
+            $processingState = 'pending';
+            $processingDescription = 'Processing begins after staff approval and any required payment proof review.';
+        }
+
+        if ($isRejected) {
+            $releaseState = 'blocked';
+            $releaseDescription = 'The request did not continue to final document release.';
+        } elseif ($requestStatus === 'released') {
+            $releaseState = 'complete';
+            $releaseDescription = 'The request was released to the resident.';
+        } elseif ($requestStatus === 'ready_for_pickup') {
+            $releaseState = 'current';
+            $releaseDescription = 'The request is ready for release or pickup.';
+        } elseif ($requestStatus === 'approved' && $hasFinalDocument) {
+            $releaseState = 'current';
+            $releaseDescription = 'A final document is available for resident download when allowed by the request status.';
+        } elseif ($requestStatus === 'approved') {
+            $releaseState = 'pending';
+            $releaseDescription = 'Staff can upload the final document after approval requirements are complete.';
+        } else {
+            $releaseState = 'pending';
+            $releaseDescription = 'Final document release appears after approval and document preparation.';
+        }
+
+        if ($requestStatus === 'released') {
+            $completedState = 'current';
+            $completedDescription = 'The request is completed.';
+        } elseif ($isRejected) {
+            $completedState = 'blocked';
+            $completedDescription = 'The request was closed as rejected instead of completed.';
+        } else {
+            $completedState = 'pending';
+            $completedDescription = 'Completion is recorded after release.';
+        }
+
+        return [
+            timeline_step_payload('Submitted', 'The request was received by eBarangayHub.', $submittedState),
+            timeline_step_payload('Under Review', $reviewDescription, $reviewState),
+            timeline_step_payload('Payment Review', $paymentDescription, $paymentState),
+            timeline_step_payload('Processing', $processingDescription, $processingState),
+            timeline_step_payload('Ready for Release', $releaseDescription, $releaseState),
+            timeline_step_payload('Completed', $completedDescription, $completedState),
+        ];
     }
 }
 
@@ -255,6 +459,23 @@ if (!function_exists('complaint_status_label')) {
     }
 }
 
+if (!function_exists('complaint_status_display_label')) {
+    function complaint_status_display_label($status)
+    {
+        $labels = [
+            'submitted' => 'Submitted',
+            'under_review' => 'Under Review',
+            'needs_info' => 'Needs Information',
+            'investigating' => 'In Progress',
+            'resolved' => 'Resolved',
+            'closed' => 'Closed',
+            'dismissed' => 'Dismissed',
+        ];
+
+        return $labels[$status] ?? complaint_status_label($status);
+    }
+}
+
 if (!function_exists('complaint_status_badge_class')) {
     function complaint_status_badge_class($status)
     {
@@ -269,6 +490,68 @@ if (!function_exists('complaint_status_badge_class')) {
         ];
 
         return $classes[$status] ?? 'badge-neutral';
+    }
+}
+
+if (!function_exists('complaint_timeline_steps')) {
+    function complaint_timeline_steps($complaintStatus)
+    {
+        $complaintStatus = (string) $complaintStatus;
+        $isDismissed = $complaintStatus === 'dismissed';
+
+        $submittedState = $complaintStatus === 'submitted' ? 'current' : 'complete';
+
+        if ($complaintStatus === 'submitted') {
+            $reviewState = 'pending';
+            $reviewDescription = 'Staff review begins after the complaint is received in the queue.';
+        } elseif ($complaintStatus === 'needs_info') {
+            $reviewState = 'attention';
+            $reviewDescription = 'Staff needs more information before the complaint can continue.';
+        } elseif ($isDismissed) {
+            $reviewState = 'blocked';
+            $reviewDescription = 'The complaint was dismissed after review. Check notes for details.';
+        } elseif ($complaintStatus === 'under_review') {
+            $reviewState = 'current';
+            $reviewDescription = 'Barangay staff is reviewing the complaint details and evidence.';
+        } else {
+            $reviewState = 'complete';
+            $reviewDescription = 'The initial review step has been completed.';
+        }
+
+        if ($isDismissed) {
+            $progressState = 'blocked';
+            $progressDescription = 'Handling stopped because the complaint was dismissed.';
+        } elseif ($complaintStatus === 'investigating') {
+            $progressState = 'current';
+            $progressDescription = 'The complaint is being handled by barangay staff.';
+        } elseif (in_array($complaintStatus, ['resolved', 'closed'], true)) {
+            $progressState = 'complete';
+            $progressDescription = 'The complaint handling step has been completed.';
+        } else {
+            $progressState = 'pending';
+            $progressDescription = 'Handling begins after review and assignment.';
+        }
+
+        if ($isDismissed) {
+            $resolvedState = 'blocked';
+            $resolvedDescription = 'The complaint was dismissed instead of resolved.';
+        } elseif ($complaintStatus === 'resolved') {
+            $resolvedState = 'current';
+            $resolvedDescription = 'The complaint has been marked resolved.';
+        } elseif ($complaintStatus === 'closed') {
+            $resolvedState = 'current';
+            $resolvedDescription = 'The complaint has been resolved and closed.';
+        } else {
+            $resolvedState = 'pending';
+            $resolvedDescription = 'Resolution appears after staff completes handling and records the outcome.';
+        }
+
+        return [
+            timeline_step_payload('Submitted', 'The complaint was received by eBarangayHub.', $submittedState),
+            timeline_step_payload('Under Review', $reviewDescription, $reviewState),
+            timeline_step_payload('In Progress', $progressDescription, $progressState),
+            timeline_step_payload('Resolved', $resolvedDescription, $resolvedState),
+        ];
     }
 }
 

@@ -1,7 +1,7 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
 
-<?php $status_flow = ['submitted', 'under_review', 'needs_info', 'investigating', 'resolved', 'closed']; ?>
+<?php $complaint_timeline = complaint_timeline_steps($complaint['status']); ?>
 
 <section class="workflow-page">
     <div class="workflow-header">
@@ -23,7 +23,7 @@
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <span class="status-pill <?= complaint_status_badge_class($complaint['status']); ?>">
-                            <?= e(complaint_status_label($complaint['status'])); ?>
+                            <?= e(complaint_status_display_label($complaint['status'])); ?>
                         </span>
                         <span class="status-pill <?= complaint_priority_badge_class($complaint['priority']); ?>">
                             <?= e(complaint_priority_label($complaint['priority'])); ?>
@@ -138,7 +138,7 @@
                                     $disabled = $status !== $complaint['status'] && !complaint_status_transition_allowed($complaint['status'], $status);
                                 ?>
                                 <option value="<?= e($status); ?>" <?= ($complaint['status'] === $status) ? 'selected' : ''; ?> <?= $disabled ? 'disabled' : ''; ?>>
-                                    <?= e(complaint_status_label($status)); ?>
+                                    <?= e(complaint_status_display_label($status)); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -187,22 +187,23 @@
             </section>
 
             <section class="workflow-card">
-                <h2 class="text-lg font-semibold text-slate-950">Status Direction</h2>
+                <h2 class="text-lg font-semibold text-slate-950">Complaint Timeline</h2>
+                <p class="mt-1 text-sm text-slate-600">Read-only timeline based on complaint review, handling, and resolution status.</p>
                 <ol class="mt-4 space-y-3 text-sm">
-                    <?php foreach ($status_flow as $status): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md <?= ($status === $complaint['status']) ? 'bg-teal-700' : 'bg-slate-300'; ?>"></span>
-                            <span class="<?= ($status === $complaint['status']) ? 'font-semibold text-slate-950' : 'text-slate-600'; ?>">
-                                <?= e(complaint_status_label($status)); ?>
-                            </span>
+                    <?php foreach ($complaint_timeline as $step): ?>
+                        <li class="rounded-md border p-4 <?= e($step['card_class']); ?>">
+                            <div class="flex items-start gap-3">
+                                <span class="mt-1 h-3 w-3 shrink-0 rounded-md <?= e($step['dot_class']); ?>"></span>
+                                <div class="min-w-0">
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="font-semibold <?= e($step['label_class']); ?>"><?= e($step['label']); ?></span>
+                                        <span class="status-pill <?= e($step['pill_class']); ?>"><?= e($step['state_label']); ?></span>
+                                    </div>
+                                    <p class="mt-1 leading-6 <?= e($step['description_class']); ?>"><?= e($step['description']); ?></p>
+                                </div>
+                            </div>
                         </li>
                     <?php endforeach; ?>
-                    <?php if ($complaint['status'] === 'dismissed'): ?>
-                        <li class="flex items-center gap-3">
-                            <span class="h-3 w-3 rounded-md bg-rose-700"></span>
-                            <span class="font-semibold text-rose-900">Dismissed</span>
-                        </li>
-                    <?php endif; ?>
                 </ol>
             </section>
 
