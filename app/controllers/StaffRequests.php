@@ -89,7 +89,7 @@ class StaffRequests extends Controller
             $payment = $this->Payment_model->find_for_request((int) $id);
 
             if (empty($payment) || $payment['payment_status'] !== 'payment_verified') {
-                $errors[] = 'Verify the simulated payment before moving this paid request to an approved, pickup, or released status.';
+                $errors[] = 'Verify the payment proof before moving this paid request to an approved, pickup, or released status.';
             }
         }
 

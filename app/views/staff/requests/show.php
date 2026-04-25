@@ -212,7 +212,7 @@ $has_final_document = !empty($final_document);
                             <div>
                                 <label class="form-label" for="payment_remarks">Payment Remarks</label>
                                 <textarea class="form-input min-h-28" id="payment_remarks" name="remarks"><?= e($payment['remarks'] ?? ''); ?></textarea>
-                                <p class="mt-2 text-xs text-slate-600">Remarks are useful when rejecting a payment.</p>
+                                <p class="mt-2 text-xs text-slate-600">Add a clear note when rejecting payment proof so the resident knows what to correct or resubmit.</p>
                             </div>
 
                                 <button class="btn-primary w-full" type="submit">Save Payment Review</button>
@@ -264,7 +264,7 @@ $has_final_document = !empty($final_document);
                             <input class="form-input" id="final_document" type="file" name="final_document" accept=".pdf,.doc,.docx" required>
                             <p class="mt-2 text-xs text-slate-600">
                                 Allowed types: PDF, DOC, DOCX. Maximum size: <?= e($max_upload_mb); ?>MB.
-                                Uploading a new file replaces the current final document.
+                                Upload the approved final document only. Uploading a new file replaces the current final document.
                             </p>
                         </div>
 
@@ -302,7 +302,7 @@ $has_final_document = !empty($final_document);
                             <?php endforeach; ?>
                         </select>
                         <p class="mt-2 text-xs text-slate-600">
-                            Paid requests need verified payment before approval. Ready for Pickup and Released also require a final document.
+                            Paid requests need verified payment proof before approval. Ready for Pickup and Released also require an uploaded final document.
                         </p>
                     </div>
 

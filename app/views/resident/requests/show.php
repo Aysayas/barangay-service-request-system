@@ -60,7 +60,7 @@ $final_document_exists = !empty($final_document['file_path'])
                     <div class="flex flex-wrap items-start justify-between gap-3">
                         <div>
                             <h2 class="text-lg font-semibold text-slate-950">Payment Proof</h2>
-                            <p class="mt-1 text-sm text-slate-600">Upload proof only after following the payment instructions provided by the barangay office.</p>
+                            <p class="mt-1 text-sm text-slate-600">Upload proof only after following the payment instructions provided by the barangay office. Use the exact reference shown on your receipt, transaction, or acknowledgement record.</p>
                         </div>
                         <span class="status-pill <?= payment_status_badge_class($payment_status); ?>">
                             <?= e(payment_status_label($payment_status)); ?>
@@ -118,6 +118,7 @@ $final_document_exists = !empty($final_document['file_path'])
                             <div>
                                 <label class="form-label" for="reference_number">Reference Number</label>
                                 <input class="form-input" id="reference_number" type="text" name="reference_number" value="<?= e($payment['reference_number'] ?? ''); ?>" maxlength="120" required>
+                                <p class="mt-2 text-xs text-slate-600">Enter the receipt, transaction, or acknowledgement reference exactly as provided.</p>
                             </div>
 
                             <div>
@@ -125,7 +126,7 @@ $final_document_exists = !empty($final_document['file_path'])
                                 <input class="form-input" id="payment_proof" type="file" name="payment_proof" accept=".jpg,.jpeg,.png,.pdf" required>
                                 <p class="mt-2 text-xs text-slate-600">
                                     Allowed types: JPG, PNG, PDF. Maximum size: <?= e($max_payment_upload_mb); ?>MB.
-                                    Uploading again replaces your previous proof.
+                                    Make sure the file is clear and readable. Uploading again replaces your previous proof.
                                 </p>
                             </div>
 

@@ -22,19 +22,22 @@ $action = $is_edit ? site_url('admin/announcements/update/' . $announcement['id'
         <div>
             <label class="form-label" for="title">Title</label>
             <input class="form-input" id="title" name="title" value="<?= e($data['title'] ?? ''); ?>" required>
+            <p class="mt-2 text-xs text-slate-600">Use a concise title residents can understand quickly.</p>
         </div>
         <div>
             <label class="form-label" for="slug">Slug</label>
             <input class="form-input" id="slug" name="slug" value="<?= e($data['slug'] ?? ''); ?>" placeholder="Leave blank to generate from title">
+            <p class="mt-2 text-xs text-slate-600">Optional. Leave blank to generate a clean link from the title.</p>
         </div>
         <div>
             <label class="form-label" for="body">Content</label>
             <textarea class="form-input min-h-48" id="body" name="body" required><?= e($data['body'] ?? ''); ?></textarea>
+            <p class="mt-2 text-xs text-slate-600">Write the official announcement details, including dates, instructions, or office reminders when needed.</p>
         </div>
         <div class="management-checkbox-grid">
             <label class="flex items-center gap-3">
                 <input type="checkbox" name="is_published" value="1" <?= ((int) ($data['is_published'] ?? 0) === 1) ? 'checked' : ''; ?>>
-                Published
+                Published and visible to residents
             </label>
         </div>
         <div class="management-form-actions">

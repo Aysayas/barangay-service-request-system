@@ -120,7 +120,7 @@ class Payments extends Controller
                 'submitted_payment',
                 'service_request',
                 (int) $id,
-                'Resident submitted simulated payment for ' . $request['reference_no'] . '.'
+                'Resident submitted payment proof for ' . $request['reference_no'] . '.'
             );
 
             $this->db->commit();
@@ -141,7 +141,7 @@ class Payments extends Controller
             }
         }
 
-        $this->session->set_flashdata('success', 'Your simulated payment was submitted for staff review.');
+        $this->session->set_flashdata('success', 'Your payment proof was submitted for staff review.');
         redirect('resident/requests/' . (int) $id);
         exit;
     }
@@ -215,7 +215,7 @@ class Payments extends Controller
             $payment_status === 'payment_verified' ? 'verified_payment' : 'rejected_payment',
             'service_request',
             (int) $request_id,
-            ($payment_status === 'payment_verified' ? 'Verified' : 'Rejected') . ' simulated payment for ' . $request['reference_no'] . '.'
+            ($payment_status === 'payment_verified' ? 'Verified' : 'Rejected') . ' payment proof for ' . $request['reference_no'] . '.'
         );
 
         $this->Notification_service->payment_reviewed($request, $payment_status, $remarks);
@@ -230,7 +230,7 @@ class Payments extends Controller
         $errors = [];
 
         if (!array_key_exists($method, $this->Payment_model->allowed_methods())) {
-            $errors[] = 'Choose a valid simulated payment method.';
+            $errors[] = 'Choose a valid payment method.';
         }
 
         if ($reference_number === '') {

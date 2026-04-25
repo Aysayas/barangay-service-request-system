@@ -25,6 +25,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
             <div>
                 <label class="form-label" for="title">Title</label>
                 <input class="form-input" id="title" name="title" value="<?= e($data['title'] ?? ''); ?>" maxlength="180" required>
+                <p class="mt-2 text-xs text-slate-600">Use a clear public-facing title for the update.</p>
             </div>
             <div>
                 <label class="form-label" for="category">Category</label>
@@ -36,12 +37,14 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
                         </option>
                     <?php endforeach; ?>
                 </select>
+                <p class="mt-2 text-xs text-slate-600">Choose the category that best matches the information residents need.</p>
             </div>
         </div>
 
         <div>
             <label class="form-label" for="slug">Slug</label>
             <input class="form-input" id="slug" name="slug" value="<?= e($data['slug'] ?? ''); ?>" placeholder="Leave blank to generate from title">
+            <p class="mt-2 text-xs text-slate-600">Optional. Leave blank to create a clean link from the title.</p>
         </div>
 
         <div>
@@ -53,6 +56,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
         <div>
             <label class="form-label" for="content">Content</label>
             <textarea class="form-input min-h-56" id="content" name="content" required><?= e($data['content'] ?? ''); ?></textarea>
+            <p class="mt-2 text-xs text-slate-600">Write the full announcement, advisory, event details, or resource instructions residents should read.</p>
         </div>
 
         <section class="compact-note">
@@ -85,7 +89,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
         <div>
             <label class="form-label" for="image">Community Image</label>
             <input class="form-input" id="image" type="file" name="image" accept=".jpg,.jpeg,.png,.webp">
-            <p class="mt-2 text-xs text-slate-600">Optional. Allowed: JPG, PNG, WEBP. Maximum <?= e($max_upload_mb); ?>MB.</p>
+            <p class="mt-2 text-xs text-slate-600">Optional. Allowed: JPG, PNG, WEBP. Maximum <?= e($max_upload_mb); ?>MB. Use a clear image that supports the update.</p>
             <?php if ($is_edit && !empty($post['image_path']) && safe_storage_path($post['image_path'], 'runtime/uploads/community') !== null): ?>
                 <div class="mt-4 rounded-md border border-slate-200 bg-white p-3">
                     <p class="text-sm font-medium text-slate-800">Current image</p>
@@ -102,7 +106,7 @@ $event_time = !empty($data['event_time']) ? substr($data['event_time'], 0, 5) : 
         <div class="management-checkbox-grid">
             <label class="flex items-center gap-3">
                 <input type="checkbox" name="is_published" value="1" <?= ((int) ($data['is_published'] ?? 0) === 1) ? 'checked' : ''; ?>>
-                Published
+                Published and visible to residents
             </label>
             <label class="flex items-center gap-3">
                 <input type="checkbox" name="is_featured" value="1" <?= ((int) ($data['is_featured'] ?? 0) === 1) ? 'checked' : ''; ?>>
