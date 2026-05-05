@@ -10,14 +10,17 @@ $has_filters = ($current_role !== 'all') || ($search !== '');
     <div class="management-header">
         <div>
             <p class="page-kicker">Admin</p>
-            <h1 class="management-title">Users</h1>
-            <p class="management-subtitle">View residents and manage staff/admin accounts.</p>
+            <h1 class="management-title">User Accounts</h1>
+            <p class="management-subtitle">Review resident registrations and manage authorized staff/admin access.</p>
         </div>
         <a class="btn-primary" href="<?= site_url('admin/users/create'); ?>">Create Staff/Admin</a>
     </div>
 
     <div class="filter-card">
         <form class="grid gap-4 md:grid-cols-[0.6fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
+            <div class="md:col-span-3">
+                <p class="compact-note">Use role and search filters to locate resident, staff, and administrator accounts without changing account records.</p>
+            </div>
             <div>
                 <label class="form-label" for="role">Role</label>
                 <select class="form-input" id="role" name="role">
@@ -63,20 +66,28 @@ $has_filters = ($current_role !== 'all') || ($search !== '');
                         <th class="px-4 py-3 font-medium">Email</th>
                         <th class="px-4 py-3 font-medium">Role</th>
                         <th class="px-4 py-3 font-medium">Status</th>
+                        <th class="px-4 py-3 font-medium">Created</th>
                         <th class="px-4 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($users as $row): ?>
+                        <?php
+                            $role_badge = ($row['role'] === 'admin') ? 'badge-info' : (($row['role'] === 'staff') ? 'badge-warning' : 'badge-neutral');
+                            $status_badge = ($row['status'] === 'active') ? 'badge-success' : 'badge-neutral';
+                        ?>
                         <tr>
                             <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['first_name'] . ' ' . $row['last_name']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e($row['email']); ?></td>
-                            <td class="px-4 py-3 text-slate-700"><?= e(ucfirst($row['role'])); ?></td>
                             <td class="px-4 py-3">
-                                <span class="status-pill <?= ($row['status'] === 'active') ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= $role_badge; ?>"><?= e(ucfirst($row['role'])); ?></span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="status-pill <?= $status_badge; ?>">
                                     <?= e(ucfirst($row['status'])); ?>
                                 </span>
                             </td>
+                            <td class="px-4 py-3 text-slate-700"><?= !empty($row['created_at']) ? e(date('M d, Y', strtotime($row['created_at']))) : 'Not recorded'; ?></td>
                             <td class="px-4 py-3">
                                 <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/users/edit/' . $row['id']); ?>">Edit</a>

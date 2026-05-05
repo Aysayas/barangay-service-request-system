@@ -1,12 +1,19 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
+<?php
+$has_filters = !empty($filters['from_date'])
+    || !empty($filters['to_date'])
+    || !empty($filters['category'])
+    || $filters['is_published'] !== ''
+    || $filters['is_featured'] !== '';
+?>
 
 <section class="analytics-page">
     <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
             <h1 class="analytics-title">Community Reports</h1>
-            <p class="analytics-subtitle">Review public community content by category, publish state, featured state, and upcoming events.</p>
+            <p class="analytics-subtitle">Review public community content by category, publishing state, featured placement, and upcoming events.</p>
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
@@ -48,6 +55,9 @@
     </div>
 
     <form class="filter-card report-filter-grid report-filter-grid-6" method="GET" action="<?= site_url('admin/reports/community'); ?>">
+        <div class="md:col-span-6">
+            <p class="compact-note">Filter community content by date, category, publishing state, or featured placement. CSV export uses the same active filters.</p>
+        </div>
         <div>
             <label class="form-label" for="from_date">From</label>
             <input class="form-input" id="from_date" type="date" name="from_date" value="<?= e($filters['from_date']); ?>">
@@ -83,16 +93,23 @@
         </div>
         <div class="report-filter-actions">
             <button class="btn-primary" type="submit">Apply</button>
-            <a class="btn-secondary" href="<?= site_url('admin/reports/community'); ?>">Reset</a>
+            <a class="btn-secondary" href="<?= site_url('admin/reports/community'); ?>">Reset Filters</a>
         </div>
     </form>
 
     <?php if (empty($rows)): ?>
         <div class="empty-state mt-8">
-            <h2 class="text-lg font-semibold text-slate-950">No community report data matches the selected filters.</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">
-                Adjust the date range, category, publishing state, or featured state, then apply the filters again.
-            </p>
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No community report data matches the selected filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Adjust the date range, category, publishing state, or featured state, then apply the filters again.
+                </p>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No community content records are available yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Community posts will appear here once administrators create public updates, advisories, events, programs, or resources.
+                </p>
+            <?php endif; ?>
             <div class="mt-5 flex flex-wrap justify-center gap-3">
                 <a class="btn-secondary" href="<?= site_url('admin/reports/community'); ?>">Reset Filters</a>
                 <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
@@ -116,8 +133,16 @@
                         <tr>
                             <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['title']); ?></td>
                             <td class="px-4 py-3"><span class="status-pill <?= community_category_badge_class($row['category']); ?>"><?= e(community_category_label($row['category'])); ?></span></td>
-                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['is_published'] === 1) ? 'Published' : 'Unpublished'; ?></td>
-                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['is_featured'] === 1) ? 'Featured' : 'Not featured'; ?></td>
+                            <td class="px-4 py-3">
+                                <span class="status-pill <?= ((int) $row['is_published'] === 1) ? 'badge-success' : 'badge-neutral'; ?>">
+                                    <?= ((int) $row['is_published'] === 1) ? 'Published' : 'Unpublished'; ?>
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="status-pill <?= ((int) $row['is_featured'] === 1) ? 'badge-info' : 'badge-neutral'; ?>">
+                                    <?= ((int) $row['is_featured'] === 1) ? 'Featured' : 'Standard'; ?>
+                                </span>
+                            </td>
                             <td class="px-4 py-3 text-slate-700"><?= !empty($row['published_at']) ? e(date('M d, Y', strtotime($row['published_at']))) : 'Not published'; ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
                         </tr>

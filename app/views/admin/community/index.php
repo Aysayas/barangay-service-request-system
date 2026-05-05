@@ -12,7 +12,7 @@ $has_filters = ($current_category !== 'all') || ($search !== '');
             <p class="workflow-kicker">Admin Community</p>
             <h1 class="workflow-title">Community Posts</h1>
             <p class="workflow-subtitle">
-                Manage public updates, events, advisories, programs, and resources.
+                Manage public updates, events, advisories, programs, resources, and featured placements.
             </p>
         </div>
         <a class="btn-primary" href="<?= site_url('admin/community/create'); ?>">Create Post</a>
@@ -20,6 +20,9 @@ $has_filters = ($current_category !== 'all') || ($search !== '');
 
     <div class="filter-card">
         <form class="grid gap-4 md:grid-cols-[0.7fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
+            <div class="md:col-span-3">
+                <p class="compact-note">Use filters to find public content by category or keyword while keeping publishing actions unchanged.</p>
+            </div>
             <div>
                 <label class="form-label" for="category">Category</label>
                 <select class="form-input" id="category" name="category">
@@ -86,9 +89,22 @@ $has_filters = ($current_category !== 'all') || ($search !== '');
                                     <?= e(community_category_label($post['category'])); ?>
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-slate-700"><?= ((int) $post['is_published'] === 1) ? 'Yes' : 'No'; ?></td>
-                            <td class="px-4 py-3 text-slate-700"><?= ((int) $post['is_featured'] === 1) ? 'Yes' : 'No'; ?></td>
-                            <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($post['updated_at']))); ?></td>
+                            <td class="px-4 py-3">
+                                <span class="status-pill <?= ((int) $post['is_published'] === 1) ? 'badge-success' : 'badge-neutral'; ?>">
+                                    <?= ((int) $post['is_published'] === 1) ? 'Published' : 'Unpublished'; ?>
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="status-pill <?= ((int) $post['is_featured'] === 1) ? 'badge-info' : 'badge-neutral'; ?>">
+                                    <?= ((int) $post['is_featured'] === 1) ? 'Featured' : 'Standard'; ?>
+                                </span>
+                            </td>
+                            <td class="px-4 py-3 text-slate-700">
+                                <p><?= e(date('M d, Y', strtotime($post['updated_at']))); ?></p>
+                                <?php if (!empty($post['updated_by_name'])): ?>
+                                    <p class="mt-1 text-xs text-slate-500">by <?= e($post['updated_by_name']); ?></p>
+                                <?php endif; ?>
+                            </td>
                             <td class="px-4 py-3">
                                 <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/community/edit/' . $post['id']); ?>">Edit</a>

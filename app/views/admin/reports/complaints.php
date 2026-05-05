@@ -1,12 +1,19 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
+<?php
+$has_filters = !empty($filters['from_date'])
+    || !empty($filters['to_date'])
+    || !empty($filters['category'])
+    || !empty($filters['priority'])
+    || !empty($filters['status']);
+?>
 
 <section class="analytics-page">
     <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
             <h1 class="analytics-title">Complaint Reports</h1>
-            <p class="analytics-subtitle">Review complaint totals by status, priority, category, and assigned staff.</p>
+            <p class="analytics-subtitle">Review complaint volume, handling status, priority, category, and assignment patterns.</p>
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
@@ -39,8 +46,8 @@
         <div class="report-metric-card"><p class="metric-label">Open</p><strong class="text-amber-700"><?= e($summary['open_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Submitted</p><strong><?= e($summary['submitted_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Under Review</p><strong class="text-amber-700"><?= e($summary['under_review_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Needs Info</p><strong class="text-rose-700"><?= e($summary['needs_info_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Investigating</p><strong class="text-amber-700"><?= e($summary['investigating_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Needs Information</p><strong class="text-rose-700"><?= e($summary['needs_info_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">In Progress</p><strong class="text-amber-700"><?= e($summary['investigating_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Resolved</p><strong class="text-teal-700"><?= e($summary['resolved_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Closed</p><strong class="text-teal-700"><?= e($summary['closed_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Dismissed</p><strong class="text-rose-700"><?= e($summary['dismissed_count']); ?></strong></div>
@@ -52,6 +59,9 @@
     </div>
 
     <form class="filter-card report-filter-grid report-filter-grid-6" method="GET" action="<?= site_url('admin/reports/complaints'); ?>">
+        <div class="md:col-span-6">
+            <p class="compact-note">Filter complaint records by date, category, priority, or handling status. CSV export uses the same active filters.</p>
+        </div>
         <div>
             <label class="form-label" for="from_date">From</label>
             <input class="form-input" id="from_date" type="date" name="from_date" value="<?= e($filters['from_date']); ?>">
@@ -83,22 +93,29 @@
             <select class="form-input" id="status" name="status">
                 <option value="">All</option>
                 <?php foreach ($statuses as $status): ?>
-                    <option value="<?= e($status); ?>" <?= ($filters['status'] === $status) ? 'selected' : ''; ?>><?= e(complaint_status_label($status)); ?></option>
+                    <option value="<?= e($status); ?>" <?= ($filters['status'] === $status) ? 'selected' : ''; ?>><?= e(complaint_status_display_label($status)); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="report-filter-actions">
             <button class="btn-primary" type="submit">Apply</button>
-            <a class="btn-secondary" href="<?= site_url('admin/reports/complaints'); ?>">Reset</a>
+            <a class="btn-secondary" href="<?= site_url('admin/reports/complaints'); ?>">Reset Filters</a>
         </div>
     </form>
 
     <?php if (empty($rows)): ?>
         <div class="empty-state mt-8">
-            <h2 class="text-lg font-semibold text-slate-950">No complaint report data matches the selected filters.</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">
-                Adjust the date range, category, priority, or status, then apply the filters again.
-            </p>
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No complaint report data matches the selected filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Adjust the date range, category, priority, or status, then apply the filters again.
+                </p>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No complaint records are available yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Complaint records will appear here once residents submit concerns for barangay review.
+                </p>
+            <?php endif; ?>
             <div class="mt-5 flex flex-wrap justify-center gap-3">
                 <a class="btn-secondary" href="<?= site_url('admin/reports/complaints'); ?>">Reset Filters</a>
                 <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
@@ -127,7 +144,7 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($row['subject']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(complaint_category_label($row['category'])); ?></td>
                             <td class="px-4 py-3"><span class="status-pill <?= complaint_priority_badge_class($row['priority']); ?>"><?= e(complaint_priority_label($row['priority'])); ?></span></td>
-                            <td class="px-4 py-3"><span class="status-pill <?= complaint_status_badge_class($row['status']); ?>"><?= e(complaint_status_label($row['status'])); ?></span></td>
+                            <td class="px-4 py-3"><span class="status-pill <?= complaint_status_badge_class($row['status']); ?>"><?= e(complaint_status_display_label($row['status'])); ?></span></td>
                             <td class="px-4 py-3 text-slate-700"><?= !empty($row['assigned_to_name']) ? e($row['assigned_to_name']) : 'Unassigned'; ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
                         </tr>

@@ -6,12 +6,13 @@
     <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
-            <h1 class="analytics-title">Reports and Summary Data</h1>
+            <h1 class="analytics-title">Operational Reports</h1>
             <p class="analytics-subtitle">
-                Review reusable report data for requests, payments, complaints, and community content. Each detailed report page can export its filtered table as a CSV file.
+                Monitor service requests, payment proof records, complaints, and community content from one reporting workspace. Detailed report pages include filtered tables and CSV exports.
             </p>
         </div>
         <div class="analytics-actions">
+            <a class="btn-secondary" href="<?= site_url('admin/reports/pdf'); ?>">Download PDF Summary</a>
             <a class="btn-primary" href="<?= site_url('admin/reports/export'); ?>">Export Summary CSV</a>
             <a class="btn-secondary" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
         </div>
@@ -43,7 +44,7 @@
             <p class="metric-value"><?= e($summary['total_requests']); ?></p>
         </div>
         <div class="metric-card">
-            <p class="metric-label">Verified Payments</p>
+            <p class="metric-label">Verified Payment Proofs</p>
             <p class="metric-value text-teal-700"><?= e($summary['verified_payments']); ?></p>
         </div>
         <div class="metric-card">
@@ -59,25 +60,25 @@
     <div class="analytics-grid">
         <a class="report-link-card" href="<?= site_url('admin/reports/requests'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Request Reports</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Filter service requests by date, service, and status. Includes payment and final document availability.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Review request volume, workflow status, payment proof requirements, and final document availability.</p>
         </a>
         <a class="report-link-card" href="<?= site_url('admin/reports/payments'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Payment Reports</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Track payment proof records, expected amounts, verified amounts, and payment review status.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Track submitted payment proof records, verification outcomes, expected amounts, and verified totals.</p>
         </a>
         <a class="report-link-card" href="<?= site_url('admin/reports/complaints'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Complaint Reports</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Summarize complaint categories, statuses, priorities, assignments, and active workload.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Summarize complaint categories, priorities, handling status, assignments, and open workload.</p>
         </a>
         <a class="report-link-card" href="<?= site_url('admin/reports/community'); ?>">
             <h2 class="text-lg font-semibold text-slate-950">Community Reports</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">Review community posts by category, publishing state, featured state, and upcoming events.</p>
+            <p class="mt-2 text-sm leading-6 text-slate-600">Review public content by category, publishing state, featured placement, and upcoming events.</p>
         </a>
     </div>
 
     <section>
         <div>
-            <h2 class="text-2xl font-bold text-slate-950">Charts Dashboard</h2>
+            <h2 class="text-2xl font-bold text-slate-950">Operational Charts</h2>
             <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
                 Visual summaries use live system data from the same reporting layer. Detailed filters and exports remain on each report page.
             </p>
@@ -85,7 +86,7 @@
 
         <div class="analytics-chart-grid mt-5">
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Requests by Status</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Request Workflow Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Current service request workload by workflow state.</p>
                 <div class="chart-frame">
                     <canvas id="requestStatusChart"></canvas>
@@ -94,7 +95,7 @@
             </div>
 
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Requests by Service</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Request Demand by Service</h3>
                 <p class="mt-1 text-sm text-slate-600">Most requested barangay services.</p>
                 <div class="chart-frame">
                     <canvas id="requestServiceChart"></canvas>
@@ -103,7 +104,7 @@
             </div>
 
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Requests by Month</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Monthly Request Volume</h3>
                 <p class="mt-1 text-sm text-slate-600">Monthly request volume for the last 12 months.</p>
                 <div class="chart-frame">
                     <canvas id="requestMonthlyChart"></canvas>
@@ -112,7 +113,7 @@
             </div>
 
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Payments by Status</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Payment Proof Review Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Payment proof records by review state.</p>
                 <div class="chart-frame">
                     <canvas id="paymentStatusChart"></canvas>
@@ -121,7 +122,7 @@
             </div>
 
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Complaints by Status</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Complaint Handling Status</h3>
                 <p class="mt-1 text-sm text-slate-600">Complaint workload by handling state.</p>
                 <div class="chart-frame">
                     <canvas id="complaintStatusChart"></canvas>
@@ -130,7 +131,7 @@
             </div>
 
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Complaints by Category</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Complaint Categories</h3>
                 <p class="mt-1 text-sm text-slate-600">Common complaint types submitted by residents.</p>
                 <div class="chart-frame">
                     <canvas id="complaintCategoryChart"></canvas>
@@ -139,7 +140,7 @@
             </div>
 
             <div class="chart-card">
-                <h3 class="text-lg font-semibold text-slate-950">Community Posts by Category</h3>
+                <h3 class="text-lg font-semibold text-slate-950">Community Content Categories</h3>
                 <p class="mt-1 text-sm text-slate-600">Published and managed community content grouped by type.</p>
                 <div class="chart-frame">
                     <canvas id="communityCategoryChart"></canvas>

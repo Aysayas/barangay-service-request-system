@@ -6,7 +6,7 @@
         <div>
             <p class="page-kicker">Admin</p>
             <h1 class="management-title">Services</h1>
-            <p class="management-subtitle">Create, edit, and enable or disable resident services.</p>
+            <p class="management-subtitle">Manage service availability, requirements, fees, and payment proof expectations for resident requests.</p>
         </div>
         <a class="btn-primary" href="<?= site_url('admin/services/create'); ?>">Create Service</a>
     </div>
@@ -28,6 +28,7 @@
                         <th class="px-4 py-3 font-medium">Fee</th>
                         <th class="px-4 py-3 font-medium">Payment</th>
                         <th class="px-4 py-3 font-medium">Status</th>
+                        <th class="px-4 py-3 font-medium">Created</th>
                         <th class="px-4 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
@@ -39,12 +40,17 @@
                                 <p class="mt-1 text-xs text-slate-600"><?= e($service['slug']); ?></p>
                             </td>
                             <td class="px-4 py-3 text-slate-700"><?= e(format_money($service['fee'])); ?></td>
-                            <td class="px-4 py-3 text-slate-700"><?= ((int) $service['requires_payment'] === 1) ? 'Required' : 'No'; ?></td>
                             <td class="px-4 py-3">
-                                <span class="status-pill <?= ((int) $service['is_active'] === 1) ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ((int) $service['requires_payment'] === 1) ? 'badge-warning' : 'badge-neutral'; ?>">
+                                    <?= ((int) $service['requires_payment'] === 1) ? 'Proof Required' : 'Not Required'; ?>
+                                </span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="status-pill <?= ((int) $service['is_active'] === 1) ? 'badge-success' : 'badge-neutral'; ?>">
                                     <?= ((int) $service['is_active'] === 1) ? 'Active' : 'Disabled'; ?>
                                 </span>
                             </td>
+                            <td class="px-4 py-3 text-slate-700"><?= !empty($service['created_at']) ? e(date('M d, Y', strtotime($service['created_at']))) : 'Not recorded'; ?></td>
                             <td class="px-4 py-3">
                                 <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/services/edit/' . $service['id']); ?>">Edit</a>

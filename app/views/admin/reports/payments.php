@@ -1,12 +1,18 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
+<?php
+$has_filters = !empty($filters['from_date'])
+    || !empty($filters['to_date'])
+    || !empty($filters['payment_status'])
+    || !empty($filters['service_id']);
+?>
 
 <section class="analytics-page">
     <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
             <h1 class="analytics-title">Payment Reports</h1>
-            <p class="analytics-subtitle">Track payment proof records, verification status, and payment amounts.</p>
+            <p class="analytics-subtitle">Track payment proof submissions, verification outcomes, and expected versus verified amounts.</p>
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
@@ -36,15 +42,18 @@
 
     <div class="report-metric-grid">
         <div class="report-metric-card"><p class="metric-label">Payment Records</p><strong><?= e($summary['total_payments']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Pending Payment</p><strong class="text-amber-700"><?= e($summary['pending_payment_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Payment Submitted</p><strong><?= e($summary['payment_submitted_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Payment Proof Needed</p><strong class="text-amber-700"><?= e($summary['pending_payment_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Payment Proof Submitted</p><strong><?= e($summary['payment_submitted_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Payment Verified</p><strong class="text-teal-700"><?= e($summary['payment_verified_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Payment Rejected</p><strong class="text-rose-700"><?= e($summary['payment_rejected_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Payment Needs Correction</p><strong class="text-rose-700"><?= e($summary['payment_rejected_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Expected Amount</p><strong><?= e(format_money($summary['expected_amount'])); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Verified Amount</p><strong class="text-teal-700"><?= e(format_money($summary['verified_amount'])); ?></strong></div>
     </div>
 
     <form class="filter-card report-filter-grid report-filter-grid-5" method="GET" action="<?= site_url('admin/reports/payments'); ?>">
+        <div class="md:col-span-5">
+            <p class="compact-note">Filter payment proof records by submission date, service, or review status. CSV export uses the same active filters.</p>
+        </div>
         <div>
             <label class="form-label" for="from_date">From</label>
             <input class="form-input" id="from_date" type="date" name="from_date" value="<?= e($filters['from_date']); ?>">
@@ -67,22 +76,29 @@
             <select class="form-input" id="payment_status" name="payment_status">
                 <option value="">All</option>
                 <?php foreach ($payment_statuses as $payment_status): ?>
-                    <option value="<?= e($payment_status); ?>" <?= ($filters['payment_status'] === $payment_status) ? 'selected' : ''; ?>><?= e(payment_status_label($payment_status)); ?></option>
+                    <option value="<?= e($payment_status); ?>" <?= ($filters['payment_status'] === $payment_status) ? 'selected' : ''; ?>><?= e(payment_status_display_label($payment_status)); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="report-filter-actions">
             <button class="btn-primary" type="submit">Apply</button>
-            <a class="btn-secondary" href="<?= site_url('admin/reports/payments'); ?>">Reset</a>
+            <a class="btn-secondary" href="<?= site_url('admin/reports/payments'); ?>">Reset Filters</a>
         </div>
     </form>
 
     <?php if (empty($rows)): ?>
         <div class="empty-state mt-8">
-            <h2 class="text-lg font-semibold text-slate-950">No payment report data matches the selected filters.</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">
-                Adjust the date range, choose another service or payment status, or reset the filters to review all payment proof records.
-            </p>
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No payment report data matches the selected filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Adjust the date range, choose another service or payment status, or reset the filters to review all payment proof records.
+                </p>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No payment proof records are available yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Payment proof records will appear here once residents submit proof for services that require payment review.
+                </p>
+            <?php endif; ?>
             <div class="mt-5 flex flex-wrap justify-center gap-3">
                 <a class="btn-secondary" href="<?= site_url('admin/reports/payments'); ?>">Reset Filters</a>
                 <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
@@ -111,7 +127,7 @@
                             <td class="px-4 py-3 text-slate-700"><?= e($row['service_name']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(format_money($row['amount'])); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(payment_method_label($row['payment_method'])); ?></td>
-                            <td class="px-4 py-3"><span class="status-pill <?= payment_status_badge_class($row['payment_status']); ?>"><?= e(payment_status_label($row['payment_status'])); ?></span></td>
+                            <td class="px-4 py-3"><span class="status-pill <?= payment_status_badge_class($row['payment_status']); ?>"><?= e(payment_status_display_label($row['payment_status'])); ?></span></td>
                             <td class="px-4 py-3 text-slate-700"><?= !empty($row['submitted_at']) ? e(date('M d, Y', strtotime($row['submitted_at']))) : 'Not submitted'; ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= !empty($row['verified_at']) ? e(date('M d, Y', strtotime($row['verified_at']))) : 'Not verified'; ?></td>
                         </tr>

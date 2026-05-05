@@ -1,12 +1,18 @@
 <?php defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed'); ?>
 <?php require APP_DIR . 'views/layouts/header.php'; ?>
+<?php
+$has_filters = !empty($filters['from_date'])
+    || !empty($filters['to_date'])
+    || !empty($filters['status'])
+    || !empty($filters['service_id']);
+?>
 
 <section class="analytics-page">
     <div class="analytics-header">
         <div>
             <p class="page-kicker">Admin Reports</p>
             <h1 class="analytics-title">Request Reports</h1>
-            <p class="analytics-subtitle">Filter service requests and review request workflow totals.</p>
+            <p class="analytics-subtitle">Review request volume, workflow progress, payment proof requirements, and final document readiness.</p>
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
@@ -35,19 +41,22 @@
     <?php endif; ?>
 
     <div class="report-metric-grid">
-        <div class="report-metric-card"><p class="metric-label">Total</p><strong><?= e($summary['total_requests']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Total Requests</p><strong><?= e($summary['total_requests']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Submitted</p><strong class="text-amber-700"><?= e($summary['submitted_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Under Review</p><strong class="text-amber-700"><?= e($summary['under_review_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Needs Info</p><strong class="text-rose-700"><?= e($summary['needs_info_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Approved</p><strong class="text-teal-700"><?= e($summary['approved_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Needs Information</p><strong class="text-rose-700"><?= e($summary['needs_info_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Approved / Processing</p><strong class="text-teal-700"><?= e($summary['approved_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Rejected</p><strong class="text-rose-700"><?= e($summary['rejected_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Ready for Pickup</p><strong class="text-amber-700"><?= e($summary['ready_for_pickup_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Released</p><strong class="text-teal-700"><?= e($summary['released_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Ready for Release</p><strong class="text-amber-700"><?= e($summary['ready_for_pickup_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Completed</p><strong class="text-teal-700"><?= e($summary['released_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">This Month</p><strong><?= e($summary['requests_this_month']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Most Requested</p><strong class="text-base"><?= e($summary['most_requested_service']); ?></strong><p class="mt-1 text-xs text-slate-600"><?= e($summary['most_requested_service_total']); ?> request(s)</p></div>
     </div>
 
     <form class="filter-card report-filter-grid report-filter-grid-5" method="GET" action="<?= site_url('admin/reports/requests'); ?>">
+        <div class="md:col-span-5">
+            <p class="compact-note">Filter by date, service, or workflow status. CSV export uses the same active filters.</p>
+        </div>
         <div>
             <label class="form-label" for="from_date">From</label>
             <input class="form-input" id="from_date" type="date" name="from_date" value="<?= e($filters['from_date']); ?>">
@@ -70,22 +79,29 @@
             <select class="form-input" id="status" name="status">
                 <option value="">All</option>
                 <?php foreach ($statuses as $status): ?>
-                    <option value="<?= e($status); ?>" <?= ($filters['status'] === $status) ? 'selected' : ''; ?>><?= e(status_label($status)); ?></option>
+                    <option value="<?= e($status); ?>" <?= ($filters['status'] === $status) ? 'selected' : ''; ?>><?= e(request_status_display_label($status)); ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
         <div class="report-filter-actions">
             <button class="btn-primary" type="submit">Apply</button>
-            <a class="btn-secondary" href="<?= site_url('admin/reports/requests'); ?>">Reset</a>
+            <a class="btn-secondary" href="<?= site_url('admin/reports/requests'); ?>">Reset Filters</a>
         </div>
     </form>
 
     <?php if (empty($rows)): ?>
         <div class="empty-state mt-8">
-            <h2 class="text-lg font-semibold text-slate-950">No request report data matches the selected filters.</h2>
-            <p class="mt-2 text-sm leading-6 text-slate-600">
-                Adjust the date range, choose another service or status, or reset the filters to review all request records.
-            </p>
+            <?php if ($has_filters): ?>
+                <h2 class="text-lg font-semibold text-slate-950">No request report data matches the selected filters.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Adjust the date range, choose another service or status, or reset the filters to review all request records.
+                </p>
+            <?php else: ?>
+                <h2 class="text-lg font-semibold text-slate-950">No request records are available yet.</h2>
+                <p class="mt-2 text-sm leading-6 text-slate-600">
+                    Submitted resident service requests will appear here once request activity begins.
+                </p>
+            <?php endif; ?>
             <div class="mt-5 flex flex-wrap justify-center gap-3">
                 <a class="btn-secondary" href="<?= site_url('admin/reports/requests'); ?>">Reset Filters</a>
                 <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
@@ -111,15 +127,15 @@
                             <td class="px-4 py-3 font-medium text-slate-950"><?= e($row['reference_no']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e($row['resident_name']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e($row['service_name']); ?></td>
-                            <td class="px-4 py-3"><span class="status-pill <?= status_badge_class($row['status']); ?>"><?= e(status_label($row['status'])); ?></span></td>
+                            <td class="px-4 py-3"><span class="status-pill <?= status_badge_class($row['status']); ?>"><?= e(request_status_display_label($row['status'])); ?></span></td>
                             <td class="px-4 py-3">
                                 <?php if ((int) $row['requires_payment'] === 1): ?>
-                                    <span class="status-pill <?= payment_status_badge_class($row['payment_status']); ?>"><?= e(payment_status_label($row['payment_status'])); ?></span>
+                                    <span class="status-pill <?= payment_status_badge_class($row['payment_status']); ?>"><?= e(payment_status_display_label($row['payment_status'])); ?></span>
                                 <?php else: ?>
                                     <span class="text-xs text-slate-600">Not required</span>
                                 <?php endif; ?>
                             </td>
-                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['has_final_document'] === 1) ? 'Available' : 'None'; ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= ((int) $row['has_final_document'] === 1) ? 'Ready for Download' : 'Not Available Yet'; ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y', strtotime($row['created_at']))); ?></td>
                         </tr>
                     <?php endforeach; ?>

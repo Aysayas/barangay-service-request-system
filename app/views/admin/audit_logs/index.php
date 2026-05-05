@@ -10,20 +10,23 @@ $has_filters = ($search !== '') || ($action !== '');
     <div class="management-header">
         <div>
             <p class="page-kicker">Admin</p>
-            <h1 class="management-title">Audit Logs</h1>
-            <p class="management-subtitle">Review important staff and admin actions.</p>
+            <h1 class="management-title">Audit Activity Log</h1>
+            <p class="management-subtitle">Review recorded staff/admin actions, exported reports, and major record updates.</p>
         </div>
         <a class="btn-secondary" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
     </div>
 
     <div class="filter-card">
         <form class="grid gap-4 md:grid-cols-[1fr_1fr_auto]" method="GET" action="<?= $base_url; ?>">
+            <div class="md:col-span-3">
+                <p class="compact-note">Search by user, action, target, or description. Use an action key when you need a specific activity type.</p>
+            </div>
             <div>
                 <label class="form-label" for="search">Search</label>
                 <input class="form-input" id="search" type="text" name="search" value="<?= e($search); ?>" placeholder="User, action, target, or description">
             </div>
             <div>
-                <label class="form-label" for="action">Action</label>
+                <label class="form-label" for="action">Action Key</label>
                 <input class="form-input" id="action" type="text" name="action" value="<?= e($action); ?>" placeholder="created_service">
             </div>
             <div class="management-filter-actions">
@@ -69,11 +72,11 @@ $has_filters = ($search !== '') || ($action !== '');
                         <tr>
                             <td class="px-4 py-3 text-slate-700"><?= e($log['user_name'] ?: 'System'); ?></td>
                             <td class="px-4 py-3">
-                                <span class="status-pill border-slate-200 bg-slate-100 text-slate-800">
+                                <span class="status-pill badge-neutral">
                                     <?= e(audit_action_label($log['action'])); ?>
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-slate-700"><?= e($log['target_type'] . ' #' . $log['target_id']); ?></td>
+                            <td class="px-4 py-3 text-slate-700"><?= e(ucwords(str_replace('_', ' ', (string) $log['target_type'])) . ' #' . $log['target_id']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e($log['description']); ?></td>
                             <td class="px-4 py-3 text-slate-700"><?= e(date('M d, Y h:i A', strtotime($log['created_at']))); ?></td>
                         </tr>

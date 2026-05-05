@@ -6,7 +6,7 @@
         <div>
             <p class="page-kicker">Admin</p>
             <h1 class="management-title">Announcements</h1>
-            <p class="management-subtitle">Create and publish barangay announcements.</p>
+            <p class="management-subtitle">Prepare and publish official barangay notices for residents.</p>
         </div>
         <a class="btn-primary" href="<?= site_url('admin/announcements/create'); ?>">Create Announcement</a>
     </div>
@@ -27,6 +27,7 @@
                         <th class="px-4 py-3 font-medium">Title</th>
                         <th class="px-4 py-3 font-medium">Status</th>
                         <th class="px-4 py-3 font-medium">Published</th>
+                        <th class="px-4 py-3 font-medium">Created</th>
                         <th class="px-4 py-3 font-medium">Actions</th>
                     </tr>
                 </thead>
@@ -38,13 +39,14 @@
                                 <p class="mt-1 text-xs text-slate-600"><?= e($announcement['slug']); ?></p>
                             </td>
                             <td class="px-4 py-3">
-                                <span class="status-pill <?= ((int) $announcement['is_published'] === 1) ? 'border-emerald-200 bg-emerald-50 text-emerald-900' : 'border-slate-200 bg-slate-100 text-slate-800'; ?>">
+                                <span class="status-pill <?= ((int) $announcement['is_published'] === 1) ? 'badge-success' : 'badge-neutral'; ?>">
                                     <?= ((int) $announcement['is_published'] === 1) ? 'Published' : 'Draft'; ?>
                                 </span>
                             </td>
                             <td class="px-4 py-3 text-slate-700">
                                 <?= !empty($announcement['published_at']) ? e(date('M d, Y', strtotime($announcement['published_at']))) : 'Not published'; ?>
                             </td>
+                            <td class="px-4 py-3 text-slate-700"><?= !empty($announcement['created_at']) ? e(date('M d, Y', strtotime($announcement['created_at']))) : 'Not recorded'; ?></td>
                             <td class="px-4 py-3">
                                 <div class="management-row-actions">
                                     <a class="btn-secondary" href="<?= site_url('admin/announcements/edit/' . $announcement['id']); ?>">Edit</a>
