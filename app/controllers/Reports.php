@@ -11,6 +11,7 @@ class Reports extends Controller
         $this->call->model('Audit_log_model');
         $this->call->library('Ai_service');
         $this->call->library('Report_ai_summary_service');
+        $this->call->library('Pdf_service');
     }
 
     public function index()
@@ -24,6 +25,23 @@ class Reports extends Controller
             'charts' => $charts,
             'report_summary' => $this->Report_ai_summary_service->overview($summary, $charts),
         ]);
+    }
+
+    public function pdf()
+    {
+        $summary = $this->Report_model->overview_summary();
+        $charts = $this->Report_model->charts_data();
+
+        try {
+            $this->Pdf_service->download('pdf/admin_report_summary', [
+                'summary' => $summary,
+                'report_summary' => $this->Report_ai_summary_service->overview($summary, $charts),
+            ], 'report_summary_' . date('Y-m-d') . '.pdf');
+        } catch (Throwable $e) {
+            $this->session->set_flashdata('error', 'The report summary PDF could not be generated right now.');
+            redirect('admin/reports');
+            exit;
+        }
     }
 
     public function exportSummary()

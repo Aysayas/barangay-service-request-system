@@ -66,11 +66,13 @@ $router->post('/resident/requests/store', 'ResidentRequests::store')->middleware
 $router->get('/resident/requests/download-final-document/{id}', 'FinalDocuments::residentDownload')->middleware(['auth', 'resident'])->where_number('id');
 $router->get('/resident/requests/payment/{id}', 'Payments::residentForm')->middleware(['auth', 'resident'])->where_number('id');
 $router->post('/resident/requests/payment/store/{id}', 'Payments::residentStore')->middleware(['auth', 'resident'])->where_number('id');
+$router->get('/resident/requests/{id}/pdf', 'ResidentRequests::pdf')->middleware(['auth', 'resident'])->where_number('id');
 $router->get('/resident/requests/{id}', 'ResidentRequests::show')->middleware(['auth', 'resident'])->where_number('id');
 $router->get('/resident/complaints', 'ResidentComplaints::index')->middleware(['auth', 'resident']);
 $router->get('/resident/complaints/create', 'ResidentComplaints::create')->middleware(['auth', 'resident']);
 $router->post('/resident/complaints/store', 'ResidentComplaints::store')->middleware(['auth', 'resident']);
 $router->get('/resident/complaints/attachment/{attachment_id}', 'ResidentComplaints::attachment')->middleware(['auth', 'resident'])->where_number('attachment_id');
+$router->get('/resident/complaints/{id}/pdf', 'ResidentComplaints::pdf')->middleware(['auth', 'resident'])->where_number('id');
 $router->get('/resident/complaints/{id}', 'ResidentComplaints::show')->middleware(['auth', 'resident'])->where_number('id');
 $router->get('/staff/dashboard', 'Dashboard::staff')->middleware(['auth', 'staff']);
 $router->get('/staff/requests', 'StaffRequests::index')->middleware(['auth', 'staff']);
@@ -121,6 +123,7 @@ $router->post('/admin/community/update/{id}', 'AdminCommunity::update')->middlew
 $router->post('/admin/community/toggle/{id}', 'AdminCommunity::toggle')->middleware(['auth', 'admin'])->where_number('id');
 $router->post('/admin/community/feature/{id}', 'AdminCommunity::feature')->middleware(['auth', 'admin'])->where_number('id');
 $router->get('/admin/reports', 'Reports::index')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/pdf', 'Reports::pdf')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/export', 'Reports::exportSummary')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/requests', 'Reports::requests')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/requests/export', 'Reports::exportRequests')->middleware(['auth', 'admin']);

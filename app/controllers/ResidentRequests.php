@@ -28,6 +28,7 @@ class ResidentRequests extends Controller
         $this->call->model('Request_final_document_model');
         $this->call->model('Payment_model');
         $this->call->library('Notification_service');
+        $this->call->library('Pdf_service');
     }
 
     public function services()
@@ -151,6 +152,40 @@ class ResidentRequests extends Controller
             'payment_methods' => $this->Payment_model->allowed_methods(),
             'max_payment_upload_mb' => 5,
         ]);
+    }
+
+    public function pdf($id)
+    {
+        $user = auth_user();
+        $request = $this->Service_request_model->find_for_user((int) $id, (int) $user['id']);
+
+        if (empty($request)) {
+            $this->session->set_flashdata('error', 'Request not found.');
+            redirect('resident/requests');
+            exit;
+        }
+
+        $final_document = $this->Request_final_document_model->find_for_request((int) $request['id']);
+        $payment = ((int) $request['requires_payment'] === 1)
+            ? $this->Payment_model->find_for_request((int) $request['id'])
+            : null;
+
+        try {
+            $this->Pdf_service->download('pdf/request_summary', [
+                'request' => $request,
+                'resident' => $user,
+                'attachments' => $this->Request_attachment_model->for_request((int) $request['id']),
+                'final_document' => $final_document,
+                'final_document_exists' => !empty($final_document['file_path'])
+                    && safe_storage_path($final_document['file_path'], 'runtime/uploads/final_documents') !== null,
+                'can_download_final_document' => final_document_download_allowed($request['status']),
+                'payment' => $payment,
+            ], 'request_' . $request['reference_no'] . '.pdf');
+        } catch (Throwable $e) {
+            $this->session->set_flashdata('error', 'The request PDF could not be generated right now.');
+            redirect('resident/requests/' . (int) $request['id']);
+            exit;
+        }
     }
 
     private function validateRequestInput(array $data, array $files, $service)

@@ -13,7 +13,10 @@ $complaint_timeline = complaint_timeline_steps($current_status);
             <h1 class="workflow-title"><?= e($complaint['reference_no']); ?></h1>
             <p class="workflow-subtitle"><?= e($complaint['subject']); ?></p>
         </div>
-        <a class="btn-secondary" href="<?= site_url('resident/complaints'); ?>">Back to Complaints</a>
+        <div class="flex flex-wrap gap-3">
+            <a class="btn-primary" href="<?= site_url('resident/complaints/' . $complaint['id'] . '/pdf'); ?>">Download PDF</a>
+            <a class="btn-secondary" href="<?= site_url('resident/complaints'); ?>">Back to Complaints</a>
+        </div>
     </div>
 
     <div class="workflow-detail-grid lg:grid-cols-[0.9fr_1.1fr]">

@@ -20,7 +20,10 @@ $request_timeline = request_timeline_steps(
             <h1 class="workflow-title"><?= e($request['reference_no']); ?></h1>
             <p class="workflow-subtitle"><?= e($request['service_name']); ?></p>
         </div>
-        <a class="btn-secondary" href="<?= site_url('resident/requests'); ?>">Back to Requests</a>
+        <div class="flex flex-wrap gap-3">
+            <a class="btn-primary" href="<?= site_url('resident/requests/' . $request['id'] . '/pdf'); ?>">Download PDF</a>
+            <a class="btn-secondary" href="<?= site_url('resident/requests'); ?>">Back to Requests</a>
+        </div>
     </div>
 
     <div class="workflow-detail-grid lg:grid-cols-[0.9fr_1.1fr]">

@@ -26,6 +26,7 @@ class ResidentComplaints extends Controller
         $this->call->model('Complaint_attachment_model');
         $this->call->model('Audit_log_model');
         $this->call->library('Notification_service');
+        $this->call->library('Pdf_service');
     }
 
     public function index()
@@ -138,6 +139,30 @@ class ResidentComplaints extends Controller
             'attachments' => $this->Complaint_attachment_model->for_complaint((int) $complaint['id']),
             'statuses' => $this->Complaint_model->allowed_statuses(),
         ]);
+    }
+
+    public function pdf($id)
+    {
+        $user = auth_user();
+        $complaint = $this->Complaint_model->find_for_user((int) $id, (int) $user['id']);
+
+        if (empty($complaint)) {
+            $this->session->set_flashdata('error', 'Complaint not found.');
+            redirect('resident/complaints');
+            exit;
+        }
+
+        try {
+            $this->Pdf_service->download('pdf/complaint_summary', [
+                'complaint' => $complaint,
+                'resident' => $user,
+                'attachments' => $this->Complaint_attachment_model->for_complaint((int) $complaint['id']),
+            ], 'complaint_' . $complaint['reference_no'] . '.pdf');
+        } catch (Throwable $e) {
+            $this->session->set_flashdata('error', 'The complaint PDF could not be generated right now.');
+            redirect('resident/complaints/' . (int) $complaint['id']);
+            exit;
+        }
     }
 
     public function attachment($attachment_id)
