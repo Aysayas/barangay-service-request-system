@@ -13,13 +13,13 @@
                 >
             </div>
             <p class="hero-eyebrow">Local Civic Service Portal</p>
-            <h1 class="hero-title">A cleaner digital front door for requests, complaints, reports, and community access.</h1>
+            <h1 class="hero-title">A digital front door for requests, complaints, reports, and community access.</h1>
         <?php else: ?>
             <p class="hero-eyebrow">eBarangayHub</p>
             <h1 class="hero-title">Centralized Barangay Services, Reports, and Community Access</h1>
         <?php endif; ?>
         <p class="hero-subtitle">
-            A polished local service portal for resident requests, complaint tracking, community updates, payment proof review, final documents, reports, and guided assistance.
+            A local service portal for resident requests, complaint tracking, community updates, payment proof review, final documents, reports, and guided assistance.
         </p>
         <p class="hero-support">
             Residents submit and track requests, staff process and verify records, and administrators oversee the full barangay service workspace.
