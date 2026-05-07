@@ -89,7 +89,7 @@ $request_timeline = request_timeline_steps(
 
                     <?php if (!empty($payment['remarks'])): ?>
                         <div class="mt-4 rounded-md border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">
-                            <p class="font-medium">Payment remarks</p>
+                            <p class="font-medium">Payment proof remarks</p>
                             <p class="mt-1 whitespace-pre-line"><?= e($payment['remarks']); ?></p>
                         </div>
                     <?php endif; ?>
@@ -122,7 +122,7 @@ $request_timeline = request_timeline_steps(
                             </div>
 
                             <div>
-                                <label class="form-label" for="payment_proof">Proof of Payment</label>
+                                <label class="form-label" for="payment_proof">Payment Proof File</label>
                                 <input class="form-input" id="payment_proof" type="file" name="payment_proof" accept=".jpg,.jpeg,.png,.pdf" required>
                                 <p class="mt-2 text-xs text-slate-600">
                                     Allowed types: JPG, PNG, PDF. Maximum size: <?= e($max_payment_upload_mb); ?>MB.
@@ -162,13 +162,19 @@ $request_timeline = request_timeline_steps(
                     <div class="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">
                         <p class="font-medium">Final document uploaded</p>
                         <p class="mt-1">
-                            Download becomes available when the request is approved, ready for release, or completed.
+                            Download becomes available when the request is approved, ready for release, or completed, and any required payment proof has been verified.
                         </p>
                     </div>
                 <?php else: ?>
-                    <p class="mt-3 text-sm text-slate-600">
-                        No final document is available yet. It will appear here when barangay staff uploads the approved file and the request reaches a downloadable status.
-                    </p>
+                    <?php if ((int) $request['requires_payment'] === 1 && $payment_status !== 'payment_verified'): ?>
+                        <p class="mt-3 text-sm text-slate-600">
+                            No final document is available yet. For paid services, download access opens after payment proof is verified and barangay staff uploads the approved file.
+                        </p>
+                    <?php else: ?>
+                        <p class="mt-3 text-sm text-slate-600">
+                            No final document is available yet. It will appear here when barangay staff uploads the approved file and the request reaches a downloadable status.
+                        </p>
+                    <?php endif; ?>
                 <?php endif; ?>
             </section>
         </div>
@@ -192,7 +198,7 @@ $request_timeline = request_timeline_steps(
                     <div>
                         <dt class="font-medium text-slate-800">Payment</dt>
                         <dd class="mt-1 text-slate-600">
-                            <?= ((int) $request['requires_payment'] === 1) ? e(payment_status_display_label($payment_status)) : 'Not required'; ?>
+                            <?= ((int) $request['requires_payment'] === 1) ? e(payment_status_display_label($payment_status)) : 'Payment Not Required'; ?>
                         </dd>
                     </div>
                 </dl>

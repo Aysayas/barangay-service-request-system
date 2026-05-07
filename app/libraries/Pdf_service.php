@@ -18,31 +18,36 @@ class Pdf_service
 
     public function download($view, array $data, $filename)
     {
-        if (!class_exists(Dompdf::class)) {
-            throw new RuntimeException('Dompdf is not installed. Run composer install before generating PDFs.');
+        try {
+            if (!class_exists(Dompdf::class)) {
+                throw new RuntimeException('Dompdf is not installed. Run composer install before generating PDFs.');
+            }
+
+            $html = $this->renderView($view, array_merge([
+                'brand_logo_data_uri' => $this->brandLogoDataUri(),
+                'generated_at' => date('Y-m-d H:i:s'),
+            ], $data));
+
+            $options = new Options();
+            $options->set('isRemoteEnabled', false);
+            $options->set('isHtml5ParserEnabled', true);
+            $options->setChroot(ROOT_DIR);
+
+            $dompdf = new Dompdf($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            while (ob_get_level() > 0) {
+                @ob_end_clean();
+            }
+
+            $dompdf->stream($this->pdfFilename($filename), ['Attachment' => true]);
+            exit;
+        } catch (Throwable $e) {
+            $this->logFailure($view, $filename, $e);
+            throw $e;
         }
-
-        $html = $this->renderView($view, array_merge([
-            'brand_logo_data_uri' => $this->brandLogoDataUri(),
-            'generated_at' => date('Y-m-d H:i:s'),
-        ], $data));
-
-        $options = new Options();
-        $options->set('isRemoteEnabled', false);
-        $options->set('isHtml5ParserEnabled', true);
-        $options->setChroot(ROOT_DIR);
-
-        $dompdf = new Dompdf($options);
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
-        while (ob_get_level() > 0) {
-            @ob_end_clean();
-        }
-
-        $dompdf->stream($this->pdfFilename($filename), ['Attachment' => true]);
-        exit;
     }
 
     private function renderView($view, array $data)
@@ -65,6 +70,10 @@ class Pdf_service
     {
         $path = ROOT_DIR . 'public/assets/images/branding/logo-primary.png';
 
+        if (!extension_loaded('gd')) {
+            return '';
+        }
+
         if (!is_file($path) || !is_readable($path)) {
             return '';
         }
@@ -76,6 +85,28 @@ class Pdf_service
         }
 
         return 'data:image/png;base64,' . base64_encode($contents);
+    }
+
+    private function logFailure($view, $filename, Throwable $exception)
+    {
+        $log_dir = ROOT_DIR . 'runtime/logs';
+
+        if (!is_dir($log_dir)) {
+            @mkdir($log_dir, 0775, true);
+        }
+
+        $line = json_encode([
+            'time' => date('Y-m-d H:i:s'),
+            'view' => $view,
+            'filename' => $filename,
+            'error' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+        ]);
+
+        if ($line !== false) {
+            @file_put_contents($log_dir . DIRECTORY_SEPARATOR . 'pdf.log', $line . PHP_EOL, FILE_APPEND);
+        }
     }
 
     private function pdfFilename($filename)

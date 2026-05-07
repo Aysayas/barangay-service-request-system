@@ -43,6 +43,11 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 |
 */
 
+/*
+| -------------------------------------------------------------------
+| Public Routes
+| -------------------------------------------------------------------
+*/
 $router->get('/', 'Welcome::index');
 $router->get('/assistant', 'Assistant::index');
 $router->post('/assistant/ask', 'Assistant::ask');
@@ -50,6 +55,11 @@ $router->get('/community', 'Community::index');
 $router->get('/community/image/{id}', 'Community::image')->where_number('id');
 $router->get('/community/{slug}', 'Community::show');
 
+/*
+| -------------------------------------------------------------------
+| Authentication Routes
+| -------------------------------------------------------------------
+*/
 $router->get('/login', 'Auth::loginForm')->middleware('guest');
 $router->post('/login', 'Auth::login')->middleware('guest');
 $router->get('/register', 'Auth::registerForm')->middleware('guest');
@@ -57,6 +67,12 @@ $router->post('/register', 'Auth::register')->middleware('guest');
 $router->post('/logout', 'Auth::logout')->middleware('auth');
 
 $router->get('/dashboard', 'Dashboard::index')->middleware('auth');
+
+/*
+| -------------------------------------------------------------------
+| Resident Routes
+| -------------------------------------------------------------------
+*/
 $router->get('/resident/dashboard', 'Dashboard::resident')->middleware(['auth', 'resident']);
 $router->get('/resident/services', 'ResidentRequests::services')->middleware(['auth', 'resident']);
 $router->get('/resident/requests', 'ResidentRequests::index')->middleware(['auth', 'resident']);
@@ -74,6 +90,12 @@ $router->post('/resident/complaints/store', 'ResidentComplaints::store')->middle
 $router->get('/resident/complaints/attachment/{attachment_id}', 'ResidentComplaints::attachment')->middleware(['auth', 'resident'])->where_number('attachment_id');
 $router->get('/resident/complaints/{id}/pdf', 'ResidentComplaints::pdf')->middleware(['auth', 'resident'])->where_number('id');
 $router->get('/resident/complaints/{id}', 'ResidentComplaints::show')->middleware(['auth', 'resident'])->where_number('id');
+
+/*
+| -------------------------------------------------------------------
+| Staff Routes
+| -------------------------------------------------------------------
+*/
 $router->get('/staff/dashboard', 'Dashboard::staff')->middleware(['auth', 'staff']);
 $router->get('/staff/requests', 'StaffRequests::index')->middleware(['auth', 'staff']);
 $router->post('/staff/requests/upload-final-document/{id}', 'FinalDocuments::staffUpload')->middleware(['auth', 'staff'])->where_number('id');
@@ -81,17 +103,25 @@ $router->get('/staff/requests/final-document/{id}', 'FinalDocuments::staffDownlo
 $router->get('/staff/requests/attachment/{attachment_id}', 'StaffRequests::attachment')->middleware(['auth', 'staff'])->where_number('attachment_id');
 $router->get('/staff/requests/payment-proof/{payment_id}', 'Payments::staffProof')->middleware(['auth', 'staff'])->where_number('payment_id');
 $router->post('/staff/requests/payment/update/{request_id}', 'Payments::staffUpdate')->middleware(['auth', 'staff'])->where_number('request_id');
+$router->get('/staff/requests/{id}/pdf', 'StaffRequests::pdf')->middleware(['auth', 'staff'])->where_number('id');
 $router->get('/staff/requests/{id}', 'StaffRequests::show')->middleware(['auth', 'staff'])->where_number('id');
 $router->post('/staff/requests/update/{id}', 'StaffRequests::update')->middleware(['auth', 'staff'])->where_number('id');
 $router->get('/staff/complaints', 'StaffComplaints::index')->middleware(['auth', 'staff']);
 $router->get('/staff/complaints/attachment/{attachment_id}', 'StaffComplaints::attachment')->middleware(['auth', 'staff'])->where_number('attachment_id');
 $router->get('/staff/complaints/{id}', 'StaffComplaints::show')->middleware(['auth', 'staff'])->where_number('id');
 $router->post('/staff/complaints/update/{id}', 'StaffComplaints::update')->middleware(['auth', 'staff'])->where_number('id');
+
+/*
+| -------------------------------------------------------------------
+| Admin Management Routes
+| -------------------------------------------------------------------
+*/
 $router->get('/admin/dashboard', 'Dashboard::admin')->middleware(['auth', 'admin']);
 $router->get('/admin/requests', 'AdminRequests::index')->middleware(['auth', 'admin']);
 $router->post('/admin/requests/upload-final-document/{id}', 'FinalDocuments::adminUpload')->middleware(['auth', 'admin'])->where_number('id');
 $router->get('/admin/requests/final-document/{id}', 'FinalDocuments::adminDownload')->middleware(['auth', 'admin'])->where_number('id');
 $router->get('/admin/requests/payment-proof/{payment_id}', 'Payments::adminProof')->middleware(['auth', 'admin'])->where_number('payment_id');
+$router->get('/admin/requests/{id}/pdf', 'AdminRequests::pdf')->middleware(['auth', 'admin'])->where_number('id');
 $router->get('/admin/requests/{id}', 'AdminRequests::show')->middleware(['auth', 'admin'])->where_number('id');
 $router->get('/admin/complaints', 'AdminComplaints::index')->middleware(['auth', 'admin']);
 $router->get('/admin/complaints/attachment/{attachment_id}', 'AdminComplaints::attachment')->middleware(['auth', 'admin'])->where_number('attachment_id');
@@ -122,15 +152,32 @@ $router->get('/admin/community/edit/{id}', 'AdminCommunity::edit')->middleware([
 $router->post('/admin/community/update/{id}', 'AdminCommunity::update')->middleware(['auth', 'admin'])->where_number('id');
 $router->post('/admin/community/toggle/{id}', 'AdminCommunity::toggle')->middleware(['auth', 'admin'])->where_number('id');
 $router->post('/admin/community/feature/{id}', 'AdminCommunity::feature')->middleware(['auth', 'admin'])->where_number('id');
+
+/*
+| -------------------------------------------------------------------
+| Reports, CSV Exports, And PDF Downloads
+| -------------------------------------------------------------------
+*/
 $router->get('/admin/reports', 'Reports::index')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/pdf', 'Reports::pdf')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/visual-pdf', 'Reports::visualPdf')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/export', 'Reports::exportSummary')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/requests', 'Reports::requests')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/requests/pdf', 'Reports::requestPdf')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/requests/export', 'Reports::exportRequests')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/payments', 'Reports::payments')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/payments/pdf', 'Reports::paymentPdf')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/payments/export', 'Reports::exportPayments')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/complaints', 'Reports::complaints')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/complaints/pdf', 'Reports::complaintPdf')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/complaints/export', 'Reports::exportComplaints')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/community', 'Reports::community')->middleware(['auth', 'admin']);
+$router->get('/admin/reports/community/pdf', 'Reports::communityPdf')->middleware(['auth', 'admin']);
 $router->get('/admin/reports/community/export', 'Reports::exportCommunity')->middleware(['auth', 'admin']);
+
+/*
+| -------------------------------------------------------------------
+| Admin Audit Routes
+| -------------------------------------------------------------------
+*/
 $router->get('/admin/audit-logs', 'AdminAuditLogs::index')->middleware(['auth', 'admin']);

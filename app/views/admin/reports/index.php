@@ -13,6 +13,7 @@
         </div>
         <div class="analytics-actions">
             <a class="btn-secondary" href="<?= site_url('admin/reports/pdf'); ?>">Download PDF Summary</a>
+            <a class="btn-secondary" href="<?= site_url('admin/reports/visual-pdf'); ?>">Download Visual PDF</a>
             <a class="btn-primary" href="<?= site_url('admin/reports/export'); ?>">Export Summary CSV</a>
             <a class="btn-secondary" href="<?= site_url('admin/dashboard'); ?>">Back to Dashboard</a>
         </div>

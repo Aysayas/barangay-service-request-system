@@ -17,6 +17,7 @@ $has_filters = !empty($filters['from_date'])
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
+            <a class="btn-secondary" href="<?= e($pdf_url); ?>">Download PDF</a>
             <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
         </div>
     </div>
@@ -56,7 +57,7 @@ $has_filters = !empty($filters['from_date'])
 
     <form class="filter-card report-filter-grid report-filter-grid-6" method="GET" action="<?= site_url('admin/reports/community'); ?>">
         <div class="md:col-span-6">
-            <p class="compact-note">Filter community content by date, category, publishing state, or featured placement. CSV export uses the same active filters.</p>
+            <p class="compact-note">Filter community content by date, category, publishing state, or featured placement. CSV and PDF downloads use the same active filters.</p>
         </div>
         <div>
             <label class="form-label" for="from_date">From</label>

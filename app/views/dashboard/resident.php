@@ -27,7 +27,7 @@ $active_complaint_count = (int) ($complaint_counts['active_count'] ?? 0);
                 <p class="mini-stat-value"><?= e($active_request_count); ?></p>
             </div>
             <div class="mini-stat">
-                <p class="mini-stat-label">Payment Proof Needed</p>
+                <p class="mini-stat-label">Awaiting Payment Proof</p>
                 <p class="mini-stat-value text-amber-700"><?= e($pending_payment_proof_count); ?></p>
             </div>
             <div class="mini-stat">

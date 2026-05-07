@@ -16,6 +16,7 @@ $has_filters = !empty($filters['from_date'])
         </div>
         <div class="analytics-actions">
             <a class="btn-primary" href="<?= e($export_url); ?>">Export CSV</a>
+            <a class="btn-secondary" href="<?= e($pdf_url); ?>">Download PDF</a>
             <a class="btn-secondary" href="<?= site_url('admin/reports'); ?>">Back to Reports</a>
         </div>
     </div>
@@ -42,17 +43,17 @@ $has_filters = !empty($filters['from_date'])
 
     <div class="report-metric-grid">
         <div class="report-metric-card"><p class="metric-label">Payment Records</p><strong><?= e($summary['total_payments']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Payment Proof Needed</p><strong class="text-amber-700"><?= e($summary['pending_payment_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Payment Proof Submitted</p><strong><?= e($summary['payment_submitted_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Payment Verified</p><strong class="text-teal-700"><?= e($summary['payment_verified_count']); ?></strong></div>
-        <div class="report-metric-card"><p class="metric-label">Payment Needs Correction</p><strong class="text-rose-700"><?= e($summary['payment_rejected_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Awaiting Payment Proof</p><strong class="text-amber-700"><?= e($summary['pending_payment_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Pending Review</p><strong><?= e($summary['payment_submitted_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Verified</p><strong class="text-teal-700"><?= e($summary['payment_verified_count']); ?></strong></div>
+        <div class="report-metric-card"><p class="metric-label">Rejected</p><strong class="text-rose-700"><?= e($summary['payment_rejected_count']); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Expected Amount</p><strong><?= e(format_money($summary['expected_amount'])); ?></strong></div>
         <div class="report-metric-card"><p class="metric-label">Verified Amount</p><strong class="text-teal-700"><?= e(format_money($summary['verified_amount'])); ?></strong></div>
     </div>
 
     <form class="filter-card report-filter-grid report-filter-grid-5" method="GET" action="<?= site_url('admin/reports/payments'); ?>">
         <div class="md:col-span-5">
-            <p class="compact-note">Filter payment proof records by submission date, service, or review status. CSV export uses the same active filters.</p>
+            <p class="compact-note">Filter payment proof records by submission date, service, or review status. CSV and PDF downloads use the same active filters.</p>
         </div>
         <div>
             <label class="form-label" for="from_date">From</label>

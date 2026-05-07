@@ -64,7 +64,7 @@ class Payments extends Controller
         $payment = $this->Payment_model->find_for_request((int) $id);
 
         if (!empty($payment) && $payment['payment_status'] === 'payment_verified') {
-            $this->session->set_flashdata('error', 'This payment has already been verified.');
+            $this->session->set_flashdata('error', 'This payment proof has already been verified.');
             redirect('resident/requests/' . (int) $id);
             exit;
         }
@@ -128,7 +128,7 @@ class Payments extends Controller
             $this->db->roll_back();
             $this->deleteProofIfSafe($new_absolute_path);
 
-            $this->session->set_flashdata('error', 'Payment could not be saved.');
+            $this->session->set_flashdata('error', 'Payment proof could not be saved.');
             redirect('resident/requests/' . (int) $id);
             exit;
         }
@@ -177,7 +177,7 @@ class Payments extends Controller
 
         if (empty($payment)) {
             $this->Payment_model->create_pending_for_request((int) $request_id, (float) $request['fee']);
-            $this->session->set_flashdata('error', 'The resident has not submitted a payment yet.');
+            $this->session->set_flashdata('error', 'The resident has not submitted payment proof yet.');
             redirect('staff/requests/' . (int) $request_id);
             exit;
         }
@@ -195,11 +195,11 @@ class Payments extends Controller
         }
 
         if ($payment_status === 'payment_rejected' && $remarks === '') {
-            $errors[] = 'Add remarks when rejecting a payment.';
+            $errors[] = 'Add remarks when rejecting payment proof.';
         }
 
         if (strlen($remarks) > 1000) {
-            $errors[] = 'Payment remarks must be 1000 characters or fewer.';
+            $errors[] = 'Payment review remarks must be 1000 characters or fewer.';
         }
 
         if (!empty($errors)) {
@@ -220,7 +220,7 @@ class Payments extends Controller
 
         $this->Notification_service->payment_reviewed($request, $payment_status, $remarks);
 
-        $this->session->set_flashdata('success', 'Payment review was saved.');
+        $this->session->set_flashdata('success', 'Payment proof review was saved.');
         redirect('staff/requests/' . (int) $request_id);
         exit;
     }
@@ -240,7 +240,7 @@ class Payments extends Controller
         }
 
         if (empty($proof) || ($proof['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
-            $errors[] = 'Upload a proof of payment file.';
+            $errors[] = 'Upload a payment proof file.';
             return $errors;
         }
 

@@ -73,7 +73,7 @@ class Notification_service
 
         $lines = [
             'Hello ' . ($request['resident_name'] ?? 'Resident') . ',',
-            'The simulated payment for request ' . ($request['reference_no'] ?? '') . ' was ' . ($verified ? 'verified' : 'rejected') . '.',
+            'The payment proof for request ' . ($request['reference_no'] ?? '') . ' was ' . ($verified ? 'verified' : 'rejected') . '.',
         ];
 
         if (!$verified && trim((string) $remarks) !== '') {
@@ -86,7 +86,7 @@ class Notification_service
 
         return $this->send(
             $request['resident_email'] ?? '',
-            $verified ? 'Payment verified' : 'Payment rejected',
+            $verified ? 'Payment proof verified' : 'Payment proof rejected',
             $lines
         );
     }

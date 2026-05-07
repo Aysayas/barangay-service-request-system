@@ -2,7 +2,7 @@
 
 Centralized Barangay Services, Reports, and Community Access
 
-eBarangayHub is a LavaLust-based multi-role barangay web application built for resident services, staff processing, admin management, complaints, community information, reporting, CSV exports, charts, Gmail SMTP notifications, and a scoped AI-assisted help experience with safe fallbacks.
+eBarangayHub is a LavaLust-based multi-role barangay web application built for resident services, staff processing, admin management, complaints, community information, reporting, CSV exports, downloadable PDFs, charts, Gmail SMTP notifications, and a scoped AI-assisted help experience with safe fallbacks.
 
 ## Release Status
 
@@ -21,13 +21,23 @@ This final packaging pass is aimed at:
 
 This phase does not prepare the project for Netlify, Vercel, or shared-hosting rewrites.
 
+## Defense Readiness Docs
+
+Use these focused handoff and presentation files for final QA and defense preparation:
+
+- `docs/QA_CHECKLIST.md`
+- `docs/DEFENSE_DEMO_GUIDE.md`
+- `docs/FEATURE_CHECKLIST.md`
+- `docs/KNOWN_LIMITATIONS.md`
+- `docs/ROUTES_REFERENCE.md`
+
 ## System Overview
 
 The application centralizes common barangay workflows into one server-rendered PHP platform:
 
 - Residents can register, log in, request services, upload supporting files, submit payment proof for paid services, file complaints, and download final documents when released.
 - Staff can review request queues, inspect uploads, verify payments, update statuses, add notes, and process complaints.
-- Admins can manage services, users, announcements, community content, complaints, audit logs, reports, exports, and charts.
+- Admins can manage services, users, announcements, community content, complaints, audit logs, reports, exports, downloadable PDFs, and charts.
 - The assistant can answer eBarangayHub-specific questions through a rule-based fallback and optional server-side AI integration.
 
 ## Core Modules
@@ -62,7 +72,7 @@ The application centralizes common barangay workflows into one server-rendered P
 - Community management
 - Complaint oversight
 - Audit log review
-- Report summaries, filters, CSV exports, and charts
+- Report summaries, filters, CSV exports, downloadable PDFs, visual analytics PDF, and charts
 
 ### Public / Shared
 
@@ -74,7 +84,7 @@ The application centralizes common barangay workflows into one server-rendered P
 ## Tech Stack
 
 - PHP framework: LavaLust
-- PHP dependencies: PHPMailer via Composer
+- PHP dependencies: PHPMailer and Dompdf via Composer
 - Database: MySQL
 - Local stack: XAMPP + phpMyAdmin
 - Styling: Tailwind CSS
@@ -94,7 +104,7 @@ app/
   libraries/       Assistant, AI, notifications, and other reusable services
   middlewares/     Auth, guest, and role-based route guards
   models/          Database access and reporting models
-  views/           Public, resident, staff, admin, auth, and error views
+  views/           Public, resident, staff, admin, PDF, auth, and error views
 
 database/
   full_database_rebuild.sql
@@ -216,6 +226,9 @@ The built-in server uses:
 http://localhost:3000/
 ```
 
+Use clean URLs when the app is running through `public/router.php`.
+For example, open `http://localhost:3000/admin/reports`, not `http://localhost:3000/index.php/admin/reports`.
+
 ## Local Same-Wi-Fi Phone Testing
 
 eBarangayHub is mobile-friendly as a responsive web app. It is not a native mobile app or PWA.
@@ -256,6 +269,14 @@ Example:
 ```text
 http://192.168.1.5:3000
 ```
+
+For role pages on a phone, keep the same clean URL format:
+
+```text
+http://YOUR_PC_IP:3000/admin/reports
+```
+
+Do not add `/index.php` when using `public/router.php`.
 
 Note:
 
@@ -524,6 +545,7 @@ Local caution notes:
 - Styling missing: run `npm install` and `npm run build`
 - Local CSS not updating while working: run `npm run dev`
 - Charts not showing: confirm `public/assets/js/chart.umd.js` exists
+- PDF download issues: check `runtime/logs/pdf.log` and confirm `composer install` has installed Dompdf
 
 ### Email
 
@@ -559,13 +581,13 @@ Use this order for a clean live demo:
 3. Create a service request with an attachment
 4. Submit payment proof for a paid service if needed
 5. Log in as staff
-6. Review the request queue, inspect attachments, and verify or reject payment
+6. Review the request queue, inspect attachments, and verify or reject payment proof
 7. Approve the request and upload the final document
 8. Return to the resident account and download the final document
 9. Submit a complaint with evidence
 10. Log in as staff or admin and process the complaint
 11. Open the public community section
-12. Open admin reports, charts, and CSV exports
+12. Open admin reports, charts, CSV exports, report PDFs, and visual analytics PDF
 13. Show the assistant answering in fallback mode or AI-assisted mode
 14. Show admin management pages for services, users, announcements, community, and audit logs
 15. Optional: open the same app on a phone over the same Wi-Fi to show responsive mobile behavior
@@ -582,7 +604,7 @@ Final integrated scope includes:
 - community module
 - admin management tools
 - audit logging
-- reports, CSV exports, and charts
+- reports, CSV exports, downloadable PDFs, visual analytics PDF, and charts
 - Gmail SMTP notifications
 - AI assistant foundation and AI-assisted summaries with fallbacks
 - full responsive and mobile hardening
@@ -592,7 +614,7 @@ Final integrated scope includes:
 
 Intentional current limitations:
 
-- payment flow is simulated, not connected to a live gateway
+- payment flow is based on proof upload and staff review, not connected to a live gateway
 - email sending depends on valid Gmail SMTP credentials
 - AI is optional and still scoped tightly to the application domain
 - dense admin/report tables still use horizontal scrolling on small screens where that is safer than hiding data
@@ -616,7 +638,6 @@ For another developer or panel member, the fastest reliable setup path is:
 
 Before final submission or classroom defense, confirm:
 
-- `database/full_database_rebuild.sql` imports cleanly
 - `composer install` completes without missing dependencies
 - `npm install` and `npm run build` complete successfully
 - `public/assets/css/output.css` exists

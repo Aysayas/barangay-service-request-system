@@ -152,7 +152,7 @@ class Report_ai_summary_service
         $top_service = $this->topChartLabel($charts['request_service'] ?? []);
 
         $text = 'The reports dashboard currently includes ' . (int) ($summary['total_requests'] ?? 0) . ' request(s), '
-            . (int) ($summary['total_payments'] ?? 0) . ' payment record(s), '
+            . (int) ($summary['total_payments'] ?? 0) . ' payment proof record(s), '
             . (int) ($summary['total_complaints'] ?? 0) . ' complaint(s), and '
             . (int) ($summary['total_posts'] ?? 0) . ' community post(s). '
             . (int) ($summary['pending_requests'] ?? 0) . ' request(s) are still pending review, and '
@@ -188,9 +188,9 @@ class Report_ai_summary_service
     {
         $focus = $this->filterPrefix($filters);
 
-        return $focus . 'There are ' . (int) ($summary['total_payments'] ?? 0) . ' payment record(s) in this view. '
+        return $focus . 'There are ' . (int) ($summary['total_payments'] ?? 0) . ' payment proof record(s) in this view. '
             . (int) ($summary['payment_verified_count'] ?? 0) . ' are verified, '
-            . (int) ($summary['payment_submitted_count'] ?? 0) . ' are submitted for review, and '
+            . (int) ($summary['payment_submitted_count'] ?? 0) . ' are pending review, and '
             . (int) ($summary['payment_rejected_count'] ?? 0) . ' are rejected. '
             . 'The verified amount is ' . format_money($summary['verified_amount'] ?? 0) . ' out of '
             . format_money($summary['expected_amount'] ?? 0) . ' expected.';

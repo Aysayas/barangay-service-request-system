@@ -173,11 +173,13 @@ if (!empty($_SERVER['HTTP_HOST'])) {
 | Index File
 |--------------------------------------------------------------------------
 |
-| If you are using mod_rewrite to remove index.php in the URL set this
-| variable to blank.
+| eBarangayHub uses clean URLs in local XAMPP/PHP-server mode through
+| public/router.php, so generated links should not include index.php.
+| If a future host cannot support clean URLs, set this back to 'index.php'
+| and update the deployment notes for that environment.
 |
 */
-$config['index_page']               = 'index.php';
+$config['index_page']               = '';
 
 /*
 |--------------------------------------------------------------------------

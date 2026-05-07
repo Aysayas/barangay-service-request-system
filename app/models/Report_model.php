@@ -383,7 +383,7 @@ class Report_model extends Model
              GROUP BY status"
         )->fetchAll(PDO::FETCH_ASSOC);
 
-        return $this->chartFromKeys($this->request_statuses(), $rows, 'status_label');
+        return $this->chartFromKeys($this->request_statuses(), $rows, 'request_status_display_label');
     }
 
     public function request_service_chart_data()
@@ -438,7 +438,7 @@ class Report_model extends Model
              GROUP BY payment_status"
         )->fetchAll(PDO::FETCH_ASSOC);
 
-        return $this->chartFromKeys($this->payment_statuses(), $rows, 'payment_status_label');
+        return $this->chartFromKeys($this->payment_statuses(), $rows, 'payment_status_display_label');
     }
 
     public function complaint_status_chart_data()
@@ -449,7 +449,7 @@ class Report_model extends Model
              GROUP BY status"
         )->fetchAll(PDO::FETCH_ASSOC);
 
-        return $this->chartFromKeys($this->complaint_statuses(), $rows, 'complaint_status_label');
+        return $this->chartFromKeys($this->complaint_statuses(), $rows, 'complaint_status_display_label');
     }
 
     public function complaint_category_chart_data()

@@ -85,29 +85,29 @@ class Assistant_service
         if ($this->hasAny($normalized, ['staff', 'admin', 'verify', 'process', 'review'])) {
             return $this->response(
                 'staff_admin',
-                'Staff can review resident requests, open attachments, verify simulated payments, update statuses, add notes, and upload final documents. Admin users manage services, users, announcements, audit logs, and request document review.',
-                ['How do simulated payments work?', 'What does ready for pickup mean?', 'How are final documents uploaded?']
+                'Staff can review resident requests, open attachments, verify payment proof, update statuses, add notes, and upload final documents. Admin users manage services, users, announcements, audit logs, and request document review.',
+                ['How does payment proof review work?', 'What does ready for pickup mean?', 'How are final documents uploaded?']
             );
         }
 
         if ($this->hasAny($normalized, ['what is this', 'system', 'barangay system', 'help', 'assistant'])) {
             return $this->response(
                 'general',
-                'eBarangayHub helps residents submit barangay service requests, upload requirements, track status updates, submit simulated payments for paid services, file complaints, view community updates, and download approved final documents.',
+                'eBarangayHub helps residents submit barangay service requests, upload requirements, track status updates, submit payment proof for paid services, file complaints, view community updates, and download approved final documents.',
                 $this->defaultSuggestions()
             );
         }
 
         return $this->response(
             'fallback',
-            'I can help with eBarangayHub services, requirements, request tracking, simulated payments, complaints, final documents, community updates, reports, and navigation. Try asking about a specific service, status, payment step, complaint step, or report page.',
+            'I can help with eBarangayHub services, requirements, request tracking, payment proof review, complaints, final documents, community updates, reports, and navigation. Try asking about a specific service, status, payment step, complaint step, or report page.',
             $this->defaultSuggestions()
         );
     }
 
     public function welcomeMessage()
     {
-        return 'Hello. I am the eBarangayHub virtual help assistant. Ask me about services, requirements, simulated payments, request statuses, complaints, tracking, community updates, or document downloads.';
+        return 'Hello. I am the eBarangayHub virtual help assistant. Ask me about services, requirements, payment proof review, request statuses, complaints, tracking, community updates, or document downloads.';
     }
 
     public function defaultSuggestions()
@@ -115,7 +115,7 @@ class Assistant_service
         return [
             'How do I request Barangay Clearance?',
             'What does Under Review mean?',
-            'How do simulated payments work?',
+            'How does payment proof review work?',
             'How do complaints work?',
         ];
     }
@@ -161,19 +161,19 @@ class Assistant_service
 
         if ($this->hasAny($normalized, ['fee', 'payment', 'pay', 'cost', 'how much'])) {
             $payment_text = $requires_payment
-                ? $name . ' has a listed fee of ' . $fee . '. Submit the request first, then upload simulated payment proof on the request details page.'
+                ? $name . ' has a listed fee of ' . $fee . '. Submit the request first, then upload payment proof on the request details page.'
                 : $name . ' is listed as free in the current services setup.';
 
             return $this->response(
                 'service_payment',
                 $payment_text,
-                [$name . ' requirements', 'How do simulated payments work?', 'What happens after payment is verified?']
+                [$name . ' requirements', 'How does payment proof review work?', 'What happens after payment proof is verified?']
             );
         }
 
         return $this->response(
             'service_info',
-            $name . ': ' . $service['description'] . ' Requirements: ' . $service['requirements_text'] . ' Fee: ' . $fee . '. Payment: ' . ($requires_payment ? 'required in the simulated workflow.' : 'not required.'),
+            $name . ': ' . $service['description'] . ' Requirements: ' . $service['requirements_text'] . ' Fee: ' . $fee . '. Payment: ' . ($requires_payment ? 'payment proof is required for staff review.' : 'not required.'),
             [$name . ' requirements', 'How do I submit a request?', 'How do I track my request?']
         );
     }
@@ -183,23 +183,23 @@ class Assistant_service
         if ($this->hasAny($normalized, ['rejected'])) {
             return $this->response(
                 'payment',
-                'If a simulated payment is rejected, open the request details page, read the staff remarks, then resubmit the payment method, reference number, and proof file.',
-                ['What proof files are allowed?', 'How do I track my request?', 'What does payment submitted mean?']
+                'If payment proof is rejected, open the request details page, read the staff remarks, then resubmit the payment method, reference number, and proof file.',
+                ['What proof files are allowed?', 'How do I track my request?', 'What does pending review mean?']
             );
         }
 
         if ($this->hasAny($normalized, ['pending'])) {
             return $this->response(
                 'payment',
-                'Pending payment means the request is for a paid service and no verified simulated payment is recorded yet. Submit proof from the request details page.',
-                ['How do I submit payment?', 'What payment methods are available?', 'Why cannot staff approve my request?']
+                'Awaiting payment proof means the request is for a paid service and no verified payment proof is recorded yet. Submit proof from the request details page.',
+                ['How do I submit payment proof?', 'What payment methods are available?', 'Why cannot staff approve my request?']
             );
         }
 
         return $this->response(
             'payment',
-            'Payments here are simulated for the prototype. For paid services, residents choose GCash, Maya, or Cash, enter a reference number, and upload JPG, PNG, or PDF proof. Staff then verifies or rejects it.',
-            ['Why is payment pending?', 'What if payment is rejected?', 'Which services have fees?']
+            'For paid services, residents choose GCash, Maya, or Cash, enter a reference number, and upload JPG, PNG, or PDF payment proof. Staff then verifies or rejects the proof before the request can continue.',
+            ['Why is payment proof pending?', 'What if payment proof is rejected?', 'Which services have fees?']
         );
     }
 
@@ -220,7 +220,7 @@ class Assistant_service
                 return $this->response(
                     'status',
                     $answer,
-                    ['How do I track my request?', 'When can I download my document?', 'How do simulated payments work?']
+                    ['How do I track my request?', 'When can I download my document?', 'How does payment proof review work?']
                 );
             }
         }

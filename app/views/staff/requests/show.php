@@ -22,7 +22,10 @@ $request_timeline = request_timeline_steps(
             <h1 class="workflow-title"><?= e($request['reference_no']); ?></h1>
             <p class="workflow-subtitle"><?= e($request['resident_name']); ?> - <?= e($request['service_name']); ?></p>
         </div>
-        <a class="btn-secondary" href="<?= site_url('staff/requests'); ?>">Back to Queue</a>
+        <div class="flex flex-wrap gap-3">
+            <a class="btn-primary" href="<?= site_url('staff/requests/' . $request['id'] . '/pdf'); ?>">Download PDF</a>
+            <a class="btn-secondary" href="<?= site_url('staff/requests'); ?>">Back to Queue</a>
+        </div>
     </div>
 
     <div class="workflow-detail-grid lg:grid-cols-[1.1fr_0.9fr]">
@@ -136,7 +139,7 @@ $request_timeline = request_timeline_steps(
             <section class="workflow-card">
                 <div class="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                        <h2 class="text-lg font-semibold text-slate-950">Payment Review</h2>
+                        <h2 class="text-lg font-semibold text-slate-950">Payment Proof Review</h2>
                         <p class="mt-1 text-sm text-slate-600">Review the submitted payment proof and record the verification decision.</p>
                     </div>
                     <?php if ((int) $request['requires_payment'] === 1): ?>
@@ -147,7 +150,7 @@ $request_timeline = request_timeline_steps(
                 </div>
 
                 <?php if ((int) $request['requires_payment'] !== 1): ?>
-                    <p class="mt-4 text-sm text-slate-600">This service does not require payment.</p>
+                    <p class="mt-4 text-sm text-slate-600">Payment Not Required for this service.</p>
                 <?php else: ?>
                     <dl class="mt-4 grid gap-4 text-sm sm:grid-cols-2">
                         <div>
@@ -208,7 +211,7 @@ $request_timeline = request_timeline_steps(
                             </div>
 
                             <div>
-                                <label class="form-label" for="payment_remarks">Payment Remarks</label>
+                                <label class="form-label" for="payment_remarks">Payment Proof Review Remarks</label>
                                 <textarea class="form-input min-h-28" id="payment_remarks" name="remarks"><?= e($payment['remarks'] ?? ''); ?></textarea>
                                 <p class="mt-2 text-xs text-slate-600">Add a clear note when rejecting payment proof so the resident knows what to correct or resubmit.</p>
                             </div>

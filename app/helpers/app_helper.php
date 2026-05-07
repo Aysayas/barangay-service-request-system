@@ -218,10 +218,10 @@ if (!function_exists('payment_status_label')) {
     function payment_status_label($status)
     {
         $labels = [
-            'pending_payment' => 'Pending Payment',
-            'payment_submitted' => 'Payment Submitted',
-            'payment_verified' => 'Payment Verified',
-            'payment_rejected' => 'Payment Rejected',
+            'pending_payment' => 'Awaiting Payment Proof',
+            'payment_submitted' => 'Pending Review',
+            'payment_verified' => 'Verified',
+            'payment_rejected' => 'Rejected',
         ];
 
         return $labels[$status] ?? 'Not Required';
@@ -232,10 +232,10 @@ if (!function_exists('payment_status_display_label')) {
     function payment_status_display_label($status)
     {
         $labels = [
-            'pending_payment' => 'Payment Proof Needed',
-            'payment_submitted' => 'Payment Proof Submitted',
-            'payment_verified' => 'Payment Verified',
-            'payment_rejected' => 'Payment Needs Correction',
+            'pending_payment' => 'Awaiting Payment Proof',
+            'payment_submitted' => 'Pending Review',
+            'payment_verified' => 'Verified',
+            'payment_rejected' => 'Rejected',
         ];
 
         return $labels[$status] ?? 'Not Required';
@@ -803,9 +803,9 @@ if (!function_exists('audit_action_label')) {
             'replaced_final_document' => 'Replaced Final Document',
             'downloaded_final_document' => 'Resident Downloaded Document',
             'downloaded_final_document_internal' => 'Internal Document Download',
-            'submitted_payment' => 'Submitted Payment',
-            'verified_payment' => 'Verified Payment',
-            'rejected_payment' => 'Rejected Payment',
+            'submitted_payment' => 'Submitted Payment Proof',
+            'verified_payment' => 'Verified Payment Proof',
+            'rejected_payment' => 'Rejected Payment Proof',
             'reviewed_payment_proof' => 'Reviewed Payment Proof',
             'submitted_complaint' => 'Submitted Complaint',
             'updated_complaint_status' => 'Updated Complaint Status',
@@ -820,7 +820,7 @@ if (!function_exists('audit_action_label')) {
             'toggled_community_feature' => 'Toggled Community Feature',
             'exported_summary_report' => 'Exported Summary Report',
             'exported_request_report' => 'Exported Request Report',
-            'exported_payment_report' => 'Exported Payment Report',
+            'exported_payment_report' => 'Exported Payment Proof Report',
             'exported_complaint_report' => 'Exported Complaint Report',
             'exported_community_report' => 'Exported Community Report',
         ];
